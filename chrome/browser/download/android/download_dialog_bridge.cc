@@ -18,6 +18,8 @@
 #include "components/prefs/pref_service.h"
 #include "ui/android/window_android.h"
 
+#include "components/download/public/common/download_item.h"
+
 // Default minimum file size in kilobyte to trigger download later feature.
 const int64_t kDownloadLaterDefaultMinFileSizeKb = 204800;
 
@@ -54,7 +56,8 @@ void DownloadDialogBridge::ShowDialog(
     bool supports_later_dialog,
     bool show_date_time_picker,
     bool is_incognito,
-    DialogCallback dialog_callback) {
+    DialogCallback dialog_callback,
+    download::DownloadItem* download) {
   if (!native_window)
     return;
 
@@ -83,6 +86,10 @@ void DownloadDialogBridge::ShowDialog(
 
   is_dialog_showing_ = true;
 
+  std::string url_to_download = "";
+  if (download && !(download->GetURL().is_empty()))
+      url_to_download = download->GetURL().spec();
+
   JNIEnv* env = base::android::AttachCurrentThread();
   Java_DownloadDialogBridge_showDialog(
       env, java_obj_, native_window->GetJavaObject(),
@@ -90,7 +97,10 @@ void DownloadDialogBridge::ShowDialog(
       static_cast<int>(dialog_type),
       base::android::ConvertUTF8ToJavaString(env,
                                              suggested_path.AsUTF8Unsafe()),
-      supports_later_dialog, is_incognito);
+      supports_later_dialog, is_incognito,
+      base::android::ConvertUTF8ToJavaString(env,
+                                             url_to_download)
+  );
 }
 
 void DownloadDialogBridge::OnComplete(

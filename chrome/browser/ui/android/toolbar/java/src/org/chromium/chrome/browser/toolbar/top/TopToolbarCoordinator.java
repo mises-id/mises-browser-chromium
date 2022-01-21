@@ -24,7 +24,6 @@ import org.chromium.chrome.browser.browser_controls.BrowserControlsStateProvider
 import org.chromium.chrome.browser.device.DeviceClassManager;
 import org.chromium.chrome.browser.layouts.LayoutManager;
 import org.chromium.chrome.browser.layouts.LayoutStateProvider;
-import org.chromium.chrome.browser.layouts.LayoutType;
 import org.chromium.chrome.browser.omnibox.LocationBar;
 import org.chromium.chrome.browser.tab.Tab;
 import org.chromium.chrome.browser.tabmodel.IncognitoStateProvider;
@@ -67,8 +66,8 @@ public class TopToolbarCoordinator implements Toolbar {
         void onUrlExpansionProgressChanged(float fraction);
     }
 
-    public static final int TAB_SWITCHER_MODE_NORMAL_ANIMATION_DURATION_MS = 200;
-    public static final int TAB_SWITCHER_MODE_GTS_ANIMATION_DURATION_MS = 150;
+    public static final int TAB_SWITCHER_MODE_NORMAL_ANIMATION_DURATION_MS = 250;
+    public static final int TAB_SWITCHER_MODE_GTS_ANIMATION_DURATION_MS = 250;
 
     private final ToolbarLayout mToolbarLayout;
 
@@ -254,8 +253,7 @@ public class TopToolbarCoordinator implements Toolbar {
             mOverlayCoordinator = new TopToolbarOverlayCoordinator(mToolbarLayout.getContext(),
                     layoutManager, mControlContainer::getProgressBarDrawingInfo, tabSupplier,
                     browserControlsStateProvider, mResourceManagerSupplier, topUiThemeColorProvider,
-                    LayoutType.BROWSING | LayoutType.SIMPLE_ANIMATION | LayoutType.TAB_SWITCHER,
-                    false);
+                    mIsGridTabSwitcherEnabled);
             layoutManager.addSceneOverlay(mOverlayCoordinator);
             mToolbarLayout.setOverlayCoordinator(mOverlayCoordinator);
         }
@@ -402,7 +400,11 @@ public class TopToolbarCoordinator implements Toolbar {
         mToolbarLayout.updateForwardButtonVisibility(canGoForward);
     }
 
-    @Override
+    /**
+     * Gives inheriting classes the chance to update the visibility of the
+     * reload button.
+     * @param isReloading Whether or not the current tab is loading.
+     */
     public void updateReloadButtonVisibility(boolean isReloading) {
         mToolbarLayout.updateReloadButtonVisibility(isReloading);
     }

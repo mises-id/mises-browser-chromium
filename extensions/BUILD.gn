@@ -22,6 +22,14 @@ group("extensions_resources") {
   ]
 }
 
+group("extensions_resources1") {
+  public_deps = [
+    ":extensions_browser_resources",
+    ":extensions_renderer_resources",
+    ":extensions_resources_grd",
+  ]
+}
+
 grit("extensions_resources_grd") {
   source = "extensions_resources.grd"
   outputs = [
@@ -244,7 +252,7 @@ test("extensions_unittests") {
   ]
 
   deps = [
-    ":extensions_resources",
+    ":extensions_resources1",
     ":shell_and_test_pak",
     ":test_support",
     "//base/test:test_support",

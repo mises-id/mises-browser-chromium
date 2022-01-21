@@ -15,6 +15,8 @@
 #include "third_party/abseil-cpp/absl/types/optional.h"
 #include "ui/gfx/native_widget_types.h"
 
+#include "components/download/public/common/download_item.h"
+
 // Contains all the user selection from download dialogs.
 struct DownloadDialogResult {
   DownloadDialogResult();
@@ -56,7 +58,8 @@ class DownloadDialogBridge {
       bool supports_later_dialog,
       bool show_date_time_picker,
       bool is_incognito,
-      DialogCallback dialog_callback);
+      DialogCallback dialog_callback,
+      download::DownloadItem* download);
 
   void OnComplete(JNIEnv* env,
                   const base::android::JavaParamRef<jobject>& obj,

@@ -7839,7 +7839,7 @@ static_library("test_support") {
   }
 }
 
-if (!is_android) {
+#if (!is_android) {
   static_library("test_support_ui") {
     testonly = true
     configs += [ "//build/config:precompiled_headers" ]
@@ -7873,7 +7873,7 @@ if (!is_android) {
 
     public_deps = [ "//net:test_support" ]
   }
-}
+#}
 
 if (is_android) {
   java_cpp_enum("sharing_send_message_result_generated_enum") {

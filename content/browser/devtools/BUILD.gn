@@ -10,7 +10,7 @@ import("//third_party/protobuf/proto_library.gni")
 import("//tools/grit/grit_rule.gni")
 
 # Android does not support DevTools front-end.
-if (!is_android) {
+#if (!is_android) {
   grit("devtools_resources") {
     source = "$root_gen_dir/$devtools_grd_location"
 
@@ -39,7 +39,7 @@ if (!is_android) {
       "//third_party/blink/public:blink_generate_devtools_grd",
     ]
   }
-}
+#}
 
 # Here we concatenate the viz_debugger.pdl and native_profiling.pdl
 # into our browser protocol. This technique is nearly identical to what is

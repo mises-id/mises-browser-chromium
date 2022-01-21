@@ -28,6 +28,7 @@ import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.chromium.base.ContextUtils;
 import org.chromium.base.TraceEvent;
 import org.chromium.base.task.PostTask;
 import org.chromium.chrome.browser.flags.ChromeFeatureList;
@@ -297,10 +298,18 @@ public class OmniboxSuggestionsDropdown extends RecyclerView {
                 SuggestionsMetrics.TimingMetric metric =
                         SuggestionsMetrics.recordSuggestionListMeasureTime()) {
             int anchorBottomRelativeToContent = calculateAnchorBottomRelativeToContent();
+            if (ContextUtils.getAppSharedPreferences().getBoolean("enable_bottom_toolbar", false))
+              anchorBottomRelativeToContent = 0;
             maybeUpdateLayoutParams(anchorBottomRelativeToContent);
 
             int availableViewportHeight =
                     calculateAvailableViewportHeight(anchorBottomRelativeToContent);
+            if (ContextUtils.getAppSharedPreferences().getBoolean("enable_bottom_toolbar", false)) {
+                int displayableSuggestions = 0;
+                int suggestionHeightPx = getResources().getDimensionPixelSize(R.dimen.omnibox_suggestion_semicompact_height);
+                for (int spaceTakenBySuggestions = 0; (spaceTakenBySuggestions + suggestionHeightPx) < (availableViewportHeight / 2); spaceTakenBySuggestions += suggestionHeightPx, displayableSuggestions++);
+                availableViewportHeight = displayableSuggestions * suggestionHeightPx;
+            }
             int desiredWidth = mAnchorView.getMeasuredWidth();
             // Suppress the initial requests to shrink the viewport of the omnibox suggestion
             // dropdown. The viewport will decrease when the keyboard is triggered, but the request

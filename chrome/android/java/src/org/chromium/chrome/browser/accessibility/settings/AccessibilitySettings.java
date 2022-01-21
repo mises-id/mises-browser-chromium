@@ -10,6 +10,9 @@ import android.provider.Settings;
 
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.appcompat.app.AlertDialog;
+
+import org.chromium.chrome.browser.ApplicationLifetime;
 
 import org.chromium.chrome.R;
 import org.chromium.chrome.browser.accessibility.FontSizePrefs;
@@ -23,6 +26,20 @@ import org.chromium.chrome.browser.util.ChromeAccessibilityUtil;
 import org.chromium.components.browser_ui.settings.ChromeBaseCheckBoxPreference;
 import org.chromium.components.browser_ui.settings.SettingsUtils;
 import org.chromium.components.user_prefs.UserPrefs;
+import org.chromium.content_public.browser.ContentFeatureList;
+
+import android.app.Activity;
+import org.chromium.base.ContextUtils;
+import android.content.DialogInterface;
+
+import org.chromium.base.ContextUtils;
+import org.chromium.base.SysUtils;
+import org.chromium.base.Log;
+import org.chromium.ui.base.DeviceFormFactor;
+import android.content.SharedPreferences;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Fragment to keep track of all the accessibility related preferences.
@@ -37,7 +54,10 @@ public class AccessibilitySettings
 
     private TextScalePreference mTextScalePref;
     private ChromeBaseCheckBoxPreference mForceEnableZoomPref;
+    private ChromeBaseCheckBoxPreference mSideSwipePref;
     private boolean mRecordFontSizeChangeOnStop;
+    private Timer mTimer;
+    private Activity mActivity;
 
     private FontSizePrefs mFontSizePrefs = FontSizePrefs.getInstance();
     private FontSizePrefsObserver mFontSizePrefsObserver = new FontSizePrefsObserver() {
@@ -68,6 +88,11 @@ public class AccessibilitySettings
         mTextScalePref.setOnPreferenceChangeListener(this);
         mTextScalePref.updateFontScaleFactors(mFontSizePrefs.getFontScaleFactor(),
                 mFontSizePrefs.getUserFontScaleFactor(), false);
+
+
+        mSideSwipePref = (ChromeBaseCheckBoxPreference) findPreference("side_swipe_mode_enabled");
+        mSideSwipePref.setOnPreferenceChangeListener(this);
+        mSideSwipePref.setChecked(ContextUtils.getAppSharedPreferences().getBoolean("side_swipe_mode_enabled", true));
 
         mForceEnableZoomPref =
                 (ChromeBaseCheckBoxPreference) findPreference(PREF_FORCE_ENABLE_ZOOM);
@@ -106,6 +131,9 @@ public class AccessibilitySettings
         Preference imageDescriptionsPreference = findPreference(PREF_IMAGE_DESCRIPTIONS);
         imageDescriptionsPreference.setVisible(
                 ImageDescriptionsController.getInstance().shouldShowImageDescriptionsMenuItem());
+
+        ((ChromeBaseCheckBoxPreference) findPreference("text_rewrap")).setOnPreferenceChangeListener(this);
+        ((ChromeBaseCheckBoxPreference) findPreference("show_extensions_first")).setOnPreferenceChangeListener(this);
     }
 
     @Override
@@ -134,7 +162,36 @@ public class AccessibilitySettings
         } else if (PREF_READER_FOR_ACCESSIBILITY.equals(preference.getKey())) {
             UserPrefs.get(Profile.getLastUsedRegularProfile())
                     .setBoolean(Pref.READER_FOR_ACCESSIBILITY, (Boolean) newValue);
+        } else if ("side_swipe_mode_enabled".equals(preference.getKey())) {
+            AskForRelaunch(getActivity());
+        } else if ("enable_overscroll_button".equals(preference.getKey())) {
+            AskForRelaunch(getActivity());
+        } else if ("text_rewrap".equals(preference.getKey())) {
+            AskForRelaunch(getActivity());
         }
+
         return true;
+    }
+
+    public static void AskForRelaunch(Activity activity) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+         alertDialogBuilder
+            .setMessage(R.string.preferences_restart_is_needed)
+            .setCancelable(true)
+            .setPositiveButton(R.string.preferences_restart_now, new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog, int id) {
+                  ApplicationLifetime.terminate(true);
+                  dialog.cancel();
+              }
+            })
+            .setNegativeButton(R.string.preferences_restart_later, new DialogInterface.OnClickListener() {
+              @Override
+              public void onClick(DialogInterface dialog,int id) {
+                  dialog.cancel();
+              }
+            });
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
     }
 }

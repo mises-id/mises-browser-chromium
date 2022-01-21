@@ -169,6 +169,10 @@ public class MainSettings extends PreferenceFragmentCompat
 
         updatePasswordsPreference();
 
+        Preference safetyCheck = findPreference(PREF_SAFETY_CHECK);
+        if (safetyCheck != null)
+            getPreferenceScreen().removePreference(safetyCheck);
+
         setManagedPreferenceDelegateForPreference(PREF_SEARCH_ENGINE);
         setManagedPreferenceDelegateForPreference(PREF_DATA_REDUCTION);
 
@@ -347,6 +351,8 @@ public class MainSettings extends PreferenceFragmentCompat
     }
 
     private void onSyncPromoPreferenceStateChanged() {
+        if (true)
+            return;
         // Remove "Account" section header if the personalized sign-in promo is shown.
         boolean isShowingPersonalizedSigninPromo =
                 mSyncPromoPreference.getState() == State.PERSONALIZED_SIGNIN_PROMO;
