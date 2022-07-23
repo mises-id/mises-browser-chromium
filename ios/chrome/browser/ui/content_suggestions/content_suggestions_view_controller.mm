@@ -15,6 +15,7 @@
 #import "ios/chrome/browser/ui/content_suggestions/cells/content_suggestions_most_visited_cell.h"
 #import "ios/chrome/browser/ui/content_suggestions/cells/content_suggestions_most_visited_item.h"
 #import "ios/chrome/browser/ui/content_suggestions/cells/suggested_content.h"
+#import "ios/chrome/browser/ui/content_suggestions/cells/content_suggestions_mises_item.h"
 #import "ios/chrome/browser/ui/content_suggestions/content_suggestions_collection_updater.h"
 #import "ios/chrome/browser/ui/content_suggestions/content_suggestions_collection_utils.h"
 #import "ios/chrome/browser/ui/content_suggestions/content_suggestions_commands.h"
@@ -220,6 +221,8 @@ const CGFloat kDiscoverFeedFeaderHeight = 30;
       [self.suggestionCommandHandler handlePromoTapped];
       [self.collectionViewLayout invalidateLayout];
       break;
+    case ContentSuggestionTypeMises:
+      break;
     case ContentSuggestionTypeDiscover:
     case ContentSuggestionTypeEmpty:
       break;
@@ -244,8 +247,17 @@ const CGFloat kDiscoverFeedFeaderHeight = 30;
     [self.collectionViewModel itemAtIndexPath:indexPath]
         .accessibilityIdentifier = cell.accessibilityIdentifier;
   }
+  if ([self.collectionUpdater isMisesSection:indexPath.section]) {
+    ContentSuggestionsMisesCell* misesCell = (ContentSuggestionsMisesCell*)cell;
+    [misesCell.enterButton addTarget:self
+                               action:@selector(enterMisesTapped)
+                     forControlEvents:UIControlEventTouchUpInside];
+  }
 
   return cell;
+}
+- (void)enterMisesTapped {
+   [self.suggestionCommandHandler openMisesHome];
 }
 
 - (UIContextMenuConfiguration*)collectionView:(UICollectionView*)collectionView
@@ -319,7 +331,8 @@ const CGFloat kDiscoverFeedFeaderHeight = 30;
     parentInset.bottom =
         content_suggestions::kReturnToRecentTabSectionBottomMargin;
   } else if ([self.collectionUpdater isMostVisitedSection:section] ||
-             [self.collectionUpdater isPromoSection:section]) {
+             [self.collectionUpdater isPromoSection:section] ||
+             [self.collectionUpdater isMisesSection:section]) {
     CGFloat margin = CenteredTilesMarginForWidth(
         self.traitCollection, collectionView.frame.size.width);
     parentInset.left = margin;

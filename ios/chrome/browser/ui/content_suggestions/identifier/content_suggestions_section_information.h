@@ -21,6 +21,7 @@ typedef NS_ENUM(NSInteger, ContentSuggestionsSectionID) {
   ContentSuggestionsSectionLogo = 0,
   ContentSuggestionsSectionReturnToRecentTab,
   ContentSuggestionsSectionPromo,
+  ContentSuggestionsSectionMises,
   ContentSuggestionsSectionMostVisited,
   ContentSuggestionsSectionDiscover,
 

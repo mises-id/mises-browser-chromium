@@ -45,6 +45,8 @@ source_set("cells_ui") {
     "content_suggestions_text_item.mm",
     "content_suggestions_whats_new_item.h",
     "content_suggestions_whats_new_item.mm",
+    "content_suggestions_mises_item.h",
+    "content_suggestions_mises_item.mm",
     "suggested_content.h",
   ]
   deps = [

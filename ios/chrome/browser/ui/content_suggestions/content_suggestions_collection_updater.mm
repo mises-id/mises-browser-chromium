@@ -44,6 +44,7 @@ typedef NS_ENUM(NSInteger, ItemType) {
   ItemTypeEmpty,
   ItemTypeMostVisited,
   ItemTypePromo,
+  ItemTypeMises,
   ItemTypeDiscover,
   ItemTypeReturnToRecentTab,
   ItemTypeUnknown,
@@ -56,6 +57,7 @@ typedef NS_ENUM(NSInteger, SectionIdentifier) {
   SectionIdentifierLogo,
   SectionIdentifierReturnToRecentTab,
   SectionIdentifierPromo,
+  SectionIdentifierMises,
   SectionIdentifierDiscover,
   SectionIdentifierDefault,
 };
@@ -70,6 +72,8 @@ ContentSuggestionType ContentSuggestionTypeForItemType(NSInteger type) {
     return ContentSuggestionTypeMostVisited;
   if (type == ItemTypePromo)
     return ContentSuggestionTypePromo;
+  if (type == ItemTypeMises)
+    return ContentSuggestionTypeMises;
   if (type == ItemTypeDiscover)
     return ContentSuggestionTypeDiscover;
   // Add new type here
@@ -87,6 +91,8 @@ ItemType ItemTypeForInfo(ContentSuggestionsSectionInformation* info) {
       return ItemTypeMostVisited;
     case ContentSuggestionsSectionPromo:
       return ItemTypePromo;
+    case ContentSuggestionsSectionMises:
+      return ItemTypeMises;
     case ContentSuggestionsSectionDiscover:
       return ItemTypeDiscover;
     case ContentSuggestionsSectionLogo:
@@ -107,6 +113,8 @@ SectionIdentifier SectionIdentifierForInfo(
       return SectionIdentifierReturnToRecentTab;
     case ContentSuggestionsSectionPromo:
       return SectionIdentifierPromo;
+    case ContentSuggestionsSectionMises:
+      return SectionIdentifierMises;
     case ContentSuggestionsSectionDiscover:
       return SectionIdentifierDiscover;
     case ContentSuggestionsSectionUnknown:
@@ -545,6 +553,11 @@ addSuggestionsToModel:(NSArray<CSCollectionViewItem*>*)suggestions
 - (BOOL)isPromoSection:(NSInteger)section {
   return [self.collectionViewController.collectionViewModel
              sectionIdentifierForSection:section] == SectionIdentifierPromo;
+}
+
+- (BOOL)isMisesSection:(NSInteger)section {
+  return [self.collectionViewController.collectionViewModel
+             sectionIdentifierForSection:section] == SectionIdentifierMises;
 }
 
 #pragma mark - Private methods

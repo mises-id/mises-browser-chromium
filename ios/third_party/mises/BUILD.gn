@@ -1,3 +1,13 @@
+import("//build/config/ios/ios_sdk.gni")
+
+declare_args() {
+  env_prefix = "Device"
+}
+
+if (target_environment == "simulator") {
+    env_prefix = "Sim"
+  }
+
 config("config") {
   visibility = [ ":*" ]
   include_dirs = [ "//ios/third_party/mises/forwarding_headers" ]
@@ -36,6 +46,8 @@ source_set("mises") {
     #"//build/config/compiler:no_exceptions",
     #"//build/config/compiler:no_rtti",
   ]
+
+
  configs += public_configs
   configs -= remove_configs
   deps = [
@@ -57,19 +69,20 @@ bundle_data("mises_bundle_data") {
   sources = [
     "Bundles/AccessibilityResources.bundle",
     "Bundles/branch.json",
-    "Bundles/InpageBridgeWeb3.js",    
+    "Bundles/InpageBridgeWeb3.js",
+    "Bundles/main.jsbundle",
+    "Bundles/assets",
  ]
   outputs = [ "{{bundle_resources_dir}}/{{source_file_part}}" ]
 }
 bundle_data("mises_frameworks") {
   visibility = [ ":mises" ]
   sources = [
-    "Frameworks/Branch.framework",
-    "Frameworks/Lottie.framework",
-    "Frameworks/Mixpanel.framework",
-    "Frameworks/OpenSSL.framework",
-
- ]
+    "$env_prefix/Frameworks/Branch.framework",
+    "$env_prefix/Frameworks/Lottie.framework",
+    "$env_prefix/Frameworks/Mixpanel.framework",
+    "$env_prefix/Frameworks/OpenSSL.framework",
+  ]
   outputs = [ "{{bundle_resources_dir}}/Frameworks/{{source_file_part}}" ]
 }
 
@@ -121,7 +134,7 @@ bundle_data("mises_fonts") {
 
 config("mises_config") {
   visibility = [ ":mises" ]
-  framework_dirs = [ "//ios/third_party/mises/Frameworks" ]
+  framework_dirs = [ "//ios/third_party/mises/$env_prefix/Frameworks" ]
   frameworks = [
     #"Branch.framework",
     #"Lottie.framework",
@@ -132,7 +145,7 @@ config("mises_config") {
   ]
 
   lib_dirs = [
-    "//ios/third_party/mises/Libs"
+    "//ios/third_party/mises/$env_prefix/Libs"
   ]  
   libs = [
     "BVLinearGradient",

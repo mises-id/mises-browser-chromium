@@ -147,6 +147,7 @@ OverflowMenuFooter* CreateOverflowMenuManagedFooter(int nameID,
 @property(nonatomic, strong) OverflowMenuActionGroup* appActionsGroup;
 @property(nonatomic, strong) OverflowMenuActionGroup* pageActionsGroup;
 @property(nonatomic, strong) OverflowMenuActionGroup* helpActionsGroup;
+@property(nonatomic, strong) OverflowMenuActionGroup* extensionActionsGroup;
 
 @property(nonatomic, strong) OverflowMenuAction* reloadAction;
 @property(nonatomic, strong) OverflowMenuAction* stopLoadAction;
@@ -438,16 +439,24 @@ OverflowMenuFooter* CreateOverflowMenuManagedFooter(int nameID,
   self.helpActionsGroup =
       [[OverflowMenuActionGroup alloc] initWithGroupName:@"help_actions"
                                                  actions:@[
-						   self.misesAction,
                                                    self.reportIssueAction,
                                                    self.helpAction,
                                                  ]
                                                   footer:nil];
 
+    self.extensionActionsGroup =
+        [[OverflowMenuActionGroup alloc] initWithGroupName:@"extension_actions"
+                                                   actions:@[
+                                                    self.misesAction,
+                                                   ]
+                                                    footer:nil];
+    
+
   // Destinations and footer vary based on state, so they're set in
   // -updateModel.
   return [[OverflowMenuModel alloc] initWithDestinations:@[]
                                             actionGroups:@[
+    self.extensionActionsGroup,
                                               self.appActionsGroup,
                                               self.pageActionsGroup,
                                               self.helpActionsGroup,

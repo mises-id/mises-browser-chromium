@@ -40,6 +40,8 @@
 // feed menu.
 - (void)handleFeedLearnMoreTapped;
 
+- (void)openMisesHome;
+
 @end
 
 #endif  // IOS_CHROME_BROWSER_UI_CONTENT_SUGGESTIONS_CONTENT_SUGGESTIONS_COMMANDS_H_

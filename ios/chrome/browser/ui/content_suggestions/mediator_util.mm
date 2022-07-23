@@ -54,6 +54,12 @@ ContentSuggestionsSectionInformation* PromoSectionInformation() {
   return EmptySectionInfo(ContentSuggestionsSectionPromo);
 }
 
+
+ContentSuggestionsSectionInformation* MisesSectionInformation() {
+  return EmptySectionInfo(ContentSuggestionsSectionMises);
+}
+
+
 ContentSuggestionsSectionInformation* MostVisitedSectionInformation() {
   return EmptySectionInfo(ContentSuggestionsSectionMostVisited);
 }

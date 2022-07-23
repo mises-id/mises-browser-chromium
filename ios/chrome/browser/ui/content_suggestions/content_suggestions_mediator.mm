@@ -24,6 +24,7 @@
 #import "ios/chrome/browser/ui/content_suggestions/cells/content_suggestions_most_visited_item.h"
 #import "ios/chrome/browser/ui/content_suggestions/cells/content_suggestions_return_to_recent_tab_item.h"
 #import "ios/chrome/browser/ui/content_suggestions/cells/content_suggestions_whats_new_item.h"
+#import "ios/chrome/browser/ui/content_suggestions/cells/content_suggestions_mises_item.h"
 #import "ios/chrome/browser/ui/content_suggestions/cells/suggested_content.h"
 #import "ios/chrome/browser/ui/content_suggestions/content_suggestions_category_wrapper.h"
 #import "ios/chrome/browser/ui/content_suggestions/content_suggestions_commands.h"
@@ -102,6 +103,8 @@ const NSInteger kMaxNumMostVisitedTiles = 4;
 // Section Info for the What's New promo section.
 @property(nonatomic, strong)
     ContentSuggestionsSectionInformation* promoSectionInfo;
+@property(nonatomic, strong)
+    ContentSuggestionsSectionInformation* misesSectionInfo;
 // Section Info for the Most Visited section.
 @property(nonatomic, strong)
     ContentSuggestionsSectionInformation* mostVisitedSectionInfo;
@@ -161,6 +164,7 @@ const NSInteger kMaxNumMostVisitedTiles = 4;
 
     _logoSectionInfo = LogoSectionInformation();
     _promoSectionInfo = PromoSectionInformation();
+    _misesSectionInfo = MisesSectionInformation();
     _mostVisitedSectionInfo = MostVisitedSectionInformation();
 
     _discoverSectionInfo =
@@ -292,6 +296,7 @@ const NSInteger kMaxNumMostVisitedTiles = 4;
   if (_notificationPromo->CanShow()) {
     [sectionsInfo addObject:self.promoSectionInfo];
   }
+  [sectionsInfo addObject:self.misesSectionInfo];
 
   [sectionsInfo addObject:self.mostVisitedSectionInfo];
 
@@ -313,6 +318,10 @@ const NSInteger kMaxNumMostVisitedTiles = 4;
       item.text = base::SysUTF8ToNSString(_notificationPromo->promo_text());
       [convertedSuggestions addObject:item];
     }
+  } else if (sectionInfo == self.misesSectionInfo) {
+    ContentSuggestionsMisesItem* item =
+          [[ContentSuggestionsMisesItem alloc] initWithType:0];
+    [convertedSuggestions addObject:item];
   } else if (sectionInfo == self.returnToRecentTabSectionInfo) {
     DCHECK(IsStartSurfaceEnabled());
     [convertedSuggestions addObject:self.returnToRecentTabItem];

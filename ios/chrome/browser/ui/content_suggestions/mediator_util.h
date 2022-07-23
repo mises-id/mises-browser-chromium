@@ -25,6 +25,8 @@ ContentSuggestionsSectionInformation* LogoSectionInformation();
 // Creates and returns a SectionInfo for the What's New promo section.
 ContentSuggestionsSectionInformation* PromoSectionInformation();
 
+ContentSuggestionsSectionInformation* MisesSectionInformation();
+
 // Creates and returns a SectionInfo for the Most Visited section.
 ContentSuggestionsSectionInformation* MostVisitedSectionInformation();
 

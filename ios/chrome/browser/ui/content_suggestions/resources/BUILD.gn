@@ -30,3 +30,13 @@ imageset("ntp_search_icon") {
     "ntp_search_icon.imageset/ntp_search_icon@3x.png",
   ]
 }
+
+
+imageset("mises_welcome") {
+  sources = [
+    "mises_welcome.imageset/Contents.json",
+    "mises_welcome.imageset/mises_welcome.png",
+    "mises_welcome.imageset/mises_welcome@2x.png",
+    "mises_welcome.imageset/mises_welcome@3x.png",
+  ]
+}

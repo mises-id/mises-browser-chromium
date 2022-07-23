@@ -287,6 +287,13 @@ const char kFeedLearnMoreURL[] = "https://support.google.com/chrome/"
   _URLLoader->Load(params);
 }
 
+- (void)openMisesHome {
+  UrlLoadParams params = UrlLoadParams::InCurrentTab(GURL("https://home.mises.site/"));
+  params.web_params.transition_type = ui::PAGE_TRANSITION_LINK;
+  _URLLoader->Load(params);
+
+}
+
 - (void)displayContextMenuForMostVisitedItem:(CollectionViewItem*)item
                                      atPoint:(CGPoint)touchLocation
                                  atIndexPath:(NSIndexPath*)indexPath {

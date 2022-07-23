@@ -264,8 +264,8 @@ class Entitlements(object):
     for key, value in defaults.items():
       # TODO(crbug.com/1270127): Re-enable this entitlement after verifying
       # that it doesn't increase memory usage.
-      if key == "com.apple.developer.kernel.extended-virtual-addressing":
-        continue
+      # if key == "com.apple.developer.kernel.extended-virtual-addressing":
+      #  continue
       if key not in self._data:
         self._data[key] = value
 
@@ -335,6 +335,7 @@ def CodeSignBundle(bundle_path, identity, extra_args):
       stderr=subprocess.PIPE,
       universal_newlines=True)
   _, stderr = process.communicate()
+  sys.stderr.write("signing " + bundle_path + " with " + identity)
   if process.returncode:
     sys.stderr.write(stderr)
     sys.exit(process.returncode)
@@ -571,7 +572,7 @@ class CodeSignBundleAction(Action):
           entitlements = GenerateEntitlements(
               args.entitlements_path, provisioning_profile, bundle.identifier)
           entitlements.WriteTo(temporary_entitlements_file.name)
-
+      sys.stderr.write("embeding " + bundle.identifier + " with " + provisioning_profile.path )
     CodeSignBundle(bundle.path, args.identity, codesign_extra_args)
 
 
