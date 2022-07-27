@@ -25,6 +25,7 @@ class PrefService;
 @protocol QRGenerationCommands;
 @class ShareImageData;
 @class ShareToData;
+@protocol MisesShareCommands;
 
 // Mediator used to generate activities.
 @interface ActivityServiceMediator : NSObject
@@ -38,6 +39,7 @@ class PrefService;
 - (instancetype)initWithHandler:(id<BrowserCommands, FindInPageCommands>)handler
                bookmarksHandler:(id<BookmarksCommands>)bookmarksHandler
             qrGenerationHandler:(id<QRGenerationCommands>)qrGenerationHandler
+            misesShareHandler:(id<MisesShareCommands>)misesShareHandler
                     prefService:(PrefService*)prefService
                   bookmarkModel:(bookmarks::BookmarkModel*)bookmarkModel
              baseViewController:(UIViewController*)baseViewController

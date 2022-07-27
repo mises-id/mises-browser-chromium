@@ -23,6 +23,7 @@
 #import "ios/chrome/browser/ui/activity_services/activities/reading_list_activity.h"
 #import "ios/chrome/browser/ui/activity_services/activities/request_desktop_or_mobile_site_activity.h"
 #import "ios/chrome/browser/ui/activity_services/activities/send_tab_to_self_activity.h"
+#import "ios/chrome/browser/ui/activity_services/activities/mises_share_activity.h"
 #import "ios/chrome/browser/ui/activity_services/activity_service_histograms.h"
 #import "ios/chrome/browser/ui/activity_services/activity_type_util.h"
 #import "ios/chrome/browser/ui/activity_services/data/chrome_activity_image_source.h"
@@ -34,6 +35,7 @@
 #import "ios/chrome/browser/ui/activity_services/requirements/activity_service_positioner.h"
 #import "ios/chrome/browser/ui/commands/bookmarks_commands.h"
 #import "ios/chrome/browser/ui/commands/qr_generation_commands.h"
+#import "ios/chrome/browser/ui/commands/mises_share_commands.h"
 #import "ios/chrome/browser/ui/default_promo/default_browser_promo_non_modal_scheduler.h"
 #import "ios/chrome/browser/ui/util/uikit_ui_util.h"
 
@@ -55,6 +57,8 @@
 
 @property(nonatomic, weak) UIViewController* baseViewController;
 
+@property(nonatomic, weak) id<MisesShareCommands> misesShareHandler;
+
 @end
 
 @implementation ActivityServiceMediator
@@ -64,6 +68,7 @@
 - (instancetype)initWithHandler:(id<BrowserCommands, FindInPageCommands>)handler
                bookmarksHandler:(id<BookmarksCommands>)bookmarksHandler
             qrGenerationHandler:(id<QRGenerationCommands>)qrGenerationHandler
+            misesShareHandler:(id<MisesShareCommands>)misesShareHandler
                     prefService:(PrefService*)prefService
                   bookmarkModel:(bookmarks::BookmarkModel*)bookmarkModel
              baseViewController:(UIViewController*)baseViewController {
@@ -71,6 +76,7 @@
     _handler = handler;
     _bookmarksHandler = bookmarksHandler;
     _qrGenerationHandler = qrGenerationHandler;
+    _misesShareHandler = misesShareHandler;
     _prefService = prefService;
     _bookmarkModel = bookmarkModel;
     _baseViewController = baseViewController;
@@ -105,6 +111,7 @@
     (NSArray<ShareToData*>*)dataItems {
   NSMutableArray* applicationActivities = [NSMutableArray array];
 
+ 
   [applicationActivities
       addObject:[[CopyActivity alloc] initWithDataItems:dataItems]];
 
@@ -116,6 +123,14 @@
   ShareToData* data = dataItems.firstObject;
 
   if (data.shareURL.SchemeIsHTTPOrHTTPS()) {
+      applicationActivities = [NSMutableArray array];
+      MisesShareActivity* misesShareActivity =
+          [[MisesShareActivity alloc] initWithURL:data.shareURL
+                                                title:data.title
+                                              handler:self.misesShareHandler];
+      [applicationActivities addObject:misesShareActivity];
+      [applicationActivities
+          addObject:[[CopyActivity alloc] initWithDataItems:dataItems]];
     SendTabToSelfActivity* sendTabToSelfActivity =
         [[SendTabToSelfActivity alloc] initWithData:data handler:self.handler];
     [applicationActivities addObject:sendTabToSelfActivity];

@@ -94,3 +94,14 @@ imageset("activity_services_send_tab_to_self") {
     "activity_services_send_tab_to_self.imageset/activity_services_send_tab_to_self-76@2x.png",
   ]
 }
+
+
+
+imageset("activity_services_mises_share") {
+  sources = [
+    "activity_services_mises_share.imageset/Contents.json",
+    "activity_services_mises_share.imageset/activity_services_mises_share-60@2x.png",
+    "activity_services_mises_share.imageset/activity_services_mises_share-60@3x.png",
+    "activity_services_mises_share.imageset/activity_services_mises_share-76@2x.png",
+  ]
+}

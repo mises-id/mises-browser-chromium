@@ -14,8 +14,10 @@
 #import "ios/chrome/browser/ui/activity_services/requirements/activity_service_presentation.h"
 #import "ios/chrome/browser/ui/commands/command_dispatcher.h"
 #import "ios/chrome/browser/ui/commands/qr_generation_commands.h"
+#import "ios/chrome/browser/ui/commands/mises_share_commands.h"
 #import "ios/chrome/browser/ui/commands/snackbar_commands.h"
 #import "ios/chrome/browser/ui/qr_generator/qr_generator_coordinator.h"
+#import "ios/chrome/browser/ui/mises_share/mises_share_coordinator.h"
 #import "url/gurl.h"
 
 #if !defined(__has_feature) || !__has_feature(objc_arc)
@@ -24,7 +26,7 @@
 
 @interface SharingCoordinator () <ActivityServicePositioner,
                                   ActivityServicePresentation,
-                                  QRGenerationCommands>
+                                  QRGenerationCommands, MisesShareCommands>
 @property(nonatomic, strong)
     ActivityServiceCoordinator* activityServiceCoordinator;
 
@@ -37,6 +39,9 @@
 @property(nonatomic, assign) CGRect originRect;
 
 @property(nonatomic, weak) UIBarButtonItem* anchor;
+
+
+@property(nonatomic, strong) MisesShareCoordinator* misesShareCoordinator;
 
 @end
 
@@ -144,6 +149,23 @@
 - (void)hideQRCode {
   [self.qrGeneratorCoordinator stop];
   self.qrGeneratorCoordinator = nil;
+}
+
+#pragma mark - MisesShareCommands
+
+- (void)showMisesShare:(const GURL&)link withImage:(const GURL&)image withTitle:(NSString*)title {
+  self.misesShareCoordinator = [[MisesShareCoordinator alloc]
+      initWithBaseViewController:self.baseViewController
+                         browser:self.browser
+                           title:title
+                             URL:link
+                         handler:self];
+  [self.misesShareCoordinator start];
+}
+
+- (void)hideMisesShare {
+  [self.misesShareCoordinator stop];
+  self.misesShareCoordinator = nil;
 }
 
 @end

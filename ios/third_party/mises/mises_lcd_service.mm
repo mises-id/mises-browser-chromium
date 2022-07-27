@@ -72,7 +72,9 @@
     }
     
     NSError *error = nil;
-    //LcdSetHomePath(@"", &error);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    LcdSetHomePath([documentsDirectory stringByAppendingString:@"/"], &error);
     if (![self checkError:error]) {
         return;
     };

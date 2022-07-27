@@ -4,6 +4,10 @@
 @class RCTBridge;
 @class WKWebView;
 
+@protocol MisesDelegate
+- (void)accountChanged;
+@end
+
 @interface Mises: NSObject
 + (void) Init;
 + (void) PopupMetamask:(UIViewController*) vc;
@@ -14,6 +18,8 @@
 
 + (void) onWebViewActivated:(WKWebView *) wv;
 
+
++ (void) setDelegate:(id<MisesDelegate>)delegate;
 
 + (BOOL) isLogin;
 + (NSString*) misesId;

@@ -27,4 +27,7 @@
       [[SecondaryToolbarView alloc] initWithButtonFactory:self.buttonFactory];
 }
 
+- (void)updateMisesAvatar:(UIImage*)image {
+  [self.view updateMisesAvatar:image];
+}
 @end

@@ -107,6 +107,7 @@ NSString* mMisesId = @"";
 NSString* mMisesToken = @"";
 NSString* mMisesNickname = @"";
 NSString* mMisesAvatar = @"";
+__weak id<MisesDelegate> mDelegate;
 
 @implementation Mises
 
@@ -158,6 +159,9 @@ NSString* mMisesAvatar = @"";
   return [mMisesAvatar copy];
 }
 
++ (void) setDelegate:(id<MisesDelegate>)delegate {
+  mDelegate = delegate;
+}
 @end
 
 
@@ -240,6 +244,9 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(setMisesUserInfo:(NSString *)jsonString)
             mMisesAvatar = [avatar copy];
           } else {
             mMisesAvatar = @"";
+          }
+          if (mDelegate) {
+            [mDelegate accountChanged];
           }
       }
     });

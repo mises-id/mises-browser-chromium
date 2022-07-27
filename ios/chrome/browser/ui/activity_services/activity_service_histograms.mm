@@ -59,7 +59,8 @@ enum class ShareActionType {
   NativeSocialApp = 14,
   ThirdPartyMessagingApp = 15,
   ThirdPartyContentApp = 16,
-  kMaxValue = ThirdPartyContentApp
+  MisesShare = 17,
+  kMaxValue = MisesShare
 };
 
 ShareActionType MapActionType(ActivityType type) {
@@ -99,6 +100,9 @@ ShareActionType MapActionType(ActivityType type) {
 
     case activity_type_util::GENERATE_QR_CODE:
       return ShareActionType::CreateQRCode;
+  
+    case activity_type_util::MISES_SHARE:
+      return ShareActionType::MisesShare;
 
     case activity_type_util::NATIVE_MESSAGE:
       return ShareActionType::NativeMessage;

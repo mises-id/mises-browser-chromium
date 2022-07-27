@@ -2303,6 +2303,9 @@ Try to use a unique password for every site.
       <message name="IDS_IOS_SHARE_PAGE_BUTTON_LABEL" desc="Label of a button which will initiate a share flow for the current page. [iOS only]">
         Share Page...
       </message>
+      <message name="IDS_IOS_SHARE_MENU_MISES_SHARE_ACTION" desc="The text label of the action in the extension menu that share the current page to mises. [iOS only]">
+        Share To Mises Discover
+      </message>
       <message name="IDS_SEND_TAB_TO_SELF_INFOBAR_MESSAGE" desc="The message text for the infobar when a user receives a shared tab from another device.">
         Tab received.
       </message>

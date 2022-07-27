@@ -237,7 +237,8 @@ const BOOL kDefaultStatsCheckboxValue = YES;
       syncService->GetDisableReasons().Has(
           syncer::SyncService::DISABLE_REASON_ENTERPRISE_POLICY) ||
       !signin::IsSigninAllowedByPolicy();
-
+  shouldSkipSignInFlow = YES;
+ 
   if (shouldSkipSignInFlow) {
     // Sign-in or sync is disabled by policy. Skip the sign-in flow.
     self.firstRunConfig.signInAttemptStatus =

@@ -192,4 +192,8 @@ const CGFloat kToolsMenuOffset = -7;
   return 0.0;
 }
 
+
+- (void)updateMisesAvatar:(UIImage*)image {
+  [self.misesButton setImage:image forState:UIControlStateNormal];
+}
 @end

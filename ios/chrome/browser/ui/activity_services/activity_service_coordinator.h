@@ -14,6 +14,7 @@
 @protocol BookmarksCommands;
 class Browser;
 @protocol QRGenerationCommands;
+@protocol MisesShareCommands;
 
 // ActivityServiceCoordinator provides a public interface for the share
 // menu feature.
@@ -39,7 +40,7 @@ class Browser;
     presentationProvider;
 
 // Handler for activities that need to be executed within a certain scope.
-@property(nonatomic, readwrite, weak) id<QRGenerationCommands> scopedHandler;
+@property(nonatomic, readwrite, weak) id<QRGenerationCommands, MisesShareCommands> scopedHandler;
 
 @end
 

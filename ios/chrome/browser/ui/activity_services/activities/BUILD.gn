@@ -21,6 +21,8 @@ source_set("activities") {
     "request_desktop_or_mobile_site_activity.mm",
     "send_tab_to_self_activity.h",
     "send_tab_to_self_activity.mm",
+    "mises_share_activity.h",
+    "mises_share_activity.mm",
   ]
   deps = [
     "resources:activity_services_add_bookmark",
@@ -33,6 +35,7 @@ source_set("activities") {
     "resources:activity_services_request_desktop_site",
     "resources:activity_services_request_mobile_site",
     "resources:activity_services_send_tab_to_self",
+    "resources:activity_services_mises_share",
     "//base",
     "//components/bookmarks/browser",
     "//components/bookmarks/common",

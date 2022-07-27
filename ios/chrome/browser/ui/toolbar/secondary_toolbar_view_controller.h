@@ -11,6 +11,8 @@
 // containing the controls displayed only on specific size classes.
 @interface SecondaryToolbarViewController : AdaptiveToolbarViewController
 
+- (void)updateMisesAvatar:(UIImage*)image;
+
 @end
 
 #endif  // IOS_CHROME_BROWSER_UI_TOOLBAR_SECONDARY_TOOLBAR_VIEW_CONTROLLER_H_

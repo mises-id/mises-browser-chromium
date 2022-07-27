@@ -35,6 +35,7 @@ const PrefixTypeAssociation prefixTypeAssociations[] = {
     {PRINT, @"com.google.chrome.printActivity", true},
     {FIND_IN_PAGE, @"com.google.chrome.FindInPageActivityType", true},
     {GENERATE_QR_CODE, @"com.google.chrome.GenerateQrCodeActivityType", true},
+    {MISES_SHARE, @"com.google.chrome.MisesShareActivityType", true},
     // The trailing '.' prevents false positives.
     // For instance, "com.viberific" won't be matched by the "com.viber.".
     {GOOGLE_DRIVE, @"com.google.Drive.", false},
@@ -163,6 +164,10 @@ void RecordMetricForActivity(ActivityType type) {
     case GENERATE_QR_CODE:
       base::RecordAction(
           base::UserMetricsAction("MobileShareMenuGenerateQRCode"));
+      break;
+    case MISES_SHARE:
+      base::RecordAction(
+          base::UserMetricsAction("MobileShareMenuMisesShare"));
       break;
   }
 }

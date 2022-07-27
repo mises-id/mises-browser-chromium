@@ -74,6 +74,7 @@
       [[ActivityServiceMediator alloc] initWithHandler:self.handler
                                       bookmarksHandler:bookmarksHandler
                                    qrGenerationHandler:self.scopedHandler
+                                     misesShareHandler:self.scopedHandler
                                            prefService:browserState->GetPrefs()
                                          bookmarkModel:bookmarkModel
                                     baseViewController:self.baseViewController];
