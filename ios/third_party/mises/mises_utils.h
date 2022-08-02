@@ -1,12 +1,13 @@
 #ifndef IOS_CHROME_APP_MISES_UTILS_H_
 #define IOS_CHROME_APP_MISES_UTILS_H_
 #import <UIKit/UIKit.h>
+
+
+#import "mises_account_service.h"
+
 @class RCTBridge;
 @class WKWebView;
 
-@protocol MisesDelegate
-- (void)accountChanged;
-@end
 
 @interface Mises: NSObject
 + (void) Init;
@@ -18,14 +19,7 @@
 
 + (void) onWebViewActivated:(WKWebView *) wv;
 
-
-+ (void) setDelegate:(id<MisesDelegate>)delegate;
-
-+ (BOOL) isLogin;
-+ (NSString*) misesId;
-+ (NSString*) misesToken;
-+ (NSString*) misesNickname;
-+ (NSString*) misesAvatar;
++ (MisesAccountService*) account;
 
 @end
 #endif  // IOS_CHROME_APP_MISES_UTILS_H_

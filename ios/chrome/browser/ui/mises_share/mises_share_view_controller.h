@@ -2,8 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-#ifndef IOS_CHROME_BROWSER_UI_QR_GENERATOR_QR_GENERATOR_VIEW_CONTROLLER_H_
-#define IOS_CHROME_BROWSER_UI_QR_GENERATOR_QR_GENERATOR_VIEW_CONTROLLER_H_
+#ifndef IOS_CHROME_BROWSER_UI_MISES_SHARE_MISES_SHARE_VIEW_CONTROLLER_H_
+#define IOS_CHROME_BROWSER_UI_MISES_SHARE_MISES_SHARE_VIEW_CONTROLLER_H_
 
 #import "ios/chrome/browser/ui/commands/mises_share_commands.h"
 
@@ -11,7 +11,7 @@
 
 @protocol ConfirmationAlertActionHandler;
 
-// View controller that displays a QR code representing a given website.
+// View controller that displays a mises share representing a given website.
 @interface MisesShareViewController : UIViewController
 
 // Initializes the view controller with the |title| to be displayed and the
@@ -32,6 +32,8 @@
 // The help button item in the top left of the view.
 @property(nonatomic, readonly) UIBarButtonItem* helpButton;
 
+@property(nonatomic, readonly) NSString* commentText;
+
 @end
 
-#endif  // IOS_CHROME_BROWSER_UI_QR_GENERATOR_QR_GENERATOR_VIEW_CONTROLLER_H_
+#endif  // IOS_CHROME_BROWSER_UI_MISES_SHARE_MISES_SHARE_VIEW_CONTROLLER_H_

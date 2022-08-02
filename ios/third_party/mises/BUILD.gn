@@ -33,6 +33,8 @@ source_set("mises") {
     "mises_java_script_feature.mm",
     "mises_utils.mm",
     "mises_lcd_service.mm",
+    "mises_share_service.mm",
+    "mises_account_service.mm",
     "RCTAnalytics.mm",
   ]
   public_configs = [

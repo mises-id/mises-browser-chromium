@@ -38,7 +38,7 @@ constexpr CGFloat kBottomMargin = 24;
 @property(nonatomic, strong) UIImageView* thumbView;
 @property(nonatomic, strong) MDCBaseTextArea* inputView;
 
-// URL of the page to generate a QR code for.
+// URL of the page to mises share for.
 @property(nonatomic, copy) NSURL* pageURL;
 
 @property(nonatomic, copy) NSString* pageTitle;
@@ -304,6 +304,7 @@ constexpr CGFloat kBottomMargin = 24;
 // Handles taps on the primary action button.
 - (void)didTapPrimaryActionButton {
   [self.actionHandler confirmationAlertPrimaryAction];
+  //_primaryActionButton.enable = NO;
 }
 
 // Helper to create the image view.
@@ -314,7 +315,7 @@ constexpr CGFloat kBottomMargin = 24;
 
   imageView.isAccessibilityElement = YES;
   imageView.accessibilityLabel =
-      l10n_util::GetNSString(IDS_IOS_QR_CODE_ACCESSIBILITY_LABEL);
+      l10n_util::GetNSString(IDS_IOS_MISES_SHARE_ACCESSIBILITY_LABEL);
 
   imageView.translatesAutoresizingMaskIntoConstraints = NO;
   return imageView;
@@ -370,6 +371,7 @@ constexpr CGFloat kBottomMargin = 24;
 
 - (void)textViewDidChange:(UITextView *)textView {
   [self.view setNeedsLayout];
+  _commentText = textView.text;
 }
 
 

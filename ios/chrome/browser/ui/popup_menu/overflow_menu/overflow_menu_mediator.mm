@@ -422,7 +422,7 @@ OverflowMenuFooter* CreateOverflowMenuManagedFooter(int nameID,
                                                   footer:nil];
   
   self.misesAction = CreateOverflowMenuAction(
-      IDS_IOS_OPTIONS_MISES, @"overflow_menu_action_open_mises", ^{
+      IDS_IOS_OPTIONS_MISES, @"popup_menu_mises_wallet", ^{
         [weakSelf openMises];
       });
 

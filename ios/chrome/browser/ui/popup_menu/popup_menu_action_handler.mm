@@ -128,7 +128,7 @@ using base::UserMetricsAction;
     case PopupMenuActionMisesInvite: {
       RecordAction(UserMetricsAction("MobileMenuOpenMisesInvite"));
       NSString *url = @"https://home.mises.site/myInvitation?misesId=";
-      [self.dispatcher openSinglePage:[url stringByAppendingString:[Mises misesId]]];
+      [self.dispatcher openSinglePage:[url stringByAppendingString:[[Mises account] misesId]]];
       break;
       }
     case PopupMenuActionMisesOfficialSite:

@@ -3430,7 +3430,8 @@ NSString* const kBrowserViewControllerSnackbarCategory =
   OverscrollActionsTabHelper* activeTabHelper =
       OverscrollActionsTabHelper::FromWebState(currentWebState);
   if (controller == activeTabHelper->GetOverscrollActionsController()) {
-    return self.headerHeight;
+    return 0;
+    //return self.headerHeight;
   } else
     return 0;
 }

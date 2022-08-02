@@ -970,7 +970,7 @@ PopupMenuTextItem* CreateEnterpriseInfoItem(NSString* imageName,
 
 - (void)createMisesMenuItems {
 
-   if (![Mises isLogin]) {
+   if (![[Mises account] isLogin]) {
 
     TableViewItem* misesCreateRestore =
         CreateTableViewItem(IDS_IOS_OPTIONS_MISES_CREATE_RESTORE, PopupMenuActionMises,
@@ -997,9 +997,10 @@ PopupMenuTextItem* CreateEnterpriseInfoItem(NSString* imageName,
     NSArray* walletActions = @[ misesMyData, misesDiscover, misesWallet,misesStakingPortal,misesNft ];
 
      
-    TableViewItem* misesInvite =
+    PopupMenuToolsItem* misesInvite =
         CreateTableViewItem(IDS_IOS_OPTIONS_MISES_INVITE, PopupMenuActionMisesInvite,
                             @"popup_menu_mises_invite", kToolsMenuMisesInviteId);
+    [misesInvite setBadgeText:@"Reward"];
     TableViewItem* misesOffical=
         CreateTableViewItem(IDS_IOS_OPTIONS_MISES_VIEW_OFFICIAL_WEBSITE, PopupMenuActionMisesOfficialSite,
                             @"popup_menu_mises_view_website", kToolsMenuMisesOfficialSiteId);                   
@@ -1114,7 +1115,7 @@ PopupMenuTextItem* CreateEnterpriseInfoItem(NSString* imageName,
 
   TableViewItem* mises =
       CreateTableViewItem(IDS_IOS_OPTIONS_MISES, PopupMenuActionMises,
-                          @"popup_menu_site_information", kToolsMenuMisesId);
+                          @"popup_menu_mises_wallet", kToolsMenuMisesId);
   [actionsArray addObject:mises];
 
   // Report an Issue.

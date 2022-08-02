@@ -1,5 +1,4 @@
 #import "mises_utils.h"
-#import "mises_lcd_service.h"
 #include "base/logging.h"
 #include "base/strings/sys_string_conversions.h"
 
@@ -21,6 +20,12 @@
 #import <React/RCTPushNotificationManager.h>
 
 #import <React/RCTBridgeModule.h>
+
+#import "ios/chrome/browser/ui/commands/browser_commands.h"
+#import "mises_lcd_service.h"
+#import "mises_share_service.h"
+#import "mises_account_service.h"
+
 @interface RCTMisesModule : NSObject <RCTBridgeModule>
 @end
 
@@ -35,6 +40,8 @@
 @property (nonatomic, strong) RCTBridge *bridge;
 
 @property (nonatomic, strong) WKWebView *webView;
+
+@property(nonatomic, weak) id<BrowserCommands> browserHandler;
 
 @end
 
@@ -81,6 +88,10 @@
   if ([self.rootViewController isModal]) {
       return;
   };
+    if ([basevc
+         respondsToSelector:@selector(openSinglePage:)]) {
+        self.browserHandler = static_cast<UIViewController<BrowserCommands>*>(basevc);
+    }
   [basevc presentViewController:self.rootViewController  animated:YES completion:^{
   }];
 }
@@ -90,6 +101,7 @@
   if (![self.rootViewController isModal]) {
       return;
   };
+    self.browserHandler = nil;
     [self.rootViewController dismissViewControllerAnimated:YES  completion: nil];
 }
 - (NSURL *)sourceURLForBridge:(RCTBridge *)bridge
@@ -97,19 +109,12 @@
 //#if DEBUG
   return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
 //#else
- //return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+// return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 //#endif
 }
 @end
 
 
-NSString* mMisesId = @"";
-NSString* mMisesToken = @"";
-NSString* mMisesNickname = @"";
-NSString* mMisesAvatar = @"";
-NSString* const kMisesInfoKey = @"NSDefaultsMisesInfo";
-
-__weak id<MisesDelegate> mDelegate;
 
 @implementation Mises
 
@@ -118,11 +123,9 @@ __weak id<MisesDelegate> mDelegate;
     dispatch_async(dispatch_get_main_queue(), ^{
       [ReactAppDelegate wrapper]; 
       [[MisesLCDService wrapper] run];
+      [MisesShareService wrapper];
+      [MisesAccountService wrapper];
         
-        id json = [[NSUserDefaults standardUserDefaults] objectForKey:kMisesInfoKey];
-        if ([json isKindOfClass:[NSDictionary class]]) {
-            [Mises loadFrom:json];
-        }
         
     });
      //
@@ -148,52 +151,8 @@ __weak id<MisesDelegate> mDelegate;
 }
 
 
-+ (BOOL) isLogin {
-  return mMisesToken != nil && [mMisesToken length] > 0;
-}
-+ (NSString*) misesId {
-  return [mMisesId copy];
-
-}
-+ (NSString*) misesToken{
-  return [mMisesToken copy];
-
-}
-+ (NSString*) misesNickname{
-  return [mMisesNickname copy];
-
-}
-+ (NSString*) misesAvatar{
-  return [mMisesAvatar copy];
-}
-
-+ (void) setDelegate:(id<MisesDelegate>)delegate {
-  mDelegate = delegate;
-}
-
-
-+ (void) loadFrom:(NSDictionary *) json{
-    if (!json) {
-        return;
-    }
-    id misesId = json[@"misesId"];
-    if ([misesId isKindOfClass:[NSString class]]) {
-      mMisesId = [misesId copy];
-    }
-    id token = json[@"token"];
-    if ([token isKindOfClass:[NSString class]]) {
-      mMisesToken = [token copy];
-    }
-    id nickname = json[@"nickname"];
-    if ([nickname isKindOfClass:[NSString class]]) {
-      mMisesNickname = [nickname copy];
-    }
-    id avatar = json[@"avatar"];
-    if ([avatar isKindOfClass:[NSString class]]) {
-      mMisesAvatar = [avatar copy];
-    } else {
-      mMisesAvatar = @"";
-    }
++ (MisesAccountService*) account {
+  return [MisesAccountService wrapper];
 }
 
 @end
@@ -222,7 +181,7 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(popup)
         if ([basevc respondsToSelector:@selector(childViewControllerForStatusBarStyle)]) {
             UIViewController* bvc = [basevc childViewControllerForStatusBarStyle];
             if (bvc) {
-                [[ReactAppDelegate wrapper] show:bvc];
+                [Mises PopupMetamask:bvc];
             }
            
         }
@@ -232,8 +191,9 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(popup)
 }
 RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(postMessageFromRN:(NSString *)msg:(NSString *)origin)
 {
-    DLOG(WARNING) << "postMessageFromRN " << msg;
     dispatch_async(dispatch_get_main_queue(), ^{
+        
+      DLOG(WARNING) << "postMessageFromRN " << msg;
       WKWebView* wv = [ReactAppDelegate wrapper].webView;
       if (wv) {
         NSString* method = [NSString stringWithFormat:@"(function(){try{window.postMessage( %@ , '%@');} catch (e) {}})()", msg, origin];
@@ -252,22 +212,37 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(postMessageFromRN:(NSString *)msg:(NSStri
 
 RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(setMisesUserInfo:(NSString *)jsonString)
 {
-    DLOG(WARNING) << "setMisesUserInfo " << jsonString;
     dispatch_async(dispatch_get_main_queue(), ^{
+        
+      DLOG(WARNING) << "setMisesUserInfo " << jsonString;
       NSData *stringData = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
       id json = [NSJSONSerialization JSONObjectWithData:stringData options:0 error:nil];
 
       if ([json isKindOfClass:[NSDictionary class]]) {
-          [Mises loadFrom:json];
-          if (mDelegate) {
-            [mDelegate accountChanged];
-          }
-          [[NSUserDefaults standardUserDefaults] setObject:json forKey:kMisesInfoKey];
+          [[Mises account] loadFrom:json save:YES];
       }
     });
 
     return nil;
 }
 
+
+
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(openUrl:(NSString *)url)
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        DLOG(WARNING) << "openUrl " << url;
+        id handelr = [[ReactAppDelegate wrapper] browserHandler];
+        if (handelr) {
+            [handelr openSinglePage:url];
+        }
+        [[ReactAppDelegate wrapper] dismiss];
+        
+      
+    });
+
+    return nil;
+}
 
 @end

@@ -17,15 +17,13 @@
 
 
 #include "components/image_fetcher/core/image_fetcher_impl.h"
-#include "components/image_fetcher/ios/ios_image_decoder_impl.h"
-#include "ios/chrome/browser/browser_state/chrome_browser_state.h"
-
 #include "components/image_fetcher/core/cached_image_fetcher.h"
-
 #include "components/image_fetcher/core/cache/image_cache.h"
 #include "components/image_fetcher/core/cache/image_data_store_disk.h"
 #include "components/image_fetcher/core/cache/image_metadata_store_leveldb.h"
 
+#include "components/image_fetcher/ios/ios_image_decoder_impl.h"
+#include "ios/chrome/browser/browser_state/chrome_browser_state.h"
 #include "base/time/default_clock.h"
 
 #include "services/network/public/cpp/shared_url_loader_factory.h"
@@ -77,7 +75,7 @@ const net::NetworkTrafficAnnotationTag kTrafficAnnotation =
 
 }  // namespace
 
-@interface SecondaryToolbarCoordinator ()<MisesDelegate>
+@interface SecondaryToolbarCoordinator ()<MisesAccountServiceDelegate>
 @property(nonatomic, strong) SecondaryToolbarViewController* viewController;
 @end
 
@@ -123,7 +121,7 @@ const net::NetworkTrafficAnnotationTag kTrafficAnnotation =
 
     
     _simpleFetcher = std::make_unique<image_fetcher::ImageFetcherImpl>(image_fetcher::CreateIOSImageDecoder(),browser_state->GetSharedURLLoaderFactory());
-    _imageFetcher = std::make_unique<image_fetcher::CachedImageFetcher>(_simpleFetcher.get(), image_cache, false);
+    _imageFetcher = std::make_unique<image_fetcher::CachedImageFetcher>(_simpleFetcher.get(), image_cache, true);
 
 
   
@@ -131,11 +129,11 @@ const net::NetworkTrafficAnnotationTag kTrafficAnnotation =
 }
 - (void)stop {
   [super stop];
-  [Mises setDelegate:nil];
+  [[Mises account] setDelegate:nil];
 }
 - (void) activate {
     
-    [Mises setDelegate:self];
+    [[Mises account] setDelegate:self];
     [self accountChanged];
     
 }
@@ -150,13 +148,13 @@ const net::NetworkTrafficAnnotationTag kTrafficAnnotation =
 //    [strongSelf.viewController updateMisesAvatar:image];
 //  };
     
-    NSString* strurl = [Mises misesAvatar];
+    NSString* strurl = [[Mises account] misesAvatar];
     if ([strurl length] == 0) {
         [self.viewController updateMisesAvatar:nil];
         return;
     }
 
-  NSURL *nsurl = [NSURL URLWithString:[Mises misesAvatar]];
+  NSURL *nsurl = [NSURL URLWithString:[[Mises account] misesAvatar]];
   if (nsurl) {
     GURL gurl = net::GURLWithNSURL(nsurl);
       __weak SecondaryToolbarCoordinator* weakSelf = self;

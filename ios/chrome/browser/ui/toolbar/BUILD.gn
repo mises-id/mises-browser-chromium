@@ -30,6 +30,8 @@ source_set("toolbar") {
     "//components/prefs",
     "//components/prefs/ios",
     "//components/strings",
+    "//components/image_fetcher/core",
+    "//components/image_fetcher/ios",
     "//ios/chrome/browser",
     "//ios/chrome/browser/autocomplete",
     "//ios/chrome/browser/bookmarks",

@@ -33,6 +33,8 @@
 #import "net/base/mac/url_conversions.h"
 #include "ui/base/l10n/l10n_util_mac.h"
 
+#include "ios/third_party/mises/mises_share_service.h"
+
 
 #if !defined(__has_feature) || !__has_feature(objc_arc)
 #error "This file requires ARC support."
@@ -48,8 +50,9 @@ using ItemBlock = void (^)(id idResponse, NSError* error);
 
 @interface MisesShareCoordinator () <ActivityServicePositioner,
                                       ActivityServicePresentation,
-                                      ConfirmationAlertActionHandler> {
-  // URL of a page to generate a QR code for.
+                                      ConfirmationAlertActionHandler,
+                                      MisesShareServiceDelegate> {
+  // URL of a page to mises share for.
   GURL _URL;
 }
 
@@ -124,15 +127,18 @@ using ItemBlock = void (^)(id idResponse, NSError* error);
 - (void)confirmationAlertPrimaryAction {
   base::RecordAction(base::UserMetricsAction("MobileShareToMisesDiscover"));
 
-//  NSString* imageTitle = l10n_util::GetNSStringF(
-//      IDS_IOS_QR_CODE_ACTIVITY_TITLE, base::SysNSStringToUTF16(self.title));
+   NSString* shareTitle = self.title;
+   NSString* shareURL = [net::NSURLWithGURL(_URL) absoluteString];
+  
+  MisesShareItem * item = [[MisesShareItem alloc] initWithUrl:shareURL title:shareTitle message:self.viewController.commentText image:[self.viewController.content copy]];
 
-  [self.handler hideMisesShare];
+  [[MisesShareService wrapper] setDelegate:self];
+  [[MisesShareService wrapper] share:item];
 }
 
 - (void)confirmationAlertLearnMoreAction {
   NSString* message =
-      l10n_util::GetNSString(IDS_IOS_QR_CODE_LEARN_MORE_MESSAGE);
+      l10n_util::GetNSString(IDS_IOS_MISES_SHARE_LEARN_MORE_MESSAGE);
   self.learnMoreViewController =
       [[PopoverLabelViewController alloc] initWithMessage:message];
 
@@ -175,6 +181,13 @@ using ItemBlock = void (^)(id idResponse, NSError* error);
     UIImage* thumbnail = [thumbnail_generator thumbnailWithSize:size];
     [self.viewController updateThumbImage:thumbnail];
 
+}
+
+
+#pragma mark - MisesShareServiceDelegate
+- (void) shareFinish:(BOOL)ok {
+
+  [self.handler hideMisesShare];  
 }
 
 @end

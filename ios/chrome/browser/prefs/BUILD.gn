@@ -72,6 +72,7 @@ source_set("browser_prefs") {
     "//components/update_client",
     "//components/variations/service",
     "//components/web_resource",
+    "//components/image_fetcher/core/cache",
     "//ios/chrome/browser",
     "//ios/chrome/browser/browser_state",
     "//ios/chrome/browser/first_run",
