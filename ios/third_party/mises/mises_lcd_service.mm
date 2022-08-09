@@ -95,6 +95,7 @@
     if (![self checkError:error]) {
         return;
     };
+    _retryCounter += 1;
     [self retry];
 
 }

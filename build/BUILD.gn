@@ -21,10 +21,17 @@ buildflag_header("branding_buildflags") {
       "GOOGLE_CHROME_BRANDING=1",
     ]
   } else {
-    flags = [
-      "CHROMIUM_BRANDING=1",
-      "GOOGLE_CHROME_BRANDING=0",
-    ]
+    if (is_debug) {
+      flags = [
+        "CHROMIUM_BRANDING=1",
+        "GOOGLE_CHROME_BRANDING=0",
+      ]
+    } else {
+      flags = [
+        "CHROMIUM_BRANDING=0",
+        "GOOGLE_CHROME_BRANDING=0",
+      ]
+    }
   }
 }
 

@@ -203,6 +203,12 @@ class StringToDoubleConverter {
   float StringToFloat(const uc16* buffer,
                       int length,
                       int* processed_characters_count) const;
+  
+  double StringToIeee(
+    const char* buffer,
+    int length,
+    int* processed_characters_count,
+    bool read_as_double)const ;
 
  private:
   const int flags_;

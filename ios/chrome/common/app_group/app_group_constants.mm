@@ -68,7 +68,7 @@ NSString* ApplicationGroup() {
   NSBundle* bundle = [NSBundle mainBundle];
   NSString* group = [bundle objectForInfoDictionaryKey:@"KSApplicationGroup"];
   if (![group length]) {
-    return [NSString stringWithFormat:@"group.%s.chrome",
+    return [NSString stringWithFormat:@"group.%s.browser.ios",
                                       BUILDFLAG(IOS_APP_BUNDLE_ID_PREFIX), nil];
   }
   return group;
@@ -79,7 +79,7 @@ NSString* CommonApplicationGroup() {
   NSString* group =
       [bundle objectForInfoDictionaryKey:@"KSCommonApplicationGroup"];
   if (![group length]) {
-    return [NSString stringWithFormat:@"group.%s.common",
+    return [NSString stringWithFormat:@"group.%s.common.ios",
                                       BUILDFLAG(IOS_APP_BUNDLE_ID_PREFIX), nil];
   }
   return group;

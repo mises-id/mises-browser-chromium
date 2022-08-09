@@ -122,6 +122,10 @@ if (!is_fat_secondary_toolchain) {
       "--breakpad=$breakpad_enabled_as_int",
       "--branding=$chromium_short_name",
       "--add-gtm-metadata=1",
+      "--version-overrides=MAJOR=1",
+      "--version-overrides=MINOR=0",
+      "--version-overrides=BUILD=1",
+      "--version-overrides=PATCH=2",
     ]
   }
 

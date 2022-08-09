@@ -26,7 +26,10 @@ namespace {
 constexpr CGFloat kGeneratedImagePadding = 20;
 constexpr CGFloat kButtonMaxWidth = 327;
 constexpr CGFloat kContentMaxWidth = 500;
+constexpr CGFloat kMargin = 24;
 constexpr CGFloat kBottomMargin = 24;
+constexpr CGFloat kImageSize = 60;
+constexpr CGFloat kInputHeight = 300;
 
 }  // namespace
 
@@ -89,13 +92,11 @@ constexpr CGFloat kBottomMargin = 24;
   scrollView.translatesAutoresizingMaskIntoConstraints = NO;
   [self.view addSubview:scrollView];
 
-  self.thumbView = [self createImageView];
-  UILabel* title = [self createTitleLabel];
-  UILabel* subtitle = [self createSubtitleLabel];
+  UIView * itemView = [self sharedItemView];
   self.inputView = [self createTextView];
   
   UIStackView* stackView = [[UIStackView alloc]
-      initWithArrangedSubviews:@[ self.thumbView, title, subtitle, self.inputView ]];
+      initWithArrangedSubviews:@[ self.inputView, itemView ]];
   self.stackView = stackView;
   stackView.spacing = 8;
   stackView.axis = UILayoutConstraintAxisVertical;
@@ -143,6 +144,17 @@ constexpr CGFloat kBottomMargin = 24;
     [scrollView.leadingAnchor constraintEqualToAnchor:self.view.leadingAnchor],
     [scrollView.trailingAnchor
         constraintEqualToAnchor:self.view.trailingAnchor],
+    [itemView.leadingAnchor
+     constraintEqualToAnchor:stackView.leadingAnchor constant:kMargin],
+    [itemView.trailingAnchor
+     constraintEqualToAnchor:stackView.trailingAnchor constant:-kMargin],
+    [self.inputView.leadingAnchor
+     constraintEqualToAnchor:stackView.leadingAnchor constant:kMargin],
+    [self.inputView.trailingAnchor
+     constraintEqualToAnchor:stackView.trailingAnchor constant:-kMargin],
+    [self.inputView.heightAnchor
+        constraintEqualToConstant:kInputHeight],
+
     scrollViewYCenter,
 
     [stackView.widthAnchor
@@ -320,13 +332,14 @@ constexpr CGFloat kBottomMargin = 24;
       l10n_util::GetNSString(IDS_IOS_MISES_SHARE_ACCESSIBILITY_LABEL);
 
   imageView.translatesAutoresizingMaskIntoConstraints = NO;
+  
   return imageView;
 }
 
 // Helper to create the title label.
 - (UILabel*)createTitleLabel {
   UILabel* title = [[UILabel alloc] init];
-  title.numberOfLines = 0;
+  title.numberOfLines = 1;
   UIFontDescriptor* descriptor = [UIFontDescriptor
       preferredFontDescriptorWithTextStyle:UIFontTextStyleTitle3];
   UIFont* font = [UIFont systemFontOfSize:descriptor.pointSize
@@ -336,7 +349,7 @@ constexpr CGFloat kBottomMargin = 24;
   title.font = [fontMetrics scaledFontForFont:font];
   title.textColor = [UIColor colorNamed:kTextPrimaryColor];
   title.text = self.pageTitle;
-  title.textAlignment = NSTextAlignmentCenter;
+  title.textAlignment = NSTextAlignmentLeft;
   title.translatesAutoresizingMaskIntoConstraints = NO;
   title.adjustsFontForContentSizeCategory = YES;
   return title;
@@ -346,10 +359,10 @@ constexpr CGFloat kBottomMargin = 24;
 - (UILabel*)createSubtitleLabel {
   UILabel* subtitle = [[UILabel alloc] init];
   subtitle.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
-  subtitle.numberOfLines = 0;
+  subtitle.numberOfLines = 1;
   subtitle.textColor = [UIColor colorNamed:kTextSecondaryColor];
   subtitle.text = [self.pageURL host];
-  subtitle.textAlignment = NSTextAlignmentCenter;
+  subtitle.textAlignment = NSTextAlignmentLeft;
   subtitle.translatesAutoresizingMaskIntoConstraints = NO;
   subtitle.adjustsFontForContentSizeCategory = YES;
   return subtitle;
@@ -361,14 +374,110 @@ constexpr CGFloat kBottomMargin = 24;
   input.textView.font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
   input.textView.textColor = [UIColor colorNamed:kTextSecondaryColor];
     input.textView.delegate = self;
-  input.placeholder = @"Say someting";
+  input.placeholder = @"Say someting ...";
+    input.preferredContainerHeight = kInputHeight;
   input.textView.textAlignment = NSTextAlignmentLeft;
     input.translatesAutoresizingMaskIntoConstraints = NO;
     input.adjustsFontForContentSizeCategory = YES;
     input.textView.translatesAutoresizingMaskIntoConstraints = NO;
     input.textView.adjustsFontForContentSizeCategory = YES;
     input.layer.borderWidth = 0;
+    input.layer.cornerRadius = 5;
+    [input setBackgroundColor:[UIColor colorNamed:kGrey50Color]];
   return input;
+}
+
+
+- (UIView*)sharedItemView {
+
+  
+  UILabel* title = [self createTitleLabel];
+  UILabel* subtitle = [self createSubtitleLabel];
+
+
+  UIImageView* image = [self createImageView];
+  self.thumbView = image;
+
+  NSLayoutConstraint* imageWidthConstraint =
+      [image.widthAnchor constraintEqualToConstant:0];
+  imageWidthConstraint.priority = UILayoutPriorityDefaultHigh;
+  imageWidthConstraint.active = YES;
+
+  [image.heightAnchor
+      constraintEqualToAnchor:image.widthAnchor]
+      .active = YES;
+  [image setContentMode:UIViewContentModeScaleAspectFill];
+  [image setClipsToBounds:YES];
+
+  [title
+      setContentCompressionResistancePriority:UILayoutPriorityDefaultLow
+                                      forAxis:UILayoutConstraintAxisHorizontal];
+  [title setContentHuggingPriority:UILayoutPriorityDefaultHigh
+                                 forAxis:UILayoutConstraintAxisVertical];
+  [subtitle setContentHuggingPriority:UILayoutPriorityDefaultHigh
+                               forAxis:UILayoutConstraintAxisVertical];
+
+  [subtitle
+      setContentCompressionResistancePriority:UILayoutPriorityDefaultLow
+                                      forAxis:UILayoutConstraintAxisHorizontal];
+
+  UIView *titleURLContainer = [[UIView alloc] initWithFrame:CGRectZero];
+  [titleURLContainer setTranslatesAutoresizingMaskIntoConstraints:NO];
+
+  [titleURLContainer addSubview:title];
+  [titleURLContainer addSubview:subtitle];
+
+  UIView * itemView = [[UIView alloc] init];
+  [itemView setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [itemView addSubview:image];
+  [itemView addSubview:titleURLContainer];
+  
+    itemView.layer.borderWidth = 0;
+    itemView.layer.cornerRadius = 5;
+    [itemView setBackgroundColor:[UIColor colorNamed:kGrey50Color]];
+
+  [NSLayoutConstraint activateConstraints:@[
+    [title.topAnchor
+        constraintEqualToAnchor:titleURLContainer.topAnchor],
+    [subtitle.topAnchor constraintEqualToAnchor:title.bottomAnchor],
+    [subtitle.bottomAnchor
+        constraintEqualToAnchor:titleURLContainer.bottomAnchor],
+    [title.trailingAnchor
+        constraintEqualToAnchor:titleURLContainer.trailingAnchor],
+    [subtitle.trailingAnchor
+        constraintEqualToAnchor:titleURLContainer.trailingAnchor],
+    [title.leadingAnchor
+        constraintEqualToAnchor:titleURLContainer.leadingAnchor],
+    [subtitle.leadingAnchor
+        constraintEqualToAnchor:titleURLContainer.leadingAnchor],
+    [titleURLContainer.centerYAnchor
+        constraintEqualToAnchor:itemView.centerYAnchor],
+    [itemView.heightAnchor
+        constraintGreaterThanOrEqualToAnchor:titleURLContainer.heightAnchor
+                                    constant:2 * kGeneratedImagePadding],
+    [titleURLContainer.trailingAnchor
+        constraintEqualToAnchor:itemView.trailingAnchor
+                       constant:-kGeneratedImagePadding],
+    [image.leadingAnchor
+        constraintEqualToAnchor:itemView.leadingAnchor
+                       constant:kGeneratedImagePadding],
+    [image.heightAnchor
+        constraintEqualToConstant:kImageSize],
+    [itemView.heightAnchor
+        constraintGreaterThanOrEqualToAnchor:image.heightAnchor
+                                    constant:2 * kGeneratedImagePadding],
+    [image.centerYAnchor
+        constraintEqualToAnchor:itemView.centerYAnchor],
+  ]];
+
+  NSLayoutConstraint* titleURLScreenshotConstraint =
+      [titleURLContainer.leadingAnchor
+          constraintEqualToAnchor:image.trailingAnchor];
+  titleURLScreenshotConstraint.priority = UILayoutPriorityDefaultHigh;
+  titleURLScreenshotConstraint.active = YES;
+    titleURLScreenshotConstraint.constant = kGeneratedImagePadding;
+
+  return itemView;
 }
 
 - (void)textViewDidChange:(UITextView *)textView {
@@ -396,22 +505,13 @@ constexpr CGFloat kBottomMargin = 24;
 
 - (void)updateThumbImage:(UIImage*)image {
   [self.thumbView setImage:image];
-    [self updateInputSize];
+    
     [self.stackView invalidateIntrinsicContentSize];
     [self.view layoutIfNeeded];
 }
 
 
-- (void)updateInputSize {
-    CGFloat textAreaWidth = CGRectGetWidth(self.view.frame) - (2 * kBottomMargin);
-    MDCBaseTextArea *textArea = self.inputView;
-   CGFloat textAreaMinX = CGRectGetMinX(textArea.frame);
-   CGFloat textAreaMinY = CGRectGetMinY(textArea.frame);
-   CGFloat viewHeight = CGRectGetHeight(textArea.frame);
-    CGRect viewFrame = CGRectMake(textAreaMinX, textAreaMinY, textAreaWidth, viewHeight);
-   textArea.frame = viewFrame;
-    [textArea sizeToFit];
-}
+
 
 
 @end

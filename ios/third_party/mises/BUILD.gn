@@ -6,7 +6,10 @@ declare_args() {
 
 if (target_environment == "simulator") {
     env_prefix = "Sim"
-  }
+}
+if (!is_debug) {
+  env_prefix = "Distribution"
+}
 
 config("config") {
   visibility = [ ":*" ]
@@ -66,12 +69,13 @@ source_set("mises") {
     "//ios/web/js_messaging",
     "//ios/web/public/js_messaging",
     "//ios/chrome/browser/ui/commands",
+    "//base/third_party/double_conversion",
   ]
 }
 bundle_data("mises_bundle_data") {
   visibility = [ ":mises" ]
   sources = [
-    "Bundles/AccessibilityResources.bundle",
+    "$env_prefix/Bundles/AccessibilityResources.bundle",
     "Bundles/branch.json",
     "Bundles/InpageBridgeWeb3.js",
     "Bundles/main.jsbundle",

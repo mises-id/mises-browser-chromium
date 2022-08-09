@@ -90,9 +90,9 @@ if (breakpad_enabled) {
   is_official_release = false
 }
 
-chromium_bundle_id = "$ios_app_bundle_id_prefix.chrome.ios.dev"
-chromium_handoff_id = "$ios_app_bundle_id_prefix.chrome.handoff"
-ios_move_tab_activity_type = "$ios_app_bundle_id_prefix.chrome.move-tab"
+chromium_bundle_id = "$ios_app_bundle_id_prefix.browser.ios"
+chromium_handoff_id = "$ios_app_bundle_id_prefix.browser.handoff"
+ios_move_tab_activity_type = "$ios_app_bundle_id_prefix.browser.move-tab"
 
 if (is_chrome_branded) {
   chromium_short_name = "Chrome"
