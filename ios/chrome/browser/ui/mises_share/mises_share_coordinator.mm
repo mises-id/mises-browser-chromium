@@ -21,9 +21,11 @@
 #import "ios/chrome/browser/ui/activity_services/requirements/activity_service_presentation.h"
 #import "ios/chrome/browser/ui/commands/command_dispatcher.h"
 #import "ios/chrome/browser/ui/commands/mises_share_commands.h"
+#include "ios/chrome/browser/ui/alert_coordinator/alert_coordinator.h"
 #import "ios/chrome/browser/ui/mises_share/mises_share_view_controller.h"
 #import "ios/chrome/common/ui/confirmation_alert/confirmation_alert_action_handler.h"
 #import "ios/chrome/common/ui/elements/popover_label_view_controller.h"
+
 
 #import "ios/web/public/web_state.h"
 #include "ios/chrome/browser/ui/activity_services/data/chrome_activity_item_thumbnail_generator.h"
@@ -31,6 +33,9 @@
 #include "ios/chrome/browser/browser_state/chrome_browser_state.h"
 
 #include "ios/chrome/grit/ios_strings.h"
+#include "components/strings/grit/components_strings.h"
+#import "ui/strings/grit/ui_strings.h"
+
 #import "net/base/mac/url_conversions.h"
 #include "ui/base/l10n/l10n_util_mac.h"
 
@@ -191,14 +196,20 @@ using ItemBlock = void (^)(id idResponse, NSError* error);
 
 }
 
+- (void)hideLoadingLinkMeta {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.viewController hideLinkLoadingIndicator];
+    });
+}
 - (void)loadLinkMeta {
-
+  [self.viewController showLinkLoadingIndicator];
   LPMetadataProvider *provider = [[LPMetadataProvider alloc] init];
   provider.timeout = 10;
   provider.shouldFetchSubresources = YES;
   NSURL *url = net::NSURLWithGURL(_URL);
   [provider startFetchingMetadataForURL:url completionHandler:^(LPLinkMetadata * _Nullable metadata, NSError * _Nullable error) {
       if (error) {
+          [self hideLoadingLinkMeta];
           return;
       }
       NSString *lpTitle = metadata.title;
@@ -217,16 +228,21 @@ using ItemBlock = void (^)(id idResponse, NSError* error);
 
       if (thumbProvider) {
         [thumbProvider loadObjectOfClass:UIImage.class completionHandler:^(UIImage* _Nullable image, NSError * _Nullable error) {
-            if (image) {
-                dispatch_async(dispatch_get_main_queue(), ^{
+            [self hideLoadingLinkMeta];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                
+                if (image) {
+                    
                     self.image = image;
                     [self.viewController updateThumbImage:image];
-                });
-                
-            }
+                    
+                }
+            });
            
             
         }];
+      } else {
+          [self hideLoadingLinkMeta];
       }
   }];
     
@@ -236,8 +252,36 @@ using ItemBlock = void (^)(id idResponse, NSError* error);
 
 #pragma mark - MisesShareServiceDelegate
 - (void) shareFinish:(BOOL)ok {
+  if (ok) {
+    [self.handler hideMisesShare];
+  } else {
+      
+    [self.viewController reset];
+    NSString* title = @"Share Failed";
+    NSString* message = @"Please try again later";
+    [self presentAlertWithTitle:title message:message];
+  }
+  
+}
 
-  [self.handler hideMisesShare];
+
+- (void)presentAlertWithTitle:(NSString*)title message:(NSString*)msg {
+
+  UIAlertController* alert =
+      [UIAlertController alertControllerWithTitle:title
+                                          message:msg
+                                   preferredStyle:UIAlertControllerStyleAlert];
+  UIAlertAction* defaultAction =
+      [UIAlertAction actionWithTitle:l10n_util::GetNSString(IDS_APP_OK)
+                               style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction* action){
+                             }];
+  [alert addAction:defaultAction];
+  UIViewController* presenter = self.viewController;
+  while (presenter.presentedViewController) {
+    presenter = presenter.presentedViewController;
+  }
+  [presenter presentViewController:alert animated:YES completion:nil];
 }
 
 @end

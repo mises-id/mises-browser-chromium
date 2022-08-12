@@ -7,6 +7,7 @@
 #import "ios/web/js_messaging/web_view_js_utils.h"
 
 #import <Foundation/NSPathUtilities.h>
+#import <WebKit/WKWebView.h>
 
 #if !defined(__has_feature) || !__has_feature(objc_arc)
 #error "This file requires ARC support."
@@ -41,7 +42,7 @@
 
 @property (nonatomic, strong) RCTBridge *bridge;
 
-@property (nonatomic, strong) WKWebView *webView;
+@property (nonatomic, strong) NSPointerArray *webViewArray;
 
 @property(nonatomic, weak) id<BrowserCommands> browserHandler;
 
@@ -95,6 +96,7 @@
        //rootView.backgroundColor = [UIColor colorNamed:@"ThemeColors"];
        self.rootViewController = [MetamaskUIViewController new];
        self.rootViewController.view = rootView;
+       self.webViewArray = [NSPointerArray weakObjectsPointerArray];
       DLOG(WARNING) << "Mises init step 4";
     }
     return self;
@@ -131,6 +133,23 @@
     
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 }
+
+- (void)activate:(WKWebView *) wv
+{
+  [self.webViewArray compact];
+    
+  NSArray * allObjects = [self.webViewArray allObjects];
+  NSUInteger count = [allObjects count];
+  for (NSUInteger i = 0; i < count; i++) {
+    __weak WKWebView *weakwv = [allObjects objectAtIndex: i];
+    if (weakwv == wv) {
+        return;
+    }
+  }
+
+  [self.webViewArray  addPointer:(__bridge void *)wv];
+
+}
 @end
 
 
@@ -166,7 +185,7 @@
 }
 
 + (void) onWebViewActivated:(WKWebView *) wv {
-  [ReactAppDelegate wrapper].webView = wv;
+  [[ReactAppDelegate wrapper] activate:wv];
 }
 
 
@@ -211,19 +230,32 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(popup)
 RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(postMessageFromRN:(NSString *)msg:(NSString *)origin)
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-        
-      DLOG(WARNING) << "postMessageFromRN " << msg;
-      WKWebView* wv = [ReactAppDelegate wrapper].webView;
-      if (wv) {
-        NSString* method = [NSString stringWithFormat:@"(function(){try{window.postMessage( %@ , '%@');} catch (e) {}})()", msg, origin];
-        web::ExecuteJavaScript(wv, method, ^(id value, NSError* error) {
-          if (error) {
-            DLOG(WARNING) << "Script execution failed with error: "
-                          << base::SysNSStringToUTF16(
-                                error.userInfo[NSLocalizedDescriptionKey]);
-          }
-        });
-      }
+
+        DLOG(WARNING) << "postMessageFromRN " << msg;
+        NSArray * allObjects = [[ReactAppDelegate wrapper].webViewArray allObjects];
+        NSUInteger count = [allObjects count];
+        for (NSUInteger i = 0; i < count; i++) {
+            __weak WKWebView* weakwv = [allObjects objectAtIndex: i];
+            if (weakwv) {
+                __strong WKWebView* wv = weakwv;
+                NSURL *nsurl = wv.URL;
+                NSString* wv_origin = [NSString stringWithFormat:
+                                       @"%@://%@",nsurl.scheme, nsurl.host];
+                if ([wv_origin compare:origin options:NSCaseInsensitiveSearch] != NSOrderedSame) {
+                    continue;
+                }
+                
+                NSString* method = [NSString stringWithFormat:@"(function(){try{window.postMessage( %@ , '%@');} catch (e) {}})()", msg, origin];
+                web::ExecuteJavaScript(wv, method, ^(id value, NSError* error) {
+                    if (error) {
+                      DLOG(WARNING) << "Script execution failed with error: "
+                                    << base::SysNSStringToUTF16(
+                                          error.userInfo[NSLocalizedDescriptionKey]);
+                    }
+                });
+            }
+        }
+      
     });
 
     return nil;

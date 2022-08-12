@@ -41,7 +41,7 @@ constexpr CGFloat kInputHeight = 300;
 
 @property(nonatomic, strong) UILabel* titleView;
 @property(nonatomic, strong) UIImageView* thumbView;
-@property(nonatomic, strong) MDCBaseTextArea* inputView;
+@property(nonatomic, strong) MDCBaseTextArea* commentView;
 
 // URL of the page to mises share for.
 @property(nonatomic, copy) NSURL* pageURL;
@@ -51,6 +51,8 @@ constexpr CGFloat kInputHeight = 300;
 @property(nonatomic, strong) NSArray* regularHeightToolbarItems;
 @property(nonatomic, strong) NSArray* compactHeightToolbarItems;
 @property(nonatomic, strong) UIToolbar* topToolbar;
+@property(nonatomic, strong) UIActivityIndicatorView* activityIndicatorView;
+@property(nonatomic, strong) UIActivityIndicatorView* linkActivityIndicatorView;
 
 @property(nonatomic, strong)
     NSLayoutConstraint* regularHeightScrollViewBottomVerticalConstraint;
@@ -95,10 +97,10 @@ constexpr CGFloat kInputHeight = 300;
   [self.view addSubview:scrollView];
 
   UIView * itemView = [self sharedItemView];
-  self.inputView = [self createTextView];
+  self.commentView = [self createTextView];
   
   UIStackView* stackView = [[UIStackView alloc]
-      initWithArrangedSubviews:@[ self.inputView, itemView ]];
+      initWithArrangedSubviews:@[ self.commentView, itemView ]];
   self.stackView = stackView;
   stackView.spacing = 8;
   stackView.axis = UILayoutConstraintAxisVertical;
@@ -150,11 +152,11 @@ constexpr CGFloat kInputHeight = 300;
      constraintEqualToAnchor:stackView.leadingAnchor constant:kMargin],
     [itemView.trailingAnchor
      constraintEqualToAnchor:stackView.trailingAnchor constant:-kMargin],
-    [self.inputView.leadingAnchor
+    [self.commentView.leadingAnchor
      constraintEqualToAnchor:stackView.leadingAnchor constant:kMargin],
-    [self.inputView.trailingAnchor
+    [self.commentView.trailingAnchor
      constraintEqualToAnchor:stackView.trailingAnchor constant:-kMargin],
-    [self.inputView.heightAnchor
+    [self.commentView.heightAnchor
         constraintEqualToConstant:kInputHeight],
     [itemView.heightAnchor
         constraintEqualToConstant:kItemHeight],
@@ -325,11 +327,9 @@ constexpr CGFloat kInputHeight = 300;
 - (void)didTapShareButton {
   [self.actionHandler confirmationAlertPrimaryAction];
   _shareButton.enabled = NO;
-  _inputView.enabled = NO;
-  // if ([self.actionHandler
-  //         respondsToSelector:@selector(confirmationAlertLearnMoreAction)]) {
-  //   [self.actionHandler confirmationAlertLearnMoreAction];
-  // }
+  _commentView.enabled = NO;
+
+  [self showLoadingIndicator];
 }
 
 // Handles taps on the primary action button.
@@ -409,7 +409,7 @@ constexpr CGFloat kInputHeight = 300;
     toolbar.frame = CGRectMake(0, 0, self.view.frame.size.width, 44);
     toolbar.items = @[spacer, doneButton];
     
-    input.textView.inputAccessoryView = toolbar;
+    //input.textView.inputAccessoryView = toolbar;
     input.layer.borderWidth = 0;
     input.layer.cornerRadius = 5;
     [input setBackgroundColor:[UIColor colorNamed:kGrey50Color]];
@@ -560,7 +560,60 @@ constexpr CGFloat kInputHeight = 300;
     [self.view layoutIfNeeded];
 }
 
+- (void)reset {
+  _shareButton.enabled = YES;
+  _commentView.enabled = YES;
+  [self hideLoadingIndicator];
 
+}
+
+
+// Shows a loading indicator,
+- (void)showLoadingIndicator {
+  DCHECK(!self.activityIndicatorView);
+  self.activityIndicatorView = [[UIActivityIndicatorView alloc] init];
+  UIActivityIndicatorView* activityView = self.activityIndicatorView;
+  activityView.translatesAutoresizingMaskIntoConstraints = NO;
+  [self.view addSubview:activityView];
+  [NSLayoutConstraint activateConstraints:@[
+    [activityView.centerXAnchor
+        constraintEqualToAnchor:self.view.centerXAnchor],
+    [activityView.centerYAnchor
+        constraintEqualToAnchor:self.view.centerYAnchor],
+  ]];
+  [activityView startAnimating];
+  activityView.color = [UIColor colorNamed:kBlueColor];
+}
+
+// Hides the loading indicator.
+- (void)hideLoadingIndicator {
+  [self.activityIndicatorView removeFromSuperview];
+  self.activityIndicatorView = nil;
+}
+
+
+// Shows a link loading indicator,
+- (void)showLinkLoadingIndicator {
+  DCHECK(!self.linkActivityIndicatorView);
+  self.linkActivityIndicatorView = [[UIActivityIndicatorView alloc] init];
+  UIActivityIndicatorView* activityView = self.linkActivityIndicatorView;
+  activityView.translatesAutoresizingMaskIntoConstraints = NO;
+  [self.thumbView addSubview:activityView];
+  [NSLayoutConstraint activateConstraints:@[
+    [activityView.centerXAnchor
+        constraintEqualToAnchor:self.thumbView.centerXAnchor],
+    [activityView.centerYAnchor
+        constraintEqualToAnchor:self.thumbView.centerYAnchor],
+  ]];
+  [activityView startAnimating];
+  activityView.color = [UIColor colorNamed:kBlueColor];
+}
+
+// Hides the loading indicator.
+- (void)hideLinkLoadingIndicator {
+  [self.linkActivityIndicatorView removeFromSuperview];
+  self.linkActivityIndicatorView = nil;
+}
 
 
 @end
