@@ -162,7 +162,7 @@ all other OS specific variables will be false.
   <release seq="1">
     <messages fallback_to_english="true">
       <message name="IDS_IOS_CONTENT_WIDGET_TITLE" desc="Title of the widget.">
-        Chromium - Suggested Sites
+        Mises - Suggested Sites
       </message>
     </messages>
   </release>

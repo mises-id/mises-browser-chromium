@@ -162,7 +162,7 @@ all other OS specific variables will be false.
   <release seq="1">
     <messages fallback_to_english="true">
       <message name="IDS_IOS_SEARCH_WIDGET_TITLE" desc="Title of the widget.">
-        Chromium - Quick Actions
+        Mises - Quick Actions
       </message>
     </messages>
   </release>
