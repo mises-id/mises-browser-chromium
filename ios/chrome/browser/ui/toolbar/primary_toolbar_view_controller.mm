@@ -370,4 +370,12 @@
   [self.delegate exitFullscreen];
 }
 
+
+
+#pragma mark - MisesToolbarDelegate
+
+- (void)updateMisesAvatar:(UIImage*)image {
+  [self.view updateMisesAvatar:image];
+}
+
 @end

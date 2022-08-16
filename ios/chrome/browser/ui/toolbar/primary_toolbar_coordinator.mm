@@ -24,6 +24,7 @@
 #import "ios/chrome/browser/ui/toolbar/primary_toolbar_view_controller.h"
 #import "ios/chrome/browser/ui/toolbar/primary_toolbar_view_controller_delegate.h"
 #import "ios/chrome/browser/ui/toolbar/toolbar_coordinator_delegate.h"
+#import "ios/chrome/browser/ui/toolbar/mises_toolbar_coordinator.h"
 #import "ios/chrome/browser/ui/util/ui_util.h"
 #import "ios/chrome/browser/ui/util/uikit_ui_util.h"
 #import "ios/chrome/browser/web_state_list/web_state_list.h"
@@ -48,6 +49,8 @@
 @property(nonatomic, strong) OmniboxFocusOrchestrator* orchestrator;
 // Whether the omnibox focusing should happen with animation.
 @property(nonatomic, assign) BOOL enableAnimationsForOmniboxFocus;
+
+@property(nonatomic, strong) MisesToolbarCoordinator* misesToolbarCoordinator;
 
 @end
 
@@ -95,6 +98,10 @@
 
     _fullscreenUIUpdater = std::make_unique<FullscreenUIUpdater>(
         FullscreenController::FromBrowser(self.browser), self.viewController);
+
+  self.misesToolbarCoordinator = [[MisesToolbarCoordinator alloc] initWithBrowser:self.browser];
+  self.misesToolbarCoordinator.delegate = self.viewController;
+  [self.misesToolbarCoordinator start];
 
   [super start];
   self.started = YES;
@@ -240,4 +247,11 @@
   [self.locationBarCoordinator start];
 }
 
+
+
+- (void) activate {
+    
+  [self.misesToolbarCoordinator activate];
+    
+}
 @end

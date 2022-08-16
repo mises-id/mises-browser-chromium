@@ -907,10 +907,17 @@ NSString* const kBrowserViewControllerSnackbarCategory =
   }
   if (primary) {
     [self updateBroadcastState];
-      
-        
-    if (self.secondaryToolbarCoordinator) {
-      [self.secondaryToolbarCoordinator activate];
+   
+    if (IsSplitToolbarMode(self)) {
+
+      if (self.secondaryToolbarCoordinator) {
+        [self.secondaryToolbarCoordinator activate];
+      }
+    } else {
+         
+      if (self.primaryToolbarCoordinator) {
+        [self.primaryToolbarCoordinator activate];
+      }
     }
   }
 }

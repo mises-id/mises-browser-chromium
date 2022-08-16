@@ -1,7 +1,12 @@
-[ {
+[{
+   "title": "DappRadar",
+   "url": "https://dappradar.com/",
+   "large_icon_url": "https://dappradar.com/public-assets/apple-touch-icon.png",
+   "title_source": 4
+}, {
   "title": "Facebook",
   "url": "https://m.facebook.com/",
-  "large_icon_url": "https://static.xx.fbcdn.net/rsrc.php/v3/ya/r/O2aKM2iSbOw.png",
+  "large_icon_url": "https://www.facebook.com/images/fb_icon_325x325.png",
   "title_source": 4
 }, {
   "title": "YouTube",

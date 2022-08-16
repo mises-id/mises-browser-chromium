@@ -33,6 +33,7 @@ class Browser;
 // Delegate for the long press gesture recognizer triggering popup menu.
 @property(nonatomic, weak) id<PopupMenuLongPressDelegate> longPressDelegate;
 
+- (void) activate;
 @end
 
 #endif  // IOS_CHROME_BROWSER_UI_TOOLBAR_ADAPTIVE_TOOLBAR_COORDINATOR_H_

@@ -87,6 +87,8 @@
 @property(nonatomic, strong, readwrite)
     NSMutableArray<NSLayoutConstraint*>* contractedNoMarginConstraints;
 
+@property(nonatomic, strong, readwrite) ToolbarButton* misesButton;
+
 @end
 
 @implementation PrimaryToolbarView
@@ -116,6 +118,7 @@
 @synthesize contractedConstraints = _contractedConstraints;
 @synthesize contractedNoMarginConstraints = _contractedNoMarginConstraints;
 @synthesize contentView = _contentView;
+@synthesize misesButton = _misesButton;
 
 #pragma mark - Public
 
@@ -226,6 +229,7 @@
 
 // Sets the leading stack view.
 - (void)setUpLeadingStackView {
+  self.misesButton = [self.buttonFactory misesButton];
   self.backButton = [self.buttonFactory backButton];
   self.forwardButton = [self.buttonFactory forwardButton];
   self.stopButton = [self.buttonFactory stopButton];
@@ -233,7 +237,7 @@
   self.reloadButton = [self.buttonFactory reloadButton];
 
   self.leadingStackViewButtons = @[
-    self.backButton, self.forwardButton, self.stopButton, self.reloadButton
+    self.misesButton, self.backButton, self.forwardButton, self.stopButton, self.reloadButton
   ];
   self.leadingStackView = [[UIStackView alloc]
       initWithArrangedSubviews:self.leadingStackViewButtons];
@@ -438,8 +442,21 @@
   return nil;
 }
 
-- (ToolbarButton*)misesButton {
-  return nil;
+- (void)updateMisesAvatar:(UIImage*)image {
+    
+    if (image == nil) {
+        UIImage* icon = [[UIImage imageNamed:@"mises_user_default"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        [self.misesButton setImage:icon forState:UIControlStateNormal];
+        return;
+    }
+    
+    CGSize newSize = CGSizeMake(kAdaptiveToolbarIconSize, kAdaptiveToolbarIconSize);
+    UIGraphicsBeginImageContextWithOptions(newSize, NO, 0.0);
+    [image drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+    UIImage *resized_image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    UIImage *icon = [resized_image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    [self.misesButton setImage:icon forState:UIControlStateNormal];
 }
 
 @end

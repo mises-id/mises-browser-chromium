@@ -193,18 +193,8 @@ const CGFloat kToolsMenuOffset = -7;
 }
 
 
+
 - (void)updateMisesAvatar:(UIImage*)image {
-   
-//    if (self.misesButton) {
-//        UIView *first = [[self.stackView arrangedSubviews] objectAtIndex:0];
-//        [self.stackView removeArrangedSubview:first];
-//        [first removeFromSuperview];
-//    }
-//
-//    self.misesButton = nil;
-//    self.stackView.subviews
-//    [self.stackView setNeedsLayout];
-    //self.misesButton = [self.buttonFactory misesButton];
     
     if (image == nil) {
         UIImage* icon = [[UIImage imageNamed:@"mises_user_default"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -219,7 +209,5 @@ const CGFloat kToolsMenuOffset = -7;
     UIGraphicsEndImageContext();
     UIImage *icon = [resized_image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     [self.misesButton setImage:icon forState:UIControlStateNormal];
-    
-   // [self.stackView insertArrangedSubview:self.misesButton atIndex:0];
 }
 @end

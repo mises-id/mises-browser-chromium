@@ -82,6 +82,8 @@
 // Removes |fakeOmniboxTarget| from the view hierarchy.
 - (void)removeFakeOmniboxTarget;
 
+- (void)updateMisesAvatar:(UIImage*)image;
+
 @end
 
 #endif  // IOS_CHROME_BROWSER_UI_TOOLBAR_PRIMARY_TOOLBAR_VIEW_H_

@@ -200,6 +200,8 @@
     UIImageView *imageView = misesButton.imageView;
     [imageView.layer setCornerRadius:kAdaptiveToolbarIconSize/2];
     [imageView.layer setMasksToBounds:YES];
+  misesButton.accessibilityIdentifier =
+      kToolbarMisesButtonIdentifier;
   return misesButton;
 }
 

@@ -27,6 +27,9 @@
       [[SecondaryToolbarView alloc] initWithButtonFactory:self.buttonFactory];
 }
 
+
+#pragma mark - MisesToolbarDelegate
+
 - (void)updateMisesAvatar:(UIImage*)image {
   [self.view updateMisesAvatar:image];
 }

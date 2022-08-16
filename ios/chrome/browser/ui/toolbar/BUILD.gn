@@ -4,6 +4,8 @@
 
 source_set("toolbar") {
   sources = [
+    "mises_toolbar_coordinator.h",
+    "mises_toolbar_coordinator.mm",
     "adaptive_toolbar_coordinator+subclassing.h",
     "adaptive_toolbar_coordinator.h",
     "adaptive_toolbar_coordinator.mm",
@@ -74,6 +76,7 @@ source_set("toolbar") {
 
 source_set("toolbar_ui") {
   sources = [
+    "mises_toolbar_delegate.h",
     "adaptive_toolbar_view.h",
     "adaptive_toolbar_view_controller+subclassing.h",
     "adaptive_toolbar_view_controller.h",

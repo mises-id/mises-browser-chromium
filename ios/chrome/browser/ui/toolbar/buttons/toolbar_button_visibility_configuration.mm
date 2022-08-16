@@ -134,7 +134,7 @@
       return ToolbarComponentVisibilityAlways &
              ~ToolbarComponentVisibilitySplit;
     case SECONDARY:
-      return ToolbarComponentVisibilityAlways;
+      return ToolbarComponentVisibilitySplit;
   }
 }
 

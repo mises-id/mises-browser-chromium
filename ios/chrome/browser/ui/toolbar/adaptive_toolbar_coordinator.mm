@@ -154,4 +154,7 @@
   [self.viewController resetAfterSideSwipeSnapshot];
 }
 
+- (void) activate {
+        
+}
 @end

@@ -28,7 +28,7 @@
 #include "services/network/public/mojom/url_response_head.mojom.h"
 
 const char SearchURLFetcher::kSearchDomainCheckURL[] =
-    "https://settings.kiwibrowser.com/search/getrecommendedsearch?format=domain&serie=next&type=chrome&version=" PRODUCT_VERSION "&release_name=" RELEASE_NAME "&release_version=" RELEASE_VERSION;
+    "https://settings.browser.mises.site/search/getrecommendedsearch?format=domain&serie=next&type=chrome&version=" PRODUCT_VERSION "&release_name=" RELEASE_NAME "&release_version=" RELEASE_VERSION;
 
 SearchURLFetcherFactory::SearchURLFetcherFactory(
     scoped_refptr<network::SharedURLLoaderFactory> url_loader_factory, PrefService* prefs, TemplateURLService* template_url_service)

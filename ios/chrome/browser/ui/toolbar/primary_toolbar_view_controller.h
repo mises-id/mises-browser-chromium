@@ -10,6 +10,7 @@
 #import "ios/chrome/browser/ui/gestures/view_revealing_animatee.h"
 #import "ios/chrome/browser/ui/orchestrator/toolbar_animatee.h"
 #import "ios/chrome/browser/ui/toolbar/adaptive_toolbar_view_controller.h"
+#import "ios/chrome/browser/ui/toolbar/mises_toolbar_delegate.h"
 
 @protocol PrimaryToolbarViewControllerDelegate;
 @class ViewRevealingVerticalPanHandler;
@@ -20,7 +21,8 @@
     : AdaptiveToolbarViewController <ActivityServicePositioner,
                                      FullscreenUIElement,
                                      ToolbarAnimatee,
-                                     ViewRevealingAnimatee>
+                                     ViewRevealingAnimatee,
+                                     MisesToolbarDelegate>
 
 @property(nonatomic, weak) id<PrimaryToolbarViewControllerDelegate> delegate;
 
