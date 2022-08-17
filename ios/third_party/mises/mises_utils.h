@@ -21,5 +21,9 @@
 
 + (MisesAccountService*) account;
 
+
++ (BOOL) handleUniversalLink:(NSURL*)webpageURL;
++ (BOOL) handleOpenUrl:(NSURL*)webpageURL;
++ (void) didFinishLaunching;
 @end
 #endif  // IOS_CHROME_APP_MISES_UTILS_H_

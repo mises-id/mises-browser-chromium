@@ -13,6 +13,9 @@
 
 
 NSString* const kMisesInfoKey = @"NSDefaultsMisesInfo";
+
+NSString* const kMisesReferrerKey = @"NSDefaultsReferrer";
+
 @implementation MisesAccountService
 {
     int _retryCounter;
@@ -112,5 +115,17 @@ NSString* const kMisesInfoKey = @"NSDefaultsMisesInfo";
     }
 }
 
+
+- (NSDictionary*) referrer {
+  id ref = [[NSUserDefaults standardUserDefaults] objectForKey:kMisesReferrerKey];
+  if ([ref isKindOfClass:[NSDictionary class]]) {
+      return ref;
+  }
+  return NULL;
+
+}
+- (void) setReferrer:(NSDictionary*) ref {
+  [[NSUserDefaults standardUserDefaults] setObject:ref forKey:kMisesReferrerKey];
+}
 
 @end

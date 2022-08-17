@@ -79,6 +79,7 @@ bundle_data("mises_bundle_data") {
     "Bundles/branch.json",
     "Bundles/InpageBridgeWeb3.js",
     "Bundles/main.jsbundle",
+    "Bundles/GoogleService-Info.plist",
     "Bundles/assets",
  ]
   outputs = [ "{{bundle_resources_dir}}/{{source_file_part}}" ]
@@ -145,7 +146,9 @@ config("mises_config") {
   framework_dirs = [ "//ios/third_party/mises/$env_prefix/Frameworks" ]
   frameworks = [
     #"Branch.framework",
-    #"Lottie.framework",
+    "FirebaseDynamicLinks.framework",
+    "FirebaseCore.framework",
+    "FirebaseCoreInternal.framework",
     "Sdk.framework",
     "Mixpanel.framework",
     "OpenSSL.framework",

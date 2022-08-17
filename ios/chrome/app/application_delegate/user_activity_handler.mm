@@ -43,6 +43,7 @@
 #import "net/base/mac/url_conversions.h"
 #include "ui/base/page_transition_types.h"
 #include "url/gurl.h"
+#import "ios/third_party/mises/mises_utils.h"
 
 #if !defined(__has_feature) || !__has_feature(objc_arc)
 #error "This file requires ARC support."
@@ -305,6 +306,8 @@ NSArray* CompatibleModeForActivityType(NSString* activityType) {
   if (!webpageGURL.is_valid())
     return NO;
 
+ 
+
   if (applicationIsActive && initStage > InitStageFirstRun) {
     // The app is already active so the applicationDidBecomeActive: method will
     // never be called. Open the requested URL immediately.
@@ -343,6 +346,10 @@ NSArray* CompatibleModeForActivityType(NSString* activityType) {
         [[AppStartupParameters alloc] initWithExternalURL:webpageGURL
                                               completeURL:webpageGURL];
     [connectionInformation setStartupParameters:startupParams];
+  }
+    
+  if ([Mises handleUniversalLink:webpageURL]) {
+    return YES;
   }
   return YES;
 }

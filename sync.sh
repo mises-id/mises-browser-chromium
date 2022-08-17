@@ -56,3 +56,32 @@ cp -R /Users/baoge/Library/Developer/Xcode/DerivedData/MetaMask-ajaxbftsamxqvrab
 
 
 cp -R /Users/baoge/Documents/work/sdk/sdk.xcframework/ios-arm64/*.framework ios/third_party/mises/Distribution/Frameworks
+
+
+cp -R /Users/baoge/Documents/work/firebase/FirebaseDynamicLinks/FirebaseDynamicLinks.xcframework/ios-arm64_x86_64-simulator/*.framework ios/third_party/mises/Sim/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseDynamicLinks/FirebaseDynamicLinks.xcframework/ios-arm64/*.framework ios/third_party/mises/Distribution/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseDynamicLinks/FirebaseDynamicLinks.xcframework/ios-arm64/*.framework ios/third_party/mises/Device/Frameworks
+
+
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/FirebaseCore.xcframework/ios-arm64_x86_64-simulator/*.framework ios/third_party/mises/Sim/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/FirebaseCore.xcframework/ios-arm64/*.framework ios/third_party/mises/Distribution/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/FirebaseCore.xcframework/ios-arm64/*.framework ios/third_party/mises/Device/Frameworks
+
+
+
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/GoogleUtilities.xcframework/ios-arm64_x86_64-simulator/*.framework ios/third_party/mises/Sim/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/GoogleUtilities.xcframework/ios-arm64/*.framework ios/third_party/mises/Distribution/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/GoogleUtilities.xcframework/ios-arm64/*.framework ios/third_party/mises/Device/Frameworks
+
+
+
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/FirebaseCoreInternal.xcframework/ios-arm64_x86_64-simulator/*.framework ios/third_party/mises/Sim/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/FirebaseCoreInternal.xcframework/ios-arm64/*.framework ios/third_party/mises/Distribution/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/FirebaseCoreInternal.xcframework/ios-arm64/*.framework ios/third_party/mises/Device/Frameworks
+
+
+
+
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/PromisesObjC.xcframework/ios-arm64_x86_64-simulator/*.framework ios/third_party/mises/Sim/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/PromisesObjC.xcframework/ios-arm64/*.framework ios/third_party/mises/Distribution/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/PromisesObjC.xcframework/ios-arm64/*.framework ios/third_party/mises/Device/Frameworks

@@ -27,6 +27,7 @@
 #include "ios/public/provider/chrome/browser/chrome_browser_provider.h"
 #include "ios/public/provider/chrome/browser/signin/chrome_identity_service.h"
 #import "ios/web/common/uikit_ui_util.h"
+#import "ios/third_party/mises/mises_utils.h"
 
 #if !defined(__has_feature) || !__has_feature(objc_arc)
 #error "This file requires ARC support."
@@ -123,6 +124,8 @@ const int kMainIntentCheckDelay = 1;
          selector:@selector(firstSceneWillEnterForeground:)
              name:UIApplicationWillEnterForegroundNotification
            object:nil];
+  
+  [Mises didFinishLaunching];
 
   return requiresHandling;
 }
@@ -281,6 +284,13 @@ const int kMainIntentCheckDelay = 1;
   return base::mac::ObjCCast<MainApplicationDelegate>(
              [[UIApplication sharedApplication] delegate])
       .mainController;
+}
+
+
+- (BOOL)application:(UIApplication *)app
+            openURL:(NSURL *)url
+            options:(NSDictionary<NSString *, id> *)options {
+    return [Mises handleOpenUrl:url];
 }
 
 @end

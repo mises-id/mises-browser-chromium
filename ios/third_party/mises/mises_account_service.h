@@ -24,6 +24,8 @@
 - (NSString*) misesAvatar;
 
 
+- (NSDictionary*) referrer;
+- (void) setReferrer:(NSDictionary*) ref;
 
 - (void) loadFrom:(NSDictionary *) json save:(BOOL)save;
 

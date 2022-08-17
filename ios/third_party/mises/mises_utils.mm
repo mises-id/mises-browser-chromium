@@ -22,6 +22,9 @@
 #import <React/RCTRootView.h>
 #import <React/RCTPushNotificationManager.h>
 
+#import <FirebaseCore/FirebaseCore.h>
+#import <FirebaseDynamicLinks/FirebaseDynamicLinks.h>
+
 #import <React/RCTBridgeModule.h>
 
 #import "ios/chrome/browser/ui/commands/browser_commands.h"
@@ -254,9 +257,56 @@ enum MetamaskUIPendingStatus {
   return [MisesAccountService wrapper];
 }
 
+
++ (void) didFinishLaunching {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        [FIRApp configure];
+    });
+}
++ (BOOL) handleUniversalLink:(NSURL*)webpageURL {
+   BOOL handled = [[FIRDynamicLinks dynamicLinks] handleUniversalLink:webpageURL
+                                                          completion:^(FIRDynamicLink * _Nullable dynamicLink,
+                                                                       NSError * _Nullable error) {
+                                                            // ...
+                                                          }];
+  return handled;
+}
++ (BOOL) handleOpenUrl:(NSURL*)webpageURL {
+  FIRDynamicLink *dynamicLink = [[FIRDynamicLinks dynamicLinks] dynamicLinkFromCustomSchemeURL:webpageURL];
+
+  if (dynamicLink) {
+    if (dynamicLink.url) {
+      // Handle the deep link. For example, show the deep-linked content,
+      // apply a promotional offer to the user's account or show customized onboarding view.
+      // ...
+        NSDictionary *ref = dynamicLink.utmParametersDictionary;
+        if (ref) {
+          [[Mises account] setReferrer:ref];
+        }
+    } else {
+      // Dynamic link has empty deep link. This situation will happens if
+      // Firebase Dynamic Links iOS SDK tried to retrieve pending dynamic link,
+      // but pending link is not available for this device/App combination.
+      // At this point you may display default onboarding view.
+    }
+    return YES;
+  }
+  return NO;
+}
 @end
 
 
+
+
+
+static NSString* urlEscapeString(NSString *unencodedString)
+{
+    CFStringRef originalStringRef = (__bridge_retained CFStringRef)unencodedString;
+    NSString *s = (__bridge_transfer NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,originalStringRef, NULL, (CFStringRef)@"!*'\"();:@&=+$,/?%#[]% ", kCFStringEncodingUTF8);
+    CFRelease(originalStringRef);
+    return s;
+}
 
 
 @implementation RCTMisesModule
@@ -348,5 +398,31 @@ RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(openUrl:(NSString *)url)
 
     return nil;
 }
+
+
+RCT_EXPORT_BLOCKING_SYNCHRONOUS_METHOD(getInstallReferrer)
+{
+    
+    NSDictionary * dic =  [[Mises account] referrer];
+    if (!dic) {
+      return nil;
+    }
+    NSMutableString *query = [[NSMutableString alloc] init];
+
+    for (id key in dic) {
+        NSString *keyString = [key description];
+        NSString *valueString = [[dic objectForKey:key] description];
+
+        if ([query length] == 0) {
+            [query appendFormat:@"%@=%@", urlEscapeString(keyString), urlEscapeString(valueString)];
+        } else {
+            [query appendFormat:@"&%@=%@", urlEscapeString(keyString), urlEscapeString(valueString)];
+        }
+    }
+
+    return query;
+}
+
+
 
 @end

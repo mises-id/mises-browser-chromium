@@ -909,15 +909,9 @@ NSString* const kBrowserViewControllerSnackbarCategory =
     [self updateBroadcastState];
    
     if (IsSplitToolbarMode(self)) {
-
-      if (self.secondaryToolbarCoordinator) {
         [self.secondaryToolbarCoordinator activate];
-      }
     } else {
-         
-      if (self.primaryToolbarCoordinator) {
         [self.primaryToolbarCoordinator activate];
-      }
     }
   }
 }
@@ -2446,6 +2440,11 @@ NSString* const kBrowserViewControllerSnackbarCategory =
                   ![self canShowTabStrip] && IsSplitToolbarMode(self);
   }
   [self.primaryToolbarCoordinator.viewController.view setHidden:hideToolbar];
+  if (IsSplitToolbarMode(self)) {
+    [self.secondaryToolbarCoordinator activate];
+  } else {
+    [self.primaryToolbarCoordinator activate];
+  }
 }
 
 // Starts or stops broadcasting the toolbar UI and main content UI depending on
