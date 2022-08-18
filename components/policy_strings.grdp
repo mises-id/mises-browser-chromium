@@ -163,8 +163,8 @@
   <message name="IDS_POLICY_CLOUD_SOURCE_ONLY_ERROR" desc="The text displayed in the status column when a policy that should only be set in the cloud is set from another source.">
     Ignored because the policy is not set by a cloud source.
   </message>
-  <message name="IDS_POLICY_CLOUD_MANAGEMENT_ENROLLMENT_ONLY_ERROR" desc="The text displayed in the status column when a policy that is effective only when the machine is enrolled with the Chrome Browser Cloud Management.">
-    Ignored because the machine is not enrolled with Chrome Browser Cloud Management.
+  <message name="IDS_POLICY_CLOUD_MANAGEMENT_ENROLLMENT_ONLY_ERROR" desc="The text displayed in the status column when a policy that is effective only when the machine is enrolled with the Mises Browser Cloud Management.">
+    Ignored because the machine is not enrolled with Mises Browser Cloud Management.
   </message>
   <message name="IDS_POLICY_DEFAULT_SEARCH_DISABLED" desc="The text displayed in the status column when a policy value has been ignored because default search has not been enabled.">
     Ignored because default search is not enabled by policy.
@@ -217,8 +217,8 @@
   <message name="IDS_POLICY_INVALID_UPDATE_URL_ERROR" desc="The text displayed in the status column when the update URL for given extension is invalid.">
     Invalid update URL for extension with ID "<ph name="EXTENSION_ID">$1<ex>abcdefghijklmnopabcdefghijklmnop</ex></ph>".
   </message>
-  <message name="IDS_POLICY_OFF_CWS_URL_ERROR" desc="The text displayed in the status column when the update URL points to a location other than the Chrome Webstore and the machine is not enterprise managed.">
-    This computer is not detected as enterprise managed so policy can only automatically install extensions hosted on the Chrome Webstore. The Chrome Webstore update URL is "<ph name="CWS_UPDATE_URL">$1<ex>https://clients2.google.com/service/update2/crx</ex></ph>".
+  <message name="IDS_POLICY_OFF_CWS_URL_ERROR" desc="The text displayed in the status column when the update URL points to a location other than the Mises Webstore and the machine is not enterprise managed.">
+    This computer is not detected as enterprise managed so policy can only automatically install extensions hosted on the Mises Webstore. The Mises Webstore update URL is "<ph name="CWS_UPDATE_URL">$1<ex>https://clients2.google.com/service/update2/crx</ex></ph>".
   </message>
   <message name="IDS_POLICY_HOMEPAGE_LOCATION_ERROR" desc="The text displayed in the status column when the homepage URL given by the HomepageLocation policy is invalid.">
     Invalid URL. Must be a URL with a standard scheme, e.g http://example.com or https://example.com.
@@ -482,7 +482,7 @@ Additional details:
   <message name="IDS_POLICY_LEVEL_MANDATORY" desc="Text displayed in the Level column when a policy is mandatory.">
     Mandatory
   </message>
-  <message name="IDS_POLICY_SOURCE_ENTERPRISE_DEFAULT" desc="Indicates that a policy is set by default in an enterprise environment and can be overridden (for Chrome OS only).">
+  <message name="IDS_POLICY_SOURCE_ENTERPRISE_DEFAULT" desc="Indicates that a policy is set by default in an enterprise environment and can be overridden (for Mises OS only).">
     Enterprise default
   </message>
   <message name="IDS_POLICY_SOURCE_DEFAULT" desc="Indicates that a policy is set by default and can be overridden.">
@@ -509,7 +509,7 @@ Additional details:
   <message name="IDS_POLICY_SOURCE_PLATFORM" desc="Indicates that the policy is obtained from the local OS.">
     Platform
   </message>
-  <message name="IDS_POLICY_SOURCE_DEVICE_LOCAL_ACCOUNT_OVERRIDE" desc="Indicates that the policy is set programmatically because of an active device-local account session: managed session or Kiosk app (both for Chrome OS only). It could have overridden other sources that set this policy.">
+  <message name="IDS_POLICY_SOURCE_DEVICE_LOCAL_ACCOUNT_OVERRIDE" desc="Indicates that the policy is set programmatically because of an active device-local account session: managed session or Kiosk app (both for Mises OS only). It could have overridden other sources that set this policy.">
     Device local account override
   </message>
   <message name="IDS_POLICY_RISK_TAG_FULL_ADMIN_ACCESS" desc="Title of a group/tag whose policies potentially allow the administrator to access all of a user's data.">
@@ -575,8 +575,8 @@ Additional details:
   <message name="IDS_POLICY_IGNORED_MANDATORY_REPORTING_POLICY" desc="Text explaining that the policy MetricsReportingEnabled can not be forced to enabled anymore">
     This policy cannot be set to "True" and be mandatory, therefore it was changed to recommended.
   </message>
-  <message name="IDS_POLICY_IGNORED_CHROME_PROFILE" desc="Text explaining that the policy cannot be set at the Chrome profile level and is therefore ignored.">
-    This policy cannot be set at the Chrome profile level and will be ignored.
+  <message name="IDS_POLICY_IGNORED_CHROME_PROFILE" desc="Text explaining that the policy cannot be set at the Mises profile level and is therefore ignored.">
+    This policy cannot be set at the Mises profile level and will be ignored.
   </message>
   <message name="IDS_POLICY_PRECEDENCE_PLATFORM_MACHINE" desc="Text describing the platform machine precedence value.">
     Platform machine

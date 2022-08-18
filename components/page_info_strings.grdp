@@ -28,7 +28,7 @@
 
   <!-- Internal page summary strings -->
   <!-- Note: IDS_PAGE_INFO_INTERNAL_PAGE would be here, but it is in components_{chromium,google_chrome}_strings.grd because it uses the browser name. -->
-  <message name="IDS_PAGE_INFO_EXTENSION_PAGE" desc="Message to display in the page info bubble when the page you are on is a chrome-extension:// page. This refers to Chrome extensions.">
+  <message name="IDS_PAGE_INFO_EXTENSION_PAGE" desc="Message to display in the page info bubble when the page you are on is a chrome-extension:// page. This refers to Mises extensions.">
     You're viewing an extension page
   </message>
   <message name="IDS_PAGE_INFO_VIEW_SOURCE_PAGE" desc="Message to display in the page info bubble when you are viewing page sources by using |View page source| option from the right click menu.">
@@ -38,10 +38,10 @@
     You're viewing a developer tools page
   </message>
   <message name="IDS_PAGE_INFO_READER_MODE_PAGE_SECURE" desc="Message to display in the page info bubble when the page you are viewing is the reader mode version of an article which was retrieved over a secure connection.">
-    Chrome simplified this page to make it easier to read. Chrome retrieved the original page over a secure connection.
+    Mises simplified this page to make it easier to read. Mises retrieved the original page over a secure connection.
   </message>
   <message name="IDS_PAGE_INFO_READER_MODE_PAGE" desc="Message to display in the page info bubble when the page you are viewing is the reader mode version of an article which was retrieved over an insecure connection.">
-    Chrome simplified this page to make it easier to read. Chrome retrieved the original page over an insecure connection.
+    Mises simplified this page to make it easier to read. Mises retrieved the original page over an insecure connection.
   </message>
 
   <!-- Safety Tip summary strings -->
@@ -97,7 +97,7 @@
     Your information (for example, passwords or credit card numbers) is private when it is sent to this site.
   </message>
   <message name="IDS_PAGE_INFO_SECURE_DETAILS_V2" desc="A short paragraph explaining a secure site to the user.">
-    The site's connection is secure unless Chrome tells you otherwise.
+    The site's connection is secure unless Mises tells you otherwise.
   </message>
   <message name="IDS_PAGE_INFO_ADMIN_PROVIDED_CERT_DETAILS" desc="A short paragraph explaining a site using an administrator-provided certificate to the user.">
     You have accessed content using an administrator-provided certificate. Data you provide to <ph name="DOMAIN">$1<ex>www.google.com</ex></ph> can be intercepted by your administrator.
@@ -134,13 +134,13 @@
     Check your passwords
   </message>
   <if expr="_google_chrome">
-    <message name="IDS_PAGE_INFO_CHANGE_PASSWORD_DETAILS_SAVED" desc="A short paragraph explaining to a Chrome user that they have reused their saved password on the current website.">
-      You just entered your password on a deceptive site. To secure your accounts, Chrome recommends checking your saved passwords.
+    <message name="IDS_PAGE_INFO_CHANGE_PASSWORD_DETAILS_SAVED" desc="A short paragraph explaining to a Mises user that they have reused their saved password on the current website.">
+      You just entered your password on a deceptive site. To secure your accounts, Mises recommends checking your saved passwords.
     </message>
   </if>
   <if expr="not _google_chrome">
-    <message name="IDS_PAGE_INFO_CHANGE_PASSWORD_DETAILS_SAVED" desc="A short paragraph explaining to a Chromium user that they have reused their saved password on the current website.">
-      You just entered your password on a deceptive site. To secure your accounts, Chromium recommends checking your saved passwords.
+    <message name="IDS_PAGE_INFO_CHANGE_PASSWORD_DETAILS_SAVED" desc="A short paragraph explaining to a Mises user that they have reused their saved password on the current website.">
+      You just entered your password on a deceptive site. To secure your accounts, Mises recommends checking your saved passwords.
     </message>
   </if>
   <if expr="use_titlecase">
@@ -267,7 +267,7 @@
     <if expr="is_android">
     <!-- Only used in the dialog shown after tapping "Details" in page info -->
     <message name="IDS_PAGE_INFO_SECURE_IDENTITY_VERIFIED" desc="The text of the identity section when the page is secure and uses a valid certificate">
-      <ph name="BROWSER">$1<ex>Chromium</ex></ph> verified that <ph name="ISSUER">$2<ex>VeriSign</ex></ph> issued this website's certificate.
+      <ph name="BROWSER">$1<ex>Mises</ex></ph> verified that <ph name="ISSUER">$2<ex>VeriSign</ex></ph> issued this website's certificate.
     </message>
     </if>
 
@@ -490,7 +490,7 @@
     </message>
 
     <!-- Site settings link -->
-    <message name="IDS_PAGE_INFO_SITE_SETTINGS_LINK" desc="This is the text of the link pointing to Chrome's Site Settings page. This appears at the bottom of the Permissions pane of the Page Information Window.">
+    <message name="IDS_PAGE_INFO_SITE_SETTINGS_LINK" desc="This is the text of the link pointing to Mises's Site Settings page. This appears at the bottom of the Permissions pane of the Page Information Window.">
       Site settings
     </message>
     <message name="IDS_PAGE_INFO_SITE_SETTINGS_TOOLTIP" desc="The text of the tooltip on IDS_PAGE_INFO_SITE_SETTINGS_LINK.">
@@ -522,7 +522,7 @@
     <message name="IDS_PAGE_INFO_PERMISSION_ASK_BY_EXTENSION" desc="The label used underneath a permission listed in the Page Info bubble if the permission was explicitly set to 'Ask' by one of the user's extensions.">
       Setting controlled by an extension
     </message>
-    <message name="IDS_PAGE_INFO_PERMISSION_AUTOMATICALLY_BLOCKED" desc="The label used underneath a permission listed in the Page Info bubble if the permission was blocked by Chrome on behalf of the user.">
+    <message name="IDS_PAGE_INFO_PERMISSION_AUTOMATICALLY_BLOCKED" desc="The label used underneath a permission listed in the Page Info bubble if the permission was blocked by Mises on behalf of the user.">
       Automatically blocked
     </message>
     <message name="IDS_PAGE_INFO_PERMISSION_ADS_SUBTITLE" desc="A subtitle shown under the ‘Ads’ setting indicating that a site has, in the past, shown intrusive or misleading ads. Shown when user clicks/taps the lock/'Danger' icon in the address bar. Used on both desktop and Android platforms" formatter_data="android_java">
@@ -548,36 +548,36 @@
     <!-- Password Protection -->
     <if expr="_google_chrome">
       <message name="IDS_PAGE_INFO_CHANGE_PASSWORD_DETAILS" desc="A short paragraph explaining to the user that they has reuse their google password on current website.">
-        You could lose access to your Google Account. Chrome recommends changing your password now. You'll be asked to sign in.
+        You could lose access to your Google Account. Mises recommends changing your password now. You'll be asked to sign in.
       </message>
-      <message name="IDS_PAGE_INFO_CHANGE_PASSWORD_DETAILS_SYNC" desc="A short paragraph explaining to a Chrome sync user that they have reused their Google password on the current website.">
-        Chrome can help you protect your Google Account and change your password.
+      <message name="IDS_PAGE_INFO_CHANGE_PASSWORD_DETAILS_SYNC" desc="A short paragraph explaining to a Mises sync user that they have reused their Google password on the current website.">
+        Mises can help you protect your Google Account and change your password.
       </message>
       <message name="IDS_PAGE_INFO_CHANGE_PASSWORD_DETAILS_SIGNED_IN_NON_SYNC" desc="A short paragraph explaining to a non-sync user that they have reused their Google password on the current website.">
-        You just entered your password on a deceptive site. Chrome can help. To change your password and notify Google that your account may be at risk, click Protect Account.
+        You just entered your password on a deceptive site. Mises can help. To change your password and notify Google that your account may be at risk, click Protect Account.
       </message>
       <message name="IDS_PAGE_INFO_CHANGE_PASSWORD_DETAILS_ENTERPRISE" desc="A short paragraph explaining to the user that they have reused their password on the current website.">
-        You could lose access to your organization's account or experience identity theft. Chrome recommends changing your password now.
+        You could lose access to your organization's account or experience identity theft. Mises recommends changing your password now.
       </message>
       <message name="IDS_PAGE_INFO_CHANGE_PASSWORD_DETAILS_ENTERPRISE_WITH_ORG_NAME" desc="A short paragraph explaining to the user that they have reused their password on the current website.">
-        You could lose access to your <ph name="ORG_NAME">$1<ex>Google</ex></ph> account or experience identity theft. Chrome recommends changing your password now.
+        You could lose access to your <ph name="ORG_NAME">$1<ex>Google</ex></ph> account or experience identity theft. Mises recommends changing your password now.
       </message>
     </if>
     <if expr="not _google_chrome">
       <message name="IDS_PAGE_INFO_CHANGE_PASSWORD_DETAILS" desc="A short paragraph explaining to the user that they has reuse their google password on current website.">
-        You could lose access to your Google Account. Chromium recommends changing your password now. You'll be asked to sign in.
+        You could lose access to your Google Account. Mises recommends changing your password now. You'll be asked to sign in.
       </message>
-      <message name="IDS_PAGE_INFO_CHANGE_PASSWORD_DETAILS_SYNC" desc="A short paragraph explaining to a Chrome sync user that they have reused their Google password on the current website.">
-        Chromium can help you protect your Google Account and change your password.
+      <message name="IDS_PAGE_INFO_CHANGE_PASSWORD_DETAILS_SYNC" desc="A short paragraph explaining to a Mises sync user that they have reused their Google password on the current website.">
+        Mises can help you protect your Google Account and change your password.
       </message>
       <message name="IDS_PAGE_INFO_CHANGE_PASSWORD_DETAILS_SIGNED_IN_NON_SYNC" desc="A short paragraph explaining to a non-sync user that they have reused their Google password on the current website.">
-        You just entered your password on a deceptive site. Chromium can help. To change your password and notify Google that your account may be at risk, click Protect Account.
+        You just entered your password on a deceptive site. Mises can help. To change your password and notify Google that your account may be at risk, click Protect Account.
       </message>
       <message name="IDS_PAGE_INFO_CHANGE_PASSWORD_DETAILS_ENTERPRISE" desc="A short paragraph explaining to the user that they have reused their password on the current website.">
-        You could lose access to your organization's account or experience identity theft. Chromium recommends changing your password now.
+        You could lose access to your organization's account or experience identity theft. Mises recommends changing your password now.
       </message>
       <message name="IDS_PAGE_INFO_CHANGE_PASSWORD_DETAILS_ENTERPRISE_WITH_ORG_NAME" desc="A short paragraph explaining to the user that they have reused their password on the current website.">
-        You could lose access to your <ph name="ORG_NAME">$1<ex>Google</ex></ph> account or experience identity theft. Chromium recommends changing your password now.
+        You could lose access to your <ph name="ORG_NAME">$1<ex>Google</ex></ph> account or experience identity theft. Mises recommends changing your password now.
       </message>
     </if>
 

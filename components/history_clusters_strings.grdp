@@ -12,10 +12,10 @@
   <message name="IDS_HISTORY_CLUSTERS_HEADER_TEXT" desc="Header text shown when the history items related to a given user search term are shown.">
     Based on activity related to "<ph name="SEARCH_TERM"><ex>dual kitchen range</ex>$1</ph>"
   </message>
-  <message name="IDS_HISTORY_CLUSTERS_JOURNEYS_TAB_LABEL" desc="A label for the section in Chrome History (chrome://history) where Journeys are collected and shown to the user. See glossary entry for meaning of 'Journeys'.">
+  <message name="IDS_HISTORY_CLUSTERS_JOURNEYS_TAB_LABEL" desc="A label for the section in Mises History (chrome://history) where Journeys are collected and shown to the user. See glossary entry for meaning of 'Journeys'.">
     Journeys
   </message>
-  <message name="IDS_HISTORY_CLUSTERS_LIST_TAB_LABEL" desc="A label for the section in Chrome History (chrome://history) where a list of history items are shown to the user.">
+  <message name="IDS_HISTORY_CLUSTERS_LIST_TAB_LABEL" desc="A label for the section in Mises History (chrome://history) where a list of history items are shown to the user.">
     List
   </message>
   <message name="IDS_HISTORY_CLUSTERS_LOAD_MORE_BUTTON_LABEL" desc="A label for the button that loads more history clusters at the bottom of the history clusters list.">

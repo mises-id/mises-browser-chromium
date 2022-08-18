@@ -87,7 +87,7 @@
   <message name="IDS_WEBSITE_SETTINGS_CATEGORY_ALLOWED_RECOMMENDED" desc="Summary text explaining that a permission is allowed, which is the recommended setting.">
     Allowed (recommended)
   </message>
-  <message name="IDS_WEBSITE_SETTINGS_CATEGORY_ASK" desc="Summary text explaining that Chrome will ask the user before allowing a site to use a certain permission, e.g. JavaScript: ask first.">
+  <message name="IDS_WEBSITE_SETTINGS_CATEGORY_ASK" desc="Summary text explaining that Mises will ask the user before allowing a site to use a certain permission, e.g. JavaScript: ask first.">
     Ask first
   </message>
   <message name="IDS_WEBSITE_SETTINGS_CATEGORY_BLOCKED" desc="Summary text explaining that a permission is blocked, e.g. JavaScript: blocked.">
@@ -129,10 +129,10 @@
     Managed by app
   </message>
   <message name="IDS_ANDROID_PERMISSION_OFF" desc="Text at the top of the Website list, explaining to the user that a permission, such as the location service, is turned off. Contains a link to the settings menu to change it.">
-    Turn on permission for <ph name="APP_NAME">%1$s<ex>Chrome</ex></ph> in <ph name="BEGIN_LINK">&lt;link&gt;</ph>Android Settings<ph name="END_LINK">&lt;/link&gt;</ph>.
+    Turn on permission for <ph name="APP_NAME">%1$s<ex>Mises</ex></ph> in <ph name="BEGIN_LINK">&lt;link&gt;</ph>Android Settings<ph name="END_LINK">&lt;/link&gt;</ph>.
   </message>
   <message name="IDS_ANDROID_PERMISSION_OFF_PLURAL" desc="Text at the top of the Website list, explaining to the user that multiple permissions, such as the location service, are turned off. Contains a link to the settings menu to change it.">
-    Turn on permissions for <ph name="APP_NAME">%1$s<ex>Chrome</ex></ph> in <ph name="BEGIN_LINK">&lt;link&gt;</ph>Android Settings<ph name="END_LINK">&lt;/link&gt;</ph>.
+    Turn on permissions for <ph name="APP_NAME">%1$s<ex>Mises</ex></ph> in <ph name="BEGIN_LINK">&lt;link&gt;</ph>Android Settings<ph name="END_LINK">&lt;/link&gt;</ph>.
   </message>
   <message name="IDS_WEBSITE_SETTINGS_EMBEDDED_ON" desc="String used to indicate the embedder origin of a site">
     Embedded on <ph name="WEBSITE_URL">%1$s<ex>google.com</ex></ph>
@@ -152,13 +152,13 @@
   <message name="IDS_WEBSITE_SETTINGS_PERMISSIONS_DESCRIPTION" desc="The description explaining what the website site settings page is for">
     Control this site's access to your device
   </message>
-  <message name="IDS_WEBSITE_SETTINGS_PERMISSIONS_ALLOW" desc="Summary text explaining that Chrome will allow a website to access some permission, e.g. JavaScript: allow.">
+  <message name="IDS_WEBSITE_SETTINGS_PERMISSIONS_ALLOW" desc="Summary text explaining that Mises will allow a website to access some permission, e.g. JavaScript: allow.">
     Allow
   </message>
   <message name="IDS_WEBSITE_SETTINGS_PERMISSIONS_ALLOWED_DSE" desc="Status message explaining that the default search engine is allowed to access this permission. Displayed in Site Settings page. e.g. Location: Allowed for current search engine">
     Allowed for current search engine
   </message>
-  <message name="IDS_WEBSITE_SETTINGS_PERMISSIONS_BLOCK" desc="Summary text explaining that Chrome will block a website from accessing some permission, e.g. JavaScript: block.">
+  <message name="IDS_WEBSITE_SETTINGS_PERMISSIONS_BLOCK" desc="Summary text explaining that Mises will block a website from accessing some permission, e.g. JavaScript: block.">
     Block
   </message>
   <message name="IDS_WEBSITE_SETTINGS_PERMISSIONS_BLOCKED_DSE" desc="Status message explaining that the default search engine is blocked from accessing this permission. Displayed in Site Settings page. e.g. Location: Blocked for current search engine">
@@ -260,7 +260,7 @@
     Block sites from creating a 3D map of your surroundings or tracking camera position
   </message>
   <message name="IDS_ANDROID_AR_CAMERA_PERMISSION_OFF" desc="The message to show when the camera permission needs to be turned on in Android settings in order to use Augmented Reality.">
-    To let <ph name="APP_NAME">%1$s<ex>Chrome</ex></ph> use AR, also turn on camera in <ph name="BEGIN_LINK">&lt;link&gt;</ph>Android Settings<ph name="END_LINK">&lt;/link&gt;</ph>.
+    To let <ph name="APP_NAME">%1$s<ex>Mises</ex></ph> use AR, also turn on camera in <ph name="BEGIN_LINK">&lt;link&gt;</ph>Android Settings<ph name="END_LINK">&lt;/link&gt;</ph>.
   </message>
 
   <!-- Automatic downloads -->
@@ -298,8 +298,8 @@
   <message name="IDS_WEBSITE_SETTINGS_CATEGORY_CAMERA_ASK" desc="Summary text explaining that sites need to ask for permission before accessing the camera and that it is the recommended setting.">
     Ask first before allowing sites to use your camera (recommended)
   </message>
-  <message name="IDS_ANDROID_CAMERA_PERMISSION_OFF" desc="The message to show when the camera permission needs to be turned on not just in Chrome, but also in Android settings.">
-    To let <ph name="APP_NAME">%1$s<ex>Chrome</ex></ph> access your camera, also turn on camera in <ph name="BEGIN_LINK">&lt;link&gt;</ph>Android Settings<ph name="END_LINK">&lt;/link&gt;</ph>.
+  <message name="IDS_ANDROID_CAMERA_PERMISSION_OFF" desc="The message to show when the camera permission needs to be turned on not just in Mises, but also in Android settings.">
+    To let <ph name="APP_NAME">%1$s<ex>Mises</ex></ph> access your camera, also turn on camera in <ph name="BEGIN_LINK">&lt;link&gt;</ph>Android Settings<ph name="END_LINK">&lt;/link&gt;</ph>.
   </message>
 
   <!-- Clipboard -->
@@ -389,14 +389,14 @@
   <message name="IDS_WEBSITE_SETTINGS_CATEGORY_LOCATION_ASK" desc="Summary text explaining that sites need to ask for permission before knowing location and that it is the recommended setting.">
     Ask before allowing sites to know your location (recommended)
   </message>
-  <message name="IDS_ANDROID_LOCATION_ALSO_OFF_GLOBALLY" desc="The additional message to show when Location has not just been turned off for Chrome but also globally in Android. Contains a link to the settings menu to enable location.">
+  <message name="IDS_ANDROID_LOCATION_ALSO_OFF_GLOBALLY" desc="The additional message to show when Location has not just been turned off for Mises but also globally in Android. Contains a link to the settings menu to enable location.">
     Location access is also off for this device. Turn it on in <ph name="BEGIN_LINK">&lt;link&gt;</ph>Android Settings<ph name="END_LINK">&lt;/link&gt;</ph>.
   </message>
   <message name="IDS_ANDROID_LOCATION_OFF_GLOBALLY" desc="The message to show when Location has been turned off globally in Android. Contains a link to the settings menu to enable location.">
     Location access is off for this device. Turn it on in <ph name="BEGIN_LINK">&lt;link&gt;</ph>Android Settings<ph name="END_LINK">&lt;/link&gt;</ph>.
   </message>
-  <message name="IDS_ANDROID_LOCATION_PERMISSION_OFF" desc="The message to show when the location permission needs to be turned on not just in Chrome, but also in Android settings.">
-    To let <ph name="APP_NAME">%1$s<ex>Chrome</ex></ph> access your location, also turn on location in <ph name="BEGIN_LINK">&lt;link&gt;</ph>Android Settings<ph name="END_LINK">&lt;/link&gt;</ph>.
+  <message name="IDS_ANDROID_LOCATION_PERMISSION_OFF" desc="The message to show when the location permission needs to be turned on not just in Mises, but also in Android settings.">
+    To let <ph name="APP_NAME">%1$s<ex>Mises</ex></ph> access your location, also turn on location in <ph name="BEGIN_LINK">&lt;link&gt;</ph>Android Settings<ph name="END_LINK">&lt;/link&gt;</ph>.
   </message>
   <message name="IDS_WEBSITE_LOCATION_SETTINGS" is_accessibility_with_no_ui="true" desc="Accessibility string for the location settings">
     Open Location Settings
@@ -407,8 +407,8 @@
   <message name="IDS_WEBSITE_SETTINGS_CATEGORY_MIC_ASK" desc="Summary text explaining that sites need to ask for permission before accessing the microphone and that it is the recommended setting.">
     Ask first before allowing sites to use your microphone (recommended)
   </message>
-  <message name="IDS_ANDROID_MICROPHONE_PERMISSION_OFF" desc="The message to show when the microphone permission needs to be turned on not just in Chrome, but also in Android settings.">
-    To let <ph name="APP_NAME">%1$s<ex>Chrome</ex></ph> access your microphone, also turn on microphone in <ph name="BEGIN_LINK">&lt;link&gt;</ph>Android Settings<ph name="END_LINK">&lt;/link&gt;</ph>.
+  <message name="IDS_ANDROID_MICROPHONE_PERMISSION_OFF" desc="The message to show when the microphone permission needs to be turned on not just in Mises, but also in Android settings.">
+    To let <ph name="APP_NAME">%1$s<ex>Mises</ex></ph> access your microphone, also turn on microphone in <ph name="BEGIN_LINK">&lt;link&gt;</ph>Android Settings<ph name="END_LINK">&lt;/link&gt;</ph>.
   </message>
 
   <!-- Motion/Light sensors -->
@@ -455,8 +455,8 @@
   <message name="IDS_WEBSITE_SETTING_MANAGED_BY_APP" desc="String used to indicate that a site setting is managed by an installed app">
     Managed by <ph name="APP_NAME">%1$s<ex>App Name</ex></ph>
   </message>
-  <message name="IDS_ANDROID_NOTIFICATIONS_PERMISSION_OFF" desc="The message to show when the notifications permission needs to be turned on not just in Chrome, but also in Android settings.">
-    To let <ph name="APP_NAME">%1$s<ex>Chrome</ex></ph> send you notifications, also turn on notifications in <ph name="BEGIN_LINK">&lt;link&gt;</ph>Android Settings<ph name="END_LINK">&lt;/link&gt;</ph>.
+  <message name="IDS_ANDROID_NOTIFICATIONS_PERMISSION_OFF" desc="The message to show when the notifications permission needs to be turned on not just in Mises, but also in Android settings.">
+    To let <ph name="APP_NAME">%1$s<ex>Mises</ex></ph> send you notifications, also turn on notifications in <ph name="BEGIN_LINK">&lt;link&gt;</ph>Android Settings<ph name="END_LINK">&lt;/link&gt;</ph>.
   </message>
   <message name="IDS_WEBSITE_NOTIFICATION_SETTINGS" desc="Accessibility string for the notification settings">
     Open notification settings
@@ -547,10 +547,10 @@
   </message>
 
   <!-- Auto-darken web content -->
-  <message name="IDS_WEBSITE_SETTINGS_CATEGORY_AUTO_DARK_ALLOWED" desc="Summary text explaining that sites are alllowed to be darkend with Chrome branded darkening algorithm.">
-    Apply dark theme to sites when Chrome uses dark theme, when possible
+  <message name="IDS_WEBSITE_SETTINGS_CATEGORY_AUTO_DARK_ALLOWED" desc="Summary text explaining that sites are alllowed to be darkend with Mises branded darkening algorithm.">
+    Apply dark theme to sites when Mises uses dark theme, when possible
   </message>
-  <message name="IDS_WEBSITE_SETTINGS_CATEGORY_AUTO_DARK_BLOCKED" desc="Summary text explaining that sites are blocked to be darkend with Chrome branded darkening algorithm.">
+  <message name="IDS_WEBSITE_SETTINGS_CATEGORY_AUTO_DARK_BLOCKED" desc="Summary text explaining that sites are blocked to be darkend with Mises branded darkening algorithm.">
     Don’t apply dark theme to sites
   </message>
   <message name="IDS_WEBSITE_SETTINGS_ADD_SITE_DESCRIPTION_AUTO_DARK_BLOCK" desc="The description for the block auto darken for a specific website dialog.">

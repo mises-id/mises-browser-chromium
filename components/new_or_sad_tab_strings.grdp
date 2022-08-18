@@ -30,44 +30,44 @@
         </message>
       </if>
       <if expr="is_win">
-        <message name="IDS_SAD_TAB_OOM_TITLE" desc="The title of the web page displayed if content in Chrome browser does not load due to the browser being out of memory, and a reload failed to fix the issue.">
+        <message name="IDS_SAD_TAB_OOM_TITLE" desc="The title of the web page displayed if content in Mises browser does not load due to the browser being out of memory, and a reload failed to fix the issue.">
           Not enough memory to open this page
         </message>
       </if>
-      <message name="IDS_SAD_TAB_RELOAD_TITLE" desc="The title of the web page displayed if content in Chrome browser does not load for an unknown reason, and a reload failed to fix the issue." formatter_data="android_java">
+      <message name="IDS_SAD_TAB_RELOAD_TITLE" desc="The title of the web page displayed if content in Mises browser does not load for an unknown reason, and a reload failed to fix the issue." formatter_data="android_java">
         Can't open this page
       </message>
-      <message name="IDS_SAD_TAB_OOM_MESSAGE_TABS" desc="The message displayed on the web page if content in Chrome browser does not load due to the browser being out of memory, a reload failed to fix the issue and other tabs are open.">
+      <message name="IDS_SAD_TAB_OOM_MESSAGE_TABS" desc="The message displayed on the web page if content in Mises browser does not load due to the browser being out of memory, a reload failed to fix the issue and other tabs are open.">
         Try closing other tabs or programs to free up memory.
       </message>
-      <message name="IDS_SAD_TAB_OOM_MESSAGE_NOTABS" desc="The message displayed on the web page if content in Chrome browser does not load due to the browser being out of memory, a reload failed to fix the issue and no other tabs are open.">
+      <message name="IDS_SAD_TAB_OOM_MESSAGE_NOTABS" desc="The message displayed on the web page if content in Mises browser does not load due to the browser being out of memory, a reload failed to fix the issue and no other tabs are open.">
         Try exiting other programs to free up memory.
       </message>
-      <message name="IDS_SAD_TAB_RELOAD_TRY" desc="The message displayed on the web page if content in Chrome browser does not load and a reload failed to fix the issue. Introduces a bulleted list of solutions/tips for the user to try." formatter_data="android_java">
+      <message name="IDS_SAD_TAB_RELOAD_TRY" desc="The message displayed on the web page if content in Mises browser does not load and a reload failed to fix the issue. Introduces a bulleted list of solutions/tips for the user to try." formatter_data="android_java">
         Try the following tips:
       </message>
       <if expr="is_macosx">
-        <message name="IDS_SAD_TAB_RELOAD_INCOGNITO" desc="One of the bullet points displayed on the web page if a reload failed to fix the issue, advising the user to open the web page in Chrome's Incognito mode.">
+        <message name="IDS_SAD_TAB_RELOAD_INCOGNITO" desc="One of the bullet points displayed on the web page if a reload failed to fix the issue, advising the user to open the web page in Mises's Incognito mode.">
           Open page in a new Incognito window (⇧⌘N)
         </message>
       </if>
       <if expr="is_win or is_linux or is_fuchsia or chromeos">
-        <message name="IDS_SAD_TAB_RELOAD_INCOGNITO" desc="One of the bullet points displayed on the web page if a reload failed to fix the issue, advising the user to open the web page in Chrome's Incognito mode.">
+        <message name="IDS_SAD_TAB_RELOAD_INCOGNITO" desc="One of the bullet points displayed on the web page if a reload failed to fix the issue, advising the user to open the web page in Mises's Incognito mode.">
           Open page in a new Incognito window (Ctrl-Shift-N)
         </message>
       </if>
       <if expr="is_android or is_ios">
-        <message name="IDS_SAD_TAB_RELOAD_INCOGNITO" desc="One of the bullet points displayed on the web page if a reload failed to fix the issue, advising the user to open the web page in Chrome's Incognito mode." formatter_data="android_java">
+        <message name="IDS_SAD_TAB_RELOAD_INCOGNITO" desc="One of the bullet points displayed on the web page if a reload failed to fix the issue, advising the user to open the web page in Mises's Incognito mode." formatter_data="android_java">
           Open page in a new Incognito tab
         </message>
       </if>
       <if expr="is_macosx or chromeos">
-        <message name="IDS_SAD_TAB_RELOAD_CLOSE_TABS" desc="One of the bullet points displayed on the web page if a reload failed to fix the issue, advising the user to close other Chrome tabs or apps running on their computer (Mac, Chrome OS).">
+        <message name="IDS_SAD_TAB_RELOAD_CLOSE_TABS" desc="One of the bullet points displayed on the web page if a reload failed to fix the issue, advising the user to close other Mises tabs or apps running on their computer (Mac, Mises OS).">
           Close other tabs or apps
         </message>
       </if>
       <if expr="is_linux and not chromeos">
-        <message name="IDS_SAD_TAB_RELOAD_CLOSE_TABS" desc="One of the bullet points displayed on the web page if a reload failed to fix the issue, advising the user to close other Chrome tabs or programs running on their computer.">
+        <message name="IDS_SAD_TAB_RELOAD_CLOSE_TABS" desc="One of the bullet points displayed on the web page if a reload failed to fix the issue, advising the user to close other Mises tabs or programs running on their computer.">
           Close other tabs or programs
         </message>
       </if>
@@ -82,13 +82,13 @@
         </message>
       </if>
       <if expr="_google_chrome">
-        <message name="IDS_SAD_TAB_RELOAD_RESTART_BROWSER" desc="One of the bullet points displayed on the web page if a reload failed to fix the issue, advising the user to restart Chrome." formatter_data="android_java">
-          Restart Chrome
+        <message name="IDS_SAD_TAB_RELOAD_RESTART_BROWSER" desc="One of the bullet points displayed on the web page if a reload failed to fix the issue, advising the user to restart Mises." formatter_data="android_java">
+          Restart Mises
         </message>
       </if>
       <if expr="not _google_chrome">
-        <message name="IDS_SAD_TAB_RELOAD_RESTART_BROWSER" desc="One of the bullet points displayed on the web page if a reload failed to fix the issue, advising the user to restart Chromium." formatter_data="android_java">
-          Restart Chromium
+        <message name="IDS_SAD_TAB_RELOAD_RESTART_BROWSER" desc="One of the bullet points displayed on the web page if a reload failed to fix the issue, advising the user to restart Mises." formatter_data="android_java">
+          Restart Mises
         </message>
       </if>
       <if expr="is_win or is_linux or is_macosx or is_fuchsia or chromeos">
@@ -157,7 +157,7 @@
         Now you can browse privately, and other people who use this device won’t see your activity. However, downloads, bookmarks and reading list items will be saved.
       </message>
       <message name="IDS_NEW_TAB_OTR_NOT_SAVED" desc="Bullet points listing data that are not saved in the Incognito mode. 'Browsing history' means a history of visited websites. 'Cookies and site data' refers to data saved by websites on the user's device (e.g. sign-in state, preferences, etc.). 'Information entered in forms' refers to names, addresses, passwords etc. that users enter into forms on the web." formatter_data="android_java">
-        Chrome <ph name="BEGIN_EMPHASIS">&lt;em&gt;</ph>won’t save<ph name="END_EMPHASIS">&lt;/em&gt;</ph> the following information:
+        Mises <ph name="BEGIN_EMPHASIS">&lt;em&gt;</ph>won’t save<ph name="END_EMPHASIS">&lt;/em&gt;</ph> the following information:
         <ph name="BEGIN_LIST">&lt;ul&gt;</ph>
           <ph name="LIST_ITEM">&lt;li&gt;</ph>Your browsing history
           <ph name="LIST_ITEM">&lt;li&gt;</ph>Cookies and site data
@@ -193,7 +193,7 @@
         What Incognito does
       </message>
       <message name="IDS_REVAMPED_INCOGNITO_NTP_DOES_DESCRIPTION" desc="Paragraph that informs users about Incognito's functionalities: browsing activity, search history and information entered in forms are not saved locally, they are cleared after closing all Incognito tabs. 'Browsing activity' refers to the browsing history (list of visited websites) and the cookies (data saved by websites on the user's device such as: sign-in state, preferences, etc.). 'Search history from this device' means that searches will not be saved locally or used as search suggestions in the future. 'Information entered in forms' refers to names, addresses, passwords etc. that users enter into forms on the web." formatter_data="android_java">
-        After closing all Incognito tabs, Chrome clears:
+        After closing all Incognito tabs, Mises clears:
         <ph name="BEGIN_LIST">&lt;ul&gt;</ph>
           <ph name="LIST_ITEM">&lt;li&gt;</ph>Your browsing activity from this device<ph name="END_LIST_ITEM">&lt;/li&gt;</ph>
           <ph name="LIST_ITEM">&lt;li&gt;</ph>Your search history from this device<ph name="END_LIST_ITEM">&lt;/li&gt;</ph>

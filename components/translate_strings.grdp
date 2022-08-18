@@ -63,7 +63,7 @@
       <message name="IDS_TRANSLATE_NEVER_TRANSLATE_SITE" desc="Text to display on the never translate site (like www.google.com) button. [CHAR_LIMIT=64]" formatter_data="android_java">
         Never translate this site
       </message>
-      <message name="IDS_TRANSLATE_DONT_OFFER_SITE" desc="Text to display on overflow option stopping Chrome from offering translate for a site. (like www.google.com)" formatter_data="android_java">
+      <message name="IDS_TRANSLATE_DONT_OFFER_SITE" desc="Text to display on overflow option stopping Mises from offering translate for a site. (like www.google.com)" formatter_data="android_java">
         Don‘t offer to translate this site
       </message>
 

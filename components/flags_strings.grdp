@@ -49,24 +49,24 @@
     <message name="IDS_FLAGS_UI_RELAUNCH" translateable="false" desc="Label for button that restarts chrome os.">
       Restart
     </message>
-    <message name="IDS_FLAGS_UI_OS_FLAGS_TEXT1" translateable="false" desc="Begin label text which directs a user to a second dialog in ChromeOS showing OS specific flags - enclosing url link.">
+    <message name="IDS_FLAGS_UI_OS_FLAGS_TEXT1" translateable="false" desc="Begin label text which directs a user to a second dialog in MisesOS showing OS specific flags - enclosing url link.">
       Looking for browser flags? Visit
     </message>
-    <message name="IDS_FLAGS_UI_OS_FLAGS_TEXT2" translateable="false" desc="End label text which directs a user to a second dialog in ChromeOS showing OS specific flags - enclosing url link.">
+    <message name="IDS_FLAGS_UI_OS_FLAGS_TEXT2" translateable="false" desc="End label text which directs a user to a second dialog in MisesOS showing OS specific flags - enclosing url link.">
       .
     </message>
-    <message name="IDS_FLAGS_UI_OS_FLAGS_LINK" translateable="false" desc="Label for button that will call a new window which allows to change ChromeOS system flags.">
+    <message name="IDS_FLAGS_UI_OS_FLAGS_LINK" translateable="false" desc="Label for button that will call a new window which allows to change MisesOS system flags.">
       chrome://flags
     </message>
   </if>
   <if expr="lacros">
-    <message name="IDS_FLAGS_UI_OS_FLAGS_TEXT1" translateable="false" desc="Begin label text which directs a user to a second dialog in ChromeOS showing OS specific flags - enclosing url link.">
-      Looking for the ChromeOS flags? Visit
+    <message name="IDS_FLAGS_UI_OS_FLAGS_TEXT1" translateable="false" desc="Begin label text which directs a user to a second dialog in MisesOS showing OS specific flags - enclosing url link.">
+      Looking for the MisesOS flags? Visit
     </message>
-    <message name="IDS_FLAGS_UI_OS_FLAGS_TEXT2" translateable="false" desc="End label text which directs a user to a second dialog in ChromeOS showing OS specific flags - enclosing url link.">
+    <message name="IDS_FLAGS_UI_OS_FLAGS_TEXT2" translateable="false" desc="End label text which directs a user to a second dialog in MisesOS showing OS specific flags - enclosing url link.">
       .
     </message>
-    <message name="IDS_FLAGS_UI_OS_FLAGS_LINK" translateable="false" desc="Label for button that will call a new window which allows to change ChromeOS system flags.">
+    <message name="IDS_FLAGS_UI_OS_FLAGS_LINK" translateable="false" desc="Label for button that will call a new window which allows to change MisesOS system flags.">
       os://flags
     </message>
   </if>
@@ -123,24 +123,24 @@
     <message name="IDS_DEPRECATED_FEATURES_RELAUNCH" desc="Label for button that restarts chrome os.">
       Restart
     </message>
-    <message name="IDS_DEPRECATED_FLAGS_UI_OS_FLAGS_TEXT1" desc="Begin label text which directs a user to a second dialog in ChromeOS showing OS specific flags - enclosing url link.">
+    <message name="IDS_DEPRECATED_FLAGS_UI_OS_FLAGS_TEXT1" desc="Begin label text which directs a user to a second dialog in MisesOS showing OS specific flags - enclosing url link.">
       Looking for browser flags? Visit
     </message>
-    <message name="IDS_DEPRECATED_FLAGS_UI_OS_FLAGS_TEXT2" desc="End label text which directs a user to a second dialog in ChromeOS showing OS specific flags - enclosing url link.">
+    <message name="IDS_DEPRECATED_FLAGS_UI_OS_FLAGS_TEXT2" desc="End label text which directs a user to a second dialog in MisesOS showing OS specific flags - enclosing url link.">
       .
     </message>
-    <message name="IDS_DEPRECATED_FLAGS_UI_OS_FLAGS_LINK" desc="Label for button that will call a new window which allows to change ChromeOS system flags.">
+    <message name="IDS_DEPRECATED_FLAGS_UI_OS_FLAGS_LINK" desc="Label for button that will call a new window which allows to change MisesOS system flags.">
       chrome://flags
     </message>
   </if>
   <if expr="lacros">
-    <message name="IDS_DEPRECATED_FLAGS_UI_OS_FLAGS_TEXT1" desc="Begin label text which directs a user to a second dialog in ChromeOS showing OS specific flags - enclosing url link.">
-      Looking for the ChromeOS flags? Visit
+    <message name="IDS_DEPRECATED_FLAGS_UI_OS_FLAGS_TEXT1" desc="Begin label text which directs a user to a second dialog in MisesOS showing OS specific flags - enclosing url link.">
+      Looking for the MisesOS flags? Visit
     </message>
-    <message name="IDS_DEPRECATED_FLAGS_UI_OS_FLAGS_TEXT2" desc="End label text which directs a user to a second dialog in ChromeOS showing OS specific flags - enclosing url link.">
+    <message name="IDS_DEPRECATED_FLAGS_UI_OS_FLAGS_TEXT2" desc="End label text which directs a user to a second dialog in MisesOS showing OS specific flags - enclosing url link.">
       .
     </message>
-    <message name="IDS_DEPRECATED_FLAGS_UI_OS_FLAGS_LINK" desc="Label for button that will call a new window which allows to change ChromeOS system flags.">
+    <message name="IDS_DEPRECATED_FLAGS_UI_OS_FLAGS_LINK" desc="Label for button that will call a new window which allows to change MisesOS system flags.">
       os://flags
     </message>
   </if>
@@ -159,7 +159,7 @@
     Unsupported features
   </message>
   <message name="IDS_DEPRECATED_FEATURES_PAGE_WARNING_EXPLANATION" desc="Warning to users that features are deprecated. Shown prominently at the top of the page.">
-    These features are disabled by default. They will not be available in future versions of Chrome.
+    These features are disabled by default. They will not be available in future versions of Mises.
   </message>
   <message name="IDS_DEPRECATED_FEATURES_NO_RESULTS" desc="Message shown when searching and no results were found.">
     No matching features
