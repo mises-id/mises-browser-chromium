@@ -105,6 +105,7 @@ NSURL * const kLink = [NSURL URLWithString:@"https://home.mises.site/"];
       _iconView.contentMode = UIViewContentModeScaleAspectFit;
     [_enterButton setTitle:kButtonTitle forState:UIControlStateNormal];
     [_enterButton setBackgroundColor:UIColorFromRGB(0x5D61FF)];
+    _enterButton.layer.cornerRadius = kButtonHeight / 2;
 
     [self.contentView addSubview:_containerView];
     [_containerView addSubview:_iconView];
