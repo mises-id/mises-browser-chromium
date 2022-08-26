@@ -28,7 +28,7 @@
 - (void) setReferrer:(NSDictionary*) ref;
 
 - (void) loadFrom:(NSDictionary *) json save:(BOOL)save;
-
+- (NSString*) toJson;
 + (instancetype)wrapper;
 
 @end

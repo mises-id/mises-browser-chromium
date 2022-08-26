@@ -115,6 +115,27 @@ NSString* const kMisesReferrerKey = @"NSDefaultsReferrer";
     }
 }
 
+- (NSString*) toJson{
+  NSDictionary* json = @{
+        @"misesId" : _misesId,
+        @"token" : _misesToken,
+        @"nickname" : _misesNickname,
+        @"avatar" : _misesAvatar,
+      };
+  NSError *error; 
+  NSData *jsonData = [NSJSONSerialization dataWithJSONObject:json
+                                                    options:NSJSONWritingSortedKeys // Pass 0 if you don't care about the readability of the generated string
+                                                      error:&error];
+
+  if (! jsonData) {
+    return NULL;
+  } else {
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    return jsonString;
+  }
+   
+}
+
 
 - (NSDictionary*) referrer {
   id ref = [[NSUserDefaults standardUserDefaults] objectForKey:kMisesReferrerKey];

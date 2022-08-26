@@ -82,6 +82,7 @@ const net::NetworkTrafficAnnotationTag kTrafficAnnotation =
 {
     std::unique_ptr<image_fetcher::ImageFetcher> _imageFetcher;
     std::unique_ptr<image_fetcher::ImageFetcher> _simpleFetcher;
+    NSString *_lastMisesInfo;
 }
 
 
@@ -129,7 +130,12 @@ const net::NetworkTrafficAnnotationTag kTrafficAnnotation =
 - (void) activate {
     
     [[Mises account] setDelegate:self];
-    [self accountChanged];
+    NSString *currentMisesInfo = [[Mises account] toJson];
+    if (![_lastMisesInfo isEqualToString:currentMisesInfo]) {
+      _lastMisesInfo = currentMisesInfo;
+      [self accountChanged];
+    }
+    
     
 }
 - (void)accountChanged {

@@ -30,6 +30,18 @@ import urllib.error
 import zipfile
 
 
+def GetDefaultHostOs():
+  _PLATFORM_HOST_OS_MAP = {
+      'darwin': 'mac',
+      'cygwin': 'win',
+      'linux2': 'linux',
+      'win32': 'win',
+  }
+  default_host_os = _PLATFORM_HOST_OS_MAP.get(sys.platform, sys.platform)
+  if default_host_os == 'mac' and platform.machine() == 'arm64':
+    default_host_os = 'mac-arm64'
+  return default_host_os
+
 # Do NOT CHANGE this if you don't know what you're doing -- see
 # https://chromium.googlesource.com/chromium/src/+/main/docs/updating_clang.md
 # Reverting problematic clang rolls is safe, though.
@@ -46,7 +58,7 @@ CDS_URL = os.environ.get('CDS_CLANG_BUCKET_OVERRIDE',
 # Path constants. (All of these should be absolute paths.)
 THIS_DIR = os.path.abspath(os.path.dirname(__file__))
 CHROMIUM_DIR = os.path.abspath(os.path.join(THIS_DIR, '..', '..', '..'))
-LLVM_BUILD_DIR = os.path.join(CHROMIUM_DIR, 'third_party', 'llvm-build',
+LLVM_BUILD_DIR = os.path.join(CHROMIUM_DIR, 'third_party', 'llvm-build', GetDefaultHostOs(),
                               'Release+Asserts')
 
 STAMP_FILE = os.path.normpath(

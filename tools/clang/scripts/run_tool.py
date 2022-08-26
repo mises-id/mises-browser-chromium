@@ -66,7 +66,7 @@ tool_dir = os.path.abspath(os.path.join(script_dir, '../pylib'))
 sys.path.insert(0, tool_dir)
 
 from clang import compile_db
-
+from update import (LLVM_BUILD_DIR)
 
 CompDBEntry = namedtuple('CompDBEntry', ['directory', 'filename', 'command'])
 
@@ -362,8 +362,8 @@ def main():
     tool_path = os.path.abspath(args.tool_path)
   else:
     tool_path = os.path.abspath(os.path.join(
-          os.path.dirname(__file__),
-          '../../../third_party/llvm-build/Release+Asserts/bin'))
+          os.path.dirname(__file__), LLVM_BUILD_DIR,
+          'bin'))
   if not os.path.exists(tool_path):
     sys.stderr.write('tool not found: %s\n' % tool_path)
     return -1
