@@ -82,6 +82,30 @@ cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/FirebaseCoreInterna
 
 
 
-cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/PromisesObjC.xcframework/ios-arm64_x86_64-simulator/*.framework ios/third_party/mises/Sim/Frameworks
-cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/PromisesObjC.xcframework/ios-arm64/*.framework ios/third_party/mises/Distribution/Frameworks
-cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/PromisesObjC.xcframework/ios-arm64/*.framework ios/third_party/mises/Device/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/FBLPromises.xcframework/ios-arm64_x86_64-simulator/*.framework ios/third_party/mises/Sim/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/FBLPromises.xcframework/ios-arm64/*.framework ios/third_party/mises/Distribution/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/FBLPromises.xcframework/ios-arm64/*.framework ios/third_party/mises/Device/Frameworks
+
+
+
+
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/FirebaseAnalytics.xcframework/ios-arm64_i386_x86_64-simulator/*.framework ios/third_party/mises/Sim/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/FirebaseAnalytics.xcframework/ios-arm64_armv7/*.framework ios/third_party/mises/Distribution/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/FirebaseAnalytics.xcframework/ios-arm64_armv7/*.framework ios/third_party/mises/Device/Frameworks
+
+
+
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/GoogleAppMeasurement.xcframework/ios-arm64_i386_x86_64-simulator/*.framework ios/third_party/mises/Sim/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/GoogleAppMeasurement.xcframework/ios-arm64_armv7/*.framework ios/third_party/mises/Distribution/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/GoogleAppMeasurement.xcframework/ios-arm64_armv7/*.framework ios/third_party/mises/Device/Frameworks
+
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/nanopb.xcframework/ios-arm64_x86_64-simulator/*.framework ios/third_party/mises/Sim/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/nanopb.xcframework/ios-arm64/*.framework ios/third_party/mises/Distribution/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/nanopb.xcframework/ios-arm64/*.framework ios/third_party/mises/Device/Frameworks
+
+
+
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/FirebaseInstallations.xcframework/ios-arm64_x86_64-simulator/*.framework ios/third_party/mises/Sim/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/FirebaseInstallations.xcframework/ios-arm64/*.framework ios/third_party/mises/Distribution/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/FirebaseInstallations.xcframework/ios-arm64/*.framework ios/third_party/mises/Device/Frameworks
+

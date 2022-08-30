@@ -4,6 +4,7 @@ declare_args() {
   env_prefix = "Device"
 }
 
+
 if (target_environment == "simulator") {
     env_prefix = "Sim"
 }
@@ -18,6 +19,11 @@ config("config") {
     "-Wno-deprecated",
     "-Wno-deprecated-declarations",
     "-Wno-semicolon-before-method-body",
+  ]
+  framework_dir = rebase_path("//ios/third_party/mises/$env_prefix/Frameworks")
+  ldflags = [ 
+    "-force_load", "$framework_dir/FBLPromises.framework/FBLPromises",
+    "-force_load", "$framework_dir/GoogleUtilities.framework/GoogleUtilities",
   ]
 }
 source_set("mises") {
@@ -149,6 +155,9 @@ config("mises_config") {
     "FirebaseDynamicLinks.framework",
     "FirebaseCore.framework",
     "FirebaseCoreInternal.framework",
+    "FirebaseAnalytics.framework",
+    "FirebaseInstallations.framework",
+    "nanopb.framework",
     "Sdk.framework",
     "Mixpanel.framework",
     "OpenSSL.framework",

@@ -9,9 +9,8 @@
 #import <Foundation/NSPathUtilities.h>
 #import <WebKit/WKWebView.h>
 
-#if !defined(__has_feature) || !__has_feature(objc_arc)
-#error "This file requires ARC support."
-#endif
+
+#import <Mixpanel/Mixpanel.h>
 
 //#error "test"
 
@@ -24,6 +23,8 @@
 
 #import <FirebaseCore/FirebaseCore.h>
 #import <FirebaseDynamicLinks/FirebaseDynamicLinks.h>
+#import <FirebaseAnalytics/FirebaseAnalytics.h>
+#import <FBLPromises/FBLPromises.h>
 
 #import <React/RCTBridgeModule.h>
 
@@ -31,6 +32,10 @@
 #import "mises_lcd_service.h"
 #import "mises_share_service.h"
 #import "mises_account_service.h"
+
+#if !defined(__has_feature) || !__has_feature(objc_arc)
+#error "This file requires ARC support."
+#endif
 
 @interface RCTMisesModule : NSObject <RCTBridgeModule>
 @end
@@ -259,9 +264,15 @@ enum MetamaskUIPendingStatus {
 
 
 + (void) didFinishLaunching {
+//    dispatch_queue_t queue = dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0);
+//    [FBLPromise onQueue:queue do: id  _Nullable (^)(){
+//        
+//    }];
     dispatch_async(dispatch_get_main_queue(), ^{
         
         [FIRApp configure];
+        NSString *mixPanelTokenFromBundle = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mixpanel_token"];
+        [Mixpanel sharedInstanceWithToken:mixPanelTokenFromBundle];
     });
 }
 + (BOOL) handleUniversalLink:(NSURL*)webpageURL {
