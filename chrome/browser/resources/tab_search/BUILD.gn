@@ -13,7 +13,7 @@ import("//ui/webui/resources/tools/generate_grd.gni")
 import("//ui/webui/webui_features.gni")
 import("./tab_search.gni")
 
-assert(is_linux || is_chromeos || is_win || is_mac || is_fuchsia)
+# assert(is_linux || is_chromeos || is_win || is_mac || is_fuchsia)
 
 preprocess_folder = "preprocessed"
 

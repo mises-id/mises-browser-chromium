@@ -192,7 +192,7 @@ public class SharedPreferencesManager {
         writeIntUnchecked(key, value);
     }
 
-    private void writeIntUnchecked(String key, int value) {
+    public void writeIntUnchecked(String key, int value) {
         SharedPreferences.Editor ed = ContextUtils.getAppSharedPreferences().edit();
         ed.putInt(key, value);
         ed.apply();
@@ -492,6 +492,11 @@ public class SharedPreferencesManager {
         ed.putBoolean(key, value);
         ed.apply();
     }
+    public void writeBooleanUnchecked(String key, boolean value) {
+        SharedPreferences.Editor ed = ContextUtils.getAppSharedPreferences().edit();
+        ed.putBoolean(key, value);
+        ed.apply();
+    }
 
     /**
      * Writes the given boolean value to the named shared preference and immediately commit to disk.
@@ -554,6 +559,12 @@ public class SharedPreferencesManager {
      */
     public void writeString(String key, String value) {
         mKeyChecker.checkIsKeyInUse(key);
+        SharedPreferences.Editor ed = ContextUtils.getAppSharedPreferences().edit();
+        ed.putString(key, value);
+        ed.apply();
+    }
+
+    public void writeStringUnchecked(String key, String value) {
         SharedPreferences.Editor ed = ContextUtils.getAppSharedPreferences().edit();
         ed.putString(key, value);
         ed.apply();

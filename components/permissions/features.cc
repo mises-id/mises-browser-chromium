@@ -75,7 +75,7 @@ const base::Feature kBlockNotificationPromptsIfDisabledOnAppLevel{
     "BlockNotificationPromptsIfDisabledOnAppLevel",
     base::FEATURE_ENABLED_BY_DEFAULT};
 
-#else
+//#else
 
 // Controls whether to trigger showing a HaTS survey, with the given
 // `probability` and `trigger_id`, immediately after the user has taken the
@@ -107,7 +107,7 @@ const base::FeatureParam<double>
         "holdback_chance",
         0.0);
 
-#if !BUILDFLAG(IS_ANDROID)
+#if true || !BUILDFLAG(IS_ANDROID)
 // Specifies the `trigger_id` of the HaTS survey to trigger immediately after
 // the user has interacted with a permission prompt.
 const base::FeatureParam<std::string> kPermissionsPostPromptSurveyTriggerId{

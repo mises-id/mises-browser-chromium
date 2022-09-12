@@ -291,6 +291,11 @@ mojom("mojom_platform") {
       "//ui/accessibility:ax_enums_mojo",
       "//ui/latency/mojom",
     ]
+    # mises
+    sources += [
+      "direct_sockets/direct_sockets.mojom",
+      "serial/serial.mojom",
+    ]
   } else {
     sources += [
       "direct_sockets/direct_sockets.mojom",

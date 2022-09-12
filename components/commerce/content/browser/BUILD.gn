@@ -17,7 +17,7 @@ static_library("browser") {
   ]
 }
 
-if (!is_android) {
+if (true || !is_android) {
   static_library("hint") {
     sources = [
       "hint/commerce_hint_tab_helper.cc",

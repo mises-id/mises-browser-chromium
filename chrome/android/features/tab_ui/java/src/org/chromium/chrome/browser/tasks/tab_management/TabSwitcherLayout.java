@@ -59,6 +59,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
+import org.chromium.chrome.browser.compositor.LayerTitleCache;
+// import org.chromium.chrome.browser.compositor.TitleCache;
+
 /**
  * A {@link Layout} that shows all tabs in one grid or list view.
  */

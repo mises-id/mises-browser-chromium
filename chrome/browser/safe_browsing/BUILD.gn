@@ -404,6 +404,8 @@ static_library("safe_browsing") {
           "tailored_security/unconsented_message_android.h",
           "telemetry/android/android_telemetry_service.cc",
           "telemetry/android/android_telemetry_service.h",
+        "cloud_content_scanning/deep_scanning_utils.cc",
+        "cloud_content_scanning/deep_scanning_utils.h",
         ]
         deps += [
           "//chrome/app/vector_icons:vector_icons",

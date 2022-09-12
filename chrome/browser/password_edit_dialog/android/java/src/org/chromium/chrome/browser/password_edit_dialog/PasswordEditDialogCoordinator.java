@@ -120,7 +120,7 @@ class PasswordEditDialogCoordinator {
         mDialogModel = createModalDialogModel(mIsDialogWithDetailsFeatureEnabled
                         ? R.string.password_update_dialog_title
                         : R.string.confirm_username_dialog_title,
-                R.string.password_manager_update_button);
+                R.string.password_manager_update_button_android);
         mDialogViewModel =
                 createDialogViewModel(usernames, selectedUsernameIndex, password, account);
 

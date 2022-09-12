@@ -44,6 +44,11 @@ public class UrlBarData {
     // Unicode "Left-To-Right Mark" (LRM) character.
     private static final char LRM = '\u200E';
 
+    public static String replaceOnce(
+		                String url, String displayText, String editingText) {
+        return url.replace(displayText, editingText);
+    }
+
     /**
      * Represents an empty URL bar.
      */

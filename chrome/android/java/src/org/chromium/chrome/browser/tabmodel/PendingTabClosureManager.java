@@ -152,6 +152,11 @@ public class PendingTabClosureManager {
             return mRewoundTabs.indexOf(tab);
         }
 
+	@Override
+    	public int getLastNonExtensionActiveIndex() {
+        	return INVALID_TAB_INDEX;
+	}
+
         /**
          * Resets this list to match the original {@link TabModel}.  Note that if the
          * {@link TabModel} doesn't support pending closures this model will be empty.  This should

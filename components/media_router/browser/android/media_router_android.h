@@ -85,6 +85,38 @@ class MediaRouterAndroid : public MediaRouterBase {
   // Notifies the media router about a message received from the media route.
   void OnMessage(const MediaRoute::Id& route_id, const std::string& message);
 
+  // Returns the IssueManager owned by the MediaRouter. Guaranteed to be
+  // non-null.
+  IssueManager* GetIssueManager() override;
+
+  // Binds |controller| for sending media commands to a route. The controller
+  // will notify |observer| whenever there is a change to the status of the
+  // media. It may invalidate bindings from previous calls to this method.
+  void GetMediaController(
+      const MediaRoute::Id& route_id,
+      mojo::PendingReceiver<mojom::MediaController> controller,
+      mojo::PendingRemote<mojom::MediaStatusObserver> observer) override;
+
+  // Returns logs collected from Media Router components.
+  // Used by chrome://media-router-internals.
+  base::Value GetLogs() const override;
+
+  // Returns media router state as a JSON string represented by base::Value.
+  // Includes known sinks and sink compatibility with media sources.
+  // Used by chrome://media-router-internals.
+  base::Value GetState() const override;
+
+  // Returns the media route provider state for |provider_id| via |callback|.
+  // Includes details about routes/sessions owned by the MRP.
+  // Used by chrome://media-router-internals.
+  void GetProviderState(
+      mojom::MediaRouteProviderId provider_id,
+      mojom::MediaRouteProvider::GetStateCallback callback) const override;
+
+  // Returns a pointer to LoggerImpl that can be used to add logging messages.
+  LoggerImpl* GetLogger() override;
+
+
  private:
   friend class MediaRouterAndroidTest;
 

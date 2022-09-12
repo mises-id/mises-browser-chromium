@@ -378,6 +378,8 @@ def _MoveImagesToNonMdpiFolders(res_root, path_info):
         continue
       src_file = os.path.join(src_dir, src_file_name)
       dst_file = os.path.join(dst_dir, src_file_name)
+      if os.path.lexists(dst_file):
+          print("_MoveImagesToNonMdpiFolders", src_file, dst_file)
       assert not os.path.lexists(dst_file)
       shutil.move(src_file, dst_file)
       path_info.RegisterRename(

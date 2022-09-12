@@ -26,6 +26,10 @@ NativeTheme* NativeTheme::GetInstanceForNativeUi() {
   NOTREACHED();
   return nullptr;
 }
+NativeTheme* NativeTheme::GetInstanceForDarkUI() {
+	  static base::NoDestructor<NativeThemeAndroid> s_native_theme;
+	    return s_native_theme.get();
+}
 #endif
 
 // static

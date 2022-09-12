@@ -207,6 +207,14 @@ public class CustomTabActivity extends BaseCustomTabActivity {
     }
 
     @Override
+    public void setLastItemTitle(String itemTitle) {
+    }
+
+    @Override
+    public void setLastVisibleItemTitle(String itemTitle) {
+    }
+
+    @Override
     public boolean onOptionsItemSelected(int itemId, @Nullable Bundle menuItemData) {
         int menuIndex =
                 CustomTabAppMenuPropertiesDelegate.getIndexOfMenuItemFromBundle(menuItemData);

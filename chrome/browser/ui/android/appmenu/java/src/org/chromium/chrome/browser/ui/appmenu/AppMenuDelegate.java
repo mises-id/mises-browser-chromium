@@ -24,4 +24,7 @@ public interface AppMenuDelegate {
      *         should be using.
      */
     AppMenuPropertiesDelegate createAppMenuPropertiesDelegate();
+
+    void setLastItemTitle(String itemTitle);
+    void setLastVisibleItemTitle(String itemTitle);
 }

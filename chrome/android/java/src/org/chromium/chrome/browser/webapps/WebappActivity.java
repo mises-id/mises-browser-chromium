@@ -96,4 +96,7 @@ public class WebappActivity extends BaseCustomTabActivity {
                 mWebappActivityCoordinator == null ? null
                                                    : mWebappActivityCoordinator.getWebappInfo());
     }
+
+    @Override
+    public void setLastVisibleItemTitle(String itemTitle) {}
 }

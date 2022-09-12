@@ -751,6 +751,11 @@ public class TabModelImpl extends TabModelJniBridge {
     }
 
     @Override
+    public int getLastNonExtensionActiveIndex() {
+        return INVALID_TAB_INDEX;
+    }
+
+    @Override
     protected boolean isSessionRestoreInProgress() {
         return mModelDelegate.isSessionRestoreInProgress();
     }

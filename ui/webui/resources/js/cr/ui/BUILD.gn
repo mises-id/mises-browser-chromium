@@ -86,7 +86,7 @@ preprocess_if_expr("preprocess_generated") {
     "keyboard_shortcut_list.m.js",
   ]
 
-  if (!is_android) {
+  if (true || !is_android) {
     in_files += [
       "command.m.js",
       "context_menu_handler.m.js",

@@ -240,7 +240,7 @@ const char kChromeUIUntrustedVideoTutorialsHost[] = "video-tutorials";
 const char kChromeUIUntrustedVideoPlayerUrl[] =
     "chrome-untrusted://video-tutorials/";
 const char kChromeUIWebApksHost[] = "webapks";
-#else
+//#else
 const char kChromeUIAppServiceInternalsHost[] = "app-service-internals";
 const char kChromeUINearbyInternalsHost[] = "nearby-internals";
 const char kChromeUINearbyInternalsURL[] = "chrome://nearby-internals";
@@ -536,7 +536,7 @@ const char kChromeUITabStripHost[] = "tab-strip.top-chrome";
 const char kChromeUITabStripURL[] = "chrome://tab-strip.top-chrome";
 #endif
 
-#if !BUILDFLAG(IS_ANDROID)
+#if true || !BUILDFLAG(IS_ANDROID)
 const char kChromeUICommanderHost[] = "commander";
 const char kChromeUICommanderURL[] = "chrome://commander";
 const char kChromeUIDownloadShelfHost[] = "download-shelf.top-chrome";

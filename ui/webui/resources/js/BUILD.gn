@@ -13,7 +13,7 @@ preprocess_folder = "$root_gen_dir/ui/webui/resources/preprocessed/js"
 preprocess_gen_manifest = "preprocessed_gen_manifest.json"
 preprocess_src_manifest = "preprocessed_src_manifest.json"
 
-include_polymer = !is_android && !is_ios
+include_polymer = true || !is_android && !is_ios
 
 generate_grd("build_grdp") {
   grd_prefix = "webui_js"

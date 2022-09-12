@@ -36,7 +36,7 @@ static_library("common") {
     "mojom:route_request_result_code",
   ]
 
-  if (!is_android) {
+  if (true || !is_android) {
     sources += [
       "discovery/media_sink_service_base.cc",
       "discovery/media_sink_service_base.h",

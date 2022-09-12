@@ -404,7 +404,9 @@ static_library("common_lib") {
       "media/chrome_media_drm_bridge_client.cc",
       "media/chrome_media_drm_bridge_client.h",
     ]
-  } else {
+#  } else {
+  }
+  if (true) {
     # Non-Android.
     public_deps += [ "//chrome/common/importer" ]
   }

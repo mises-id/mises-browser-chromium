@@ -57,7 +57,7 @@ extern const base::Feature kPermissionOnDeviceNotificationPredictions;
 COMPONENT_EXPORT(PERMISSIONS_COMMON)
 extern const base::Feature kBlockNotificationPromptsIfDisabledOnAppLevel;
 
-#else
+//#else
 
 COMPONENT_EXPORT(PERMISSIONS_COMMON)
 extern const base::Feature kPermissionsPostPromptSurvey;
@@ -78,7 +78,7 @@ COMPONENT_EXPORT(PERMISSIONS_COMMON)
 extern const base::FeatureParam<double>
     kPermissionOnDeviceNotificationPredictionsHoldbackChance;
 
-#if !BUILDFLAG(IS_ANDROID)
+#if true || !BUILDFLAG(IS_ANDROID)
 COMPONENT_EXPORT(PERMISSIONS_COMMON)
 extern const base::FeatureParam<std::string>
     kPermissionsPostPromptSurveyTriggerId;

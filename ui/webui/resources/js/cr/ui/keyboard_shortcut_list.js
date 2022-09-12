@@ -66,7 +66,7 @@ cr.define('cr.ui', function() {
   }
 
   /** A list of keyboard shortcuts which all perform one command. */
-  /* #export */ class KeyboardShortcutList {
+  /* #export */  class KeyboardShortcutList {
     /**
      * @param {string} shortcuts Text-based representation of one or more
      *     keyboard shortcuts, separated by spaces.

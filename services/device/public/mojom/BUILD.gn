@@ -95,7 +95,7 @@ mojom("device_service") {
     enabled_features += [ "enable_input_device_manager" ]
   }
 
-  if (!is_android) {
+  if (is_android || !is_android) {
     enabled_features += [ "enable_hid" ]
   }
 

@@ -21,7 +21,7 @@
 #include "mojo/public/cpp/bindings/associated_receiver.h"
 
 #if BUILDFLAG(IS_ANDROID)
-#error "Instant is only used on desktop";
+// #error "Instant is only used on desktop";
 #endif
 
 class GURL;

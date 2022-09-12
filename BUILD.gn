@@ -274,7 +274,7 @@ group("gn_all") {
     deps += [ "//printing:printing_unittests" ]
   }
 
-  if (enable_extensions) {
+  if (false && enable_extensions) {
     deps += [
       "//extensions:extensions_browsertests",
       "//extensions:extensions_unittests",

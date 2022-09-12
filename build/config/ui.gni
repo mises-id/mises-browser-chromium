@@ -30,7 +30,7 @@ declare_args() {
 
 declare_args() {
   # True means the UI is built using the "views" framework.
-  toolkit_views = is_mac || is_win || is_linux || is_chromeos || is_fuchsia
+  toolkit_views = is_mac || is_win || is_linux || is_chromeos || is_fuchsia 
 
   use_glib =
       is_linux && !is_castos &&

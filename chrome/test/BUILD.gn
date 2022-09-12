@@ -7864,7 +7864,7 @@ test("unit_tests") {
       "//components/services/storage/privileged/mojom",
       "//components/services/unzip:in_process",
       "//components/value_store:test_support",
-      "//extensions:extensions_resources",
+      #"//extensions:extensions_resources",
       "//extensions/browser:test_support",
       "//extensions/browser/updater",
       "//extensions/buildflags",

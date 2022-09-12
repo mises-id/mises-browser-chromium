@@ -367,7 +367,7 @@ static_library("browser") {
     ]
   }
 
-  if (!is_android && !is_ios) {
+  if (true || !is_android && !is_ios) {
     sources += [
       "ui/weak_check_utility.cc",
       "ui/weak_check_utility.h",

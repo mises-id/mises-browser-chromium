@@ -77,7 +77,9 @@ source_set("browser") {
       "android/media_router_dialog_controller_android.h",
     ]
     deps += [ "android:jni_headers" ]
-  } else {
+#  } else {
+  }
+  if (true) {
     sources += [
       "issue_manager.cc",
       "issue_manager.h",

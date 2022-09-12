@@ -440,7 +440,7 @@
 #include "third_party/cros_system_api/switches/chrome_switches.h"
 #endif
 
-#if !BUILDFLAG(IS_ANDROID)
+#if true || !BUILDFLAG(IS_ANDROID)
 #include "chrome/browser/devtools/chrome_devtools_manager_delegate.h"
 #include "chrome/browser/devtools/devtools_window.h"
 #include "chrome/browser/media/unified_autoplay_config.h"

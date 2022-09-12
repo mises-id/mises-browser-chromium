@@ -7,7 +7,7 @@ import("//chrome/common/features.gni")
 import("//tools/grit/grit_rule.gni")
 import("//ui/webui/resources/tools/generate_grd.gni")
 
-assert(!is_android)
+#assert(!is_android)
 
 # Note: No need to pass these CSS files to preprocess_if_expr() for now.
 css_files = [

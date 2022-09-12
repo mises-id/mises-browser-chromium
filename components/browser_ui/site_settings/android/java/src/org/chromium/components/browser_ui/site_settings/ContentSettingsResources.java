@@ -328,7 +328,7 @@ public class ContentSettingsResources {
      * @return A {@link Drawable} that is the blocked version of the square icon passed in.
      *         Achieved by adding a diagonal strike through the icon.
      */
-    private static Drawable getBlockedSquareIcon(Resources resources, Drawable icon) {
+    public static Drawable getBlockedSquareIcon(Resources resources, Drawable icon) {
         if (icon == null) return null;
         // Save color filter in order to re-apply later
         ColorFilter filter = icon.getColorFilter();

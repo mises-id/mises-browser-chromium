@@ -79,6 +79,7 @@
 #include "ui/events/keycodes/dom/keycode_converter.h"
 #include "ui/events/keycodes/keyboard_code_conversion.h"
 #include "ui/events/keycodes/keyboard_codes.h"
+#include "net/cert/x509_certificate.h"
 
 // This should be after all other #includes.
 #if defined(_WINDOWS_)  // Detect whether windows.h was included.

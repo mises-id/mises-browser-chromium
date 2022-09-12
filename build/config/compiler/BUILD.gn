@@ -733,7 +733,7 @@ config("compiler") {
   # Pass flag to LLD so Android builds can allow debuggerd to properly symbolize
   # stack crashes (http://crbug.com/919499).
   if (use_lld && is_android) {
-    ldflags += [ "-Wl,--no-rosegment" ]
+    ldflags += [ "-Wl,--no-rosegment", "-Wl,--error-limit=0" ]
   }
 
   # LLD does call-graph-sorted binary layout by default when profile data is

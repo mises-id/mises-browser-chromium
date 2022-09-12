@@ -13,7 +13,7 @@ import("//testing/test.gni")
 import("//ui/base/ui_features.gni")
 import("//ui/views/features.gni")
 
-assert(toolkit_views)
+# assert(toolkit_views)
 
 config("flags") {
   defines = [ "TOOLKIT_VIEWS=1" ]
@@ -686,6 +686,22 @@ component("views") {
     deps += [
       "//third_party/iaccessible2",
       "//third_party/wtl",
+    ]
+  }
+ 
+  if (is_android) {
+    public += [
+      "widget/native_widget_android.h",
+      "controls/native/native_view_host_android.h",
+    ]
+    sources += [
+      "controls/native/native_view_host_android.cc",
+      "widget/native_widget_android.cc",
+      "event_monitor_android.cc",
+      "metrics_android.cc",
+      "drag_utils_android.cc",
+      "controls/menu/menu_config_android.cc",
+      "views_touch_selection_controller_factory_android.cc",
     ]
   }
 

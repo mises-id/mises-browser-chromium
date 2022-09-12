@@ -10,7 +10,7 @@ import("//tools/typescript/ts_library.gni")
 import("//ui/webui/resources/tools/generate_grd.gni")
 import("history_clusters.gni")
 
-assert(!is_android)
+# assert(!is_android)
 
 # Output folder used to hold preprocess_if_expr() output.
 preprocess_folder_tmp = "$root_gen_dir/ui/webui/resources/preprocessed/cr_components/history_clusters_tmp"
