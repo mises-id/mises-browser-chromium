@@ -872,8 +872,11 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
 
             @Override
             public void onUrlUpdated(Tab tab){
-              FixDevToolsWindow.Execute(tab);
-              PersonalizeResults.Execute(tab);
+	      if (tab != null && !tab.isNativePage()) {
+                Log.i(TAG,"#onUrlUpdated: " + tab.getUrl().getPossiblyInvalidSpec());
+	        FixDevToolsWindow.Execute(tab);
+                //PersonalizeResults.Execute(tab);
+	      }
               mRootUiCoordinator.getStatusBarColorController().updateStatusBarColor();
             }
 
@@ -1784,7 +1787,12 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
 
     @Override
     public void setLastItemTitle(String itemTitle) {
+	Log.d("Kiwi", "setLastItemTitle:" + itemTitle);
         mMenuTitleCondensed = itemTitle;
+    }
+
+    @Override
+    public void setLastVisibleItemTitle(String itemTitle) {
     }
 
     @Override
@@ -2416,7 +2424,12 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
                 mMenuActionHandlers) {
             if (handler.handleMenuOrKeyboardAction(id, fromMenu)) return true;
         }
-
+	if (mMenuTitleCondensed != null) {
+	  Log.d("Kiwi", "onMenuOrKeyboardAction:" + mMenuTitleCondensed);
+	}
+	else {
+	  Log.d("Kiwi", "onMenuOrKeyboardAction");
+	}
         @BrowserProfileType
         int type = Profile.getBrowserProfileTypeFromProfile(getCurrentTabModel().getProfile());
 

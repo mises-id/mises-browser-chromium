@@ -208,6 +208,7 @@ public class CustomTabActivity extends BaseCustomTabActivity {
 
     @Override
     public void setLastItemTitle(String itemTitle) {
+        super.setLastItemTitle(itemTitle);
     }
 
     @Override

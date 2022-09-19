@@ -325,7 +325,7 @@ LayoutObject* LayoutObject::CreateObject(Element* element,
   } else if (element->GetPseudoId() == kPseudoIdMarker) {
     return LayoutObjectFactory::CreateListMarker(*element, style, legacy);
   }
-
+/*
   if (element && element->nodeName() != "BODY") {
     if (element->getAttribute(html_names::kIdAttr) == "bvSecurePageWarning")
         return nullptr;
@@ -774,7 +774,7 @@ LayoutObject* LayoutObject::CreateObject(Element* element,
        }
     }
   }
-
+*/
   switch (style.Display()) {
     case EDisplay::kNone:
     case EDisplay::kContents:

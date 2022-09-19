@@ -30,6 +30,7 @@
 #include <memory>
 #include <utility>
 
+#include "base/debug/stack_trace.h"
 #include "base/auto_reset.h"
 #include "base/callback.h"
 #include "base/feature_list.h"
@@ -1870,7 +1871,7 @@ void LocalFrameView::PerformPostLayoutTasks(bool visual_viewport_size_changed) {
   if (deferred_to_be_locked_.size() > 0) {
     DCHECK(RuntimeEnabledFeatures::DeferredShapingEnabled());
     for (auto& element : deferred_to_be_locked_) {
-      DCHECK(element->GetLayoutObject()->IsShapingDeferred());
+      DCHECK(element->GetLayoutObject()->IsShapingDeferred()) << base::debug::StackTrace();
       auto& context = element->EnsureDisplayLockContext();
       context.SetRequestedState(EContentVisibility::kAuto);
     }

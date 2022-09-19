@@ -1336,7 +1336,7 @@ const char kPartitionDefaultZoomLevel[] = "partition.default_zoom_level";
 // be displayed at the default zoom level.
 const char kPartitionPerHostZoomLevels[] = "partition.per_host_zoom_levels";
 
-#if !BUILDFLAG(IS_ANDROID)
+#if true || !BUILDFLAG(IS_ANDROID)
 const char kPinnedTabs[] = "pinned_tabs";
 #endif  // !BUILDFLAG(IS_ANDROID)
 
@@ -1640,7 +1640,7 @@ const char kWebRtcLocalIpsAllowedUrls[] = "webrtc.local_ips_allowed_urls";
 const char kWebRTCAllowLegacyTLSProtocols[] =
     "webrtc.allow_legacy_tls_protocols";
 
-#if !BUILDFLAG(IS_ANDROID)
+#if true || !BUILDFLAG(IS_ANDROID)
 // Whether or not this profile has been shown the Welcome page.
 const char kHasSeenWelcomePage[] = "browser.has_seen_welcome_page";
 
@@ -1956,7 +1956,7 @@ const char kNtpCollapsedSnapshotDocument[] = "ntp.collapsed_snapshot_document";
 
 // Keeps track of sync promo collapsed state in the Other Devices menu.
 const char kNtpCollapsedSyncPromo[] = "ntp.collapsed_sync_promo";
-#else
+//#else
 // Holds info for New Tab Page custom background
 const char kNtpCustomBackgroundDict[] = "ntp.custom_background_dict";
 const char kNtpCustomBackgroundLocalToDevice[] =
@@ -2045,7 +2045,7 @@ const char kDevToolsSyncedPreferencesSyncEnabled[] =
 const char kDevToolsSyncedPreferencesSyncDisabled[] =
     "devtools.synced_preferences_sync_disabled";
 
-#if !BUILDFLAG(IS_ANDROID)
+#if true || !BUILDFLAG(IS_ANDROID)
 // Tracks the number of times the dice signin promo has been shown in the user
 // menu.
 const char kDiceSigninUserMenuPromoCount[] = "sync_promo.user_menu_show_count";
@@ -3503,7 +3503,7 @@ const char kPdfAnnotationsEnabled[] = "pdf.enable_annotations";
 const char kExplicitlyAllowedNetworkPorts[] =
     "net.explicitly_allowed_network_ports";
 
-#if !BUILDFLAG(IS_ANDROID)
+#if true || !BUILDFLAG(IS_ANDROID)
 // Pref name for whether force-installed web apps (origins) are able to query
 // device attributes.
 const char kDeviceAttributesAllowedForOrigins[] =
@@ -3517,7 +3517,7 @@ const char kDesktopSharingHubEnabled[] =
     "sharing_hub.desktop_sharing_hub_enabled";
 #endif
 
-#if !BUILDFLAG(IS_ANDROID)
+#if true || !BUILDFLAG(IS_ANDROID)
 // Pref name for the last major version where the What's New page was
 // successfully shown.
 const char kLastWhatsNewVersion[] = "browser.last_whats_new_version";

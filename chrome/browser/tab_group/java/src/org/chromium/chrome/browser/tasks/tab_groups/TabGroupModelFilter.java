@@ -855,7 +855,7 @@ public class TabGroupModelFilter extends TabModelFilter {
 
     @Override
     public int getLastNonExtensionActiveIndex() {
-        return mCurrentGroupIndex;
+        return INVALID_TAB_INDEX;
     }
 
     @Override

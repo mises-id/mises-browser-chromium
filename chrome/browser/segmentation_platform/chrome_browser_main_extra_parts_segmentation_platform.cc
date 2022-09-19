@@ -20,6 +20,7 @@ void ChromeBrowserMainExtraPartsSegmentationPlatform::PreCreateThreads() {
 }
 
 void ChromeBrowserMainExtraPartsSegmentationPlatform::PreProfileInit() {
+  LOG(ERROR) << "ChromeBrowserMainExtraPartsSegmentationPlatform::PreProfileInit";
   segmentation_platform::UkmDatabaseClient::GetInstance().PreProfileInit();
 }
 

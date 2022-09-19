@@ -193,7 +193,9 @@ public class MainSettings extends PreferenceFragmentCompat
             // If we are on Android O+ the Notifications preference should lead to the Android
             // Settings notifications page.
             Preference notifications = findPreference(PREF_NOTIFICATIONS);
-            notifications.setOnPreferenceClickListener(preference -> {
+	    if (notifications != null) {
+	    
+              notifications.setOnPreferenceClickListener(preference -> {
                 Intent intent = new Intent();
                 intent.setAction(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
                 intent.putExtra(Settings.EXTRA_APP_PACKAGE,
@@ -201,7 +203,8 @@ public class MainSettings extends PreferenceFragmentCompat
                 startActivity(intent);
                 // We handle the click so the default action isn't triggered.
                 return true;
-            });
+              });
+	    }
         } else {
             // The per-website notification settings page can be accessed from Site
             // Settings, so we don't need to show this here.

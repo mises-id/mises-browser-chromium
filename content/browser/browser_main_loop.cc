@@ -854,7 +854,7 @@ void BrowserMainLoop::CreateStartupTasks() {
   startup_task_runner_->AddTask(std::move(intercept_main_message_loop_run));
 #endif
 
-#if BUILDFLAG(IS_ANDROID)
+#if false && BUILDFLAG(IS_ANDROID)
   startup_task_runner_->StartRunningTasksAsync();
 #else
   startup_task_runner_->RunAllTasksNow();
@@ -921,16 +921,19 @@ int BrowserMainLoop::CreateThreads() {
 
 int BrowserMainLoop::PostCreateThreads() {
   TRACE_EVENT0("startup", "BrowserMainLoop::PostCreateThreads");
-
+LOG(INFO) << "[kiwi]" << "ChromeMainLoop::PostCreateThreads step-1";
   tracing_controller_ = std::make_unique<content::TracingControllerImpl>();
+LOG(INFO) << "[kiwi]" << "ChromeMainLoop::PostCreateThreads step-2";
   content::BackgroundTracingManagerImpl::GetInstance()
       .AddMetadataGeneratorFunction();
+LOG(INFO) << "[kiwi]" << "ChromeMainLoop::PostCreateThreads step-3";
 
   if (parts_)
     parts_->PostCreateThreads();
+LOG(INFO) << "[kiwi]" << "ChromeMainLoop::PostCreateThreads step-4";
 
   PostCreateThreadsImpl();
-
+LOG(INFO) << "[kiwi]" << "ChromeMainLoop::PostCreateThreads step-5";
   return result_code_;
 }
 

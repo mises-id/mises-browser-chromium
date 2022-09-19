@@ -243,7 +243,7 @@
 #include "components/ntp_tiles/popular_sites_impl.h"
 #include "components/permissions/contexts/geolocation_permission_context_android.h"
 #include "components/query_tiles/tile_service_prefs.h"
-#else  // BUILDFLAG(IS_ANDROID)
+//#else  // BUILDFLAG(IS_ANDROID)
 #include "chrome/browser/autofill_assistant/password_change/apc_client.h"
 #include "chrome/browser/cart/cart_service.h"
 #include "chrome/browser/device_api/device_service_impl.h"
@@ -272,7 +272,7 @@
 #include "chrome/browser/ui/webui/tab_search/tab_search_prefs.h"
 #include "chrome/browser/ui/webui/whats_new/whats_new_ui.h"
 #include "chrome/browser/upgrade_detector/upgrade_detector.h"
-#include "components/live_caption/live_caption_controller.h"
+//#include "components/live_caption/live_caption_controller.h"
 #include "components/ntp_tiles/custom_links_manager_impl.h"
 #endif  // BUILDFLAG(IS_ANDROID)
 
@@ -476,6 +476,18 @@
 #include "chrome/browser/sessions/session_data_service.h"
 #include "chrome/browser/sessions/session_service_log.h"
 #endif
+
+
+#include "chrome/browser/web_applications/daily_metrics_helper.h"
+#include "chrome/browser/web_applications/externally_installed_web_app_prefs.h"
+#include "chrome/browser/web_applications/install_bounce_metric.h"
+#include "chrome/browser/web_applications/isolation_prefs_utils.h"
+#include "chrome/browser/web_applications/policy/web_app_policy_manager.h"
+#include "chrome/browser/web_applications/preinstalled_web_app_manager.h"
+#include "chrome/browser/web_applications/user_uninstalled_preinstalled_web_app_prefs.h"
+#include "chrome/browser/web_applications/web_app_prefs_utils.h"
+#include "chrome/browser/web_applications/web_app_provider.h"
+#include "chrome/browser/web_applications/web_app_utils.h"
 
 namespace {
 
@@ -1110,14 +1122,14 @@ void RegisterLocalState(PrefRegistrySimple* registry) {
 
   registry->RegisterIntegerPref(first_run::kTosDialogBehavior, 0);
   registry->RegisterBooleanPref(lens::kLensCameraAssistedSearchEnabled, true);
-#else   // BUILDFLAG(IS_ANDROID)
+//#else   // BUILDFLAG(IS_ANDROID)
   gcm::RegisterPrefs(registry);
   IntranetRedirectDetector::RegisterPrefs(registry);
   media_router::RegisterLocalStatePrefs(registry);
   metrics::TabStatsTracker::RegisterPrefs(registry);
   performance_manager::user_tuning::prefs::RegisterLocalStatePrefs(registry);
   RegisterBrowserPrefs(registry);
-  speech::SodaInstaller::RegisterLocalStatePrefs(registry);
+  //speech::SodaInstaller::RegisterLocalStatePrefs(registry);
   StartupBrowserCreator::RegisterLocalStatePrefs(registry);
   task_manager::TaskManagerInterface::RegisterPrefs(registry);
   UpgradeDetector::RegisterPrefs(registry);
@@ -1420,13 +1432,13 @@ void RegisterProfilePrefs(user_prefs::PrefRegistrySyncable* registry,
   usage_stats::UsageStatsBridge::RegisterProfilePrefs(registry);
   variations::VariationsService::RegisterProfilePrefs(registry);
   video_tutorials::RegisterPrefs(registry);
-#else   // BUILDFLAG(IS_ANDROID)
+//#else   // BUILDFLAG(IS_ANDROID)
   ApcClient::RegisterPrefs(registry);
   AppShortcutManager::RegisterProfilePrefs(registry);
-  browser_sync::ForeignSessionHandler::RegisterProfilePrefs(registry);
+  //browser_sync::ForeignSessionHandler::RegisterProfilePrefs(registry);
   BrowserFeaturePromoSnoozeService::RegisterProfilePrefs(registry);
-  captions::LiveCaptionController::RegisterProfilePrefs(registry);
-  ChromeAuthenticatorRequestDelegate::RegisterProfilePrefs(registry);
+  //captions::LiveCaptionController::RegisterProfilePrefs(registry);
+  //ChromeAuthenticatorRequestDelegate::RegisterProfilePrefs(registry);
   DeviceServiceImpl::RegisterProfilePrefs(registry);
   DevToolsWindow::RegisterProfilePrefs(registry);
   DriveService::RegisterProfilePrefs(registry);
@@ -1434,7 +1446,7 @@ void RegisterProfilePrefs(user_prefs::PrefRegistrySyncable* registry,
   extensions::CommandService::RegisterProfilePrefs(registry);
   extensions::TabsCaptureVisibleTabFunction::RegisterProfilePrefs(registry);
   first_run::RegisterProfilePrefs(registry);
-  gcm::RegisterProfilePrefs(registry);
+  //gcm::RegisterProfilePrefs(registry);
   HatsService::RegisterProfilePrefs(registry);
   NtpCustomBackgroundService::RegisterProfilePrefs(registry);
   media_router::RegisterAccessCodeProfilePrefs(registry);
@@ -1456,7 +1468,7 @@ void RegisterProfilePrefs(user_prefs::PrefRegistrySyncable* registry,
   tab_search_prefs::RegisterProfilePrefs(registry);
   TaskModuleService::RegisterProfilePrefs(registry);
   UnifiedAutoplayConfig::RegisterProfilePrefs(registry);
-  CartService::RegisterProfilePrefs(registry);
+  //CartService::RegisterProfilePrefs(registry);
 #endif  // BUILDFLAG(IS_ANDROID)
 
 #if BUILDFLAG(IS_CHROMEOS)
@@ -1572,7 +1584,7 @@ void RegisterProfilePrefs(user_prefs::PrefRegistrySyncable* registry,
   browser_switcher::BrowserSwitcherPrefs::RegisterProfilePrefs(registry);
 #endif
 
-#if !BUILDFLAG(IS_ANDROID) && !BUILDFLAG(IS_CHROMEOS_ASH)
+#if true || !BUILDFLAG(IS_ANDROID) && !BUILDFLAG(IS_CHROMEOS_ASH)
   preinstalled_apps::RegisterProfilePrefs(registry);
 #endif
 
@@ -1586,7 +1598,7 @@ void RegisterProfilePrefs(user_prefs::PrefRegistrySyncable* registry,
   RegisterBrowserViewProfilePrefs(registry);
 #endif
 
-#if !BUILDFLAG(IS_ANDROID)
+#if true || !BUILDFLAG(IS_ANDROID)
   registry->RegisterBooleanPref(
       prefs::kLensRegionSearchEnabled, true,
       user_prefs::PrefRegistrySyncable::SYNCABLE_PREF);
@@ -1625,6 +1637,17 @@ void RegisterUserProfilePrefs(user_prefs::PrefRegistrySyncable* registry,
 #endif
 #if BUILDFLAG(IS_CHROMEOS_ASH)
   ash::RegisterUserProfilePrefs(registry);
+#endif
+
+#if BUILDFLAG(IS_ANDROID)
+  web_app::UserUninstalledPreinstalledWebAppPrefs::RegisterProfilePrefs(registry);
+  web_app::ExternallyInstalledWebAppPrefs::RegisterProfilePrefs(registry);
+  web_app::PreinstalledWebAppManager::RegisterProfilePrefs(registry);
+  web_app::WebAppPolicyManager::RegisterProfilePrefs(registry);
+  web_app::WebAppPrefsUtilsRegisterProfilePrefs(registry);
+  web_app::IsolationPrefsUtilsRegisterProfilePrefs(registry);
+  web_app::RegisterInstallBounceMetricProfilePrefs(registry);
+  web_app::RegisterDailyWebAppMetricsProfilePrefs(registry);
 #endif
 }
 

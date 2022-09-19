@@ -294,8 +294,9 @@ bool ChromeRuntimeAPIDelegate::GetPlatformInfo(PlatformInfo* info) {
   } else if (strcmp(os, "fuchsia") == 0) {
     info->os = extensions::api::runtime::PLATFORM_OS_FUCHSIA;
   } else {
-    NOTREACHED() << "Platform not supported: " << os;
-    return false;
+    //NOTREACHED() << "Platform not supported: " << os;
+    //return false;
+    info->os = extensions::api::runtime::PLATFORM_OS_ANDROID;
   }
 
   const char* arch = update_client::UpdateQueryParams::GetArch();

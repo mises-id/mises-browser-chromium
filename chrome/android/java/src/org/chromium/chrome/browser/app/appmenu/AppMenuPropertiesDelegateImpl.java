@@ -527,7 +527,7 @@ public class AppMenuPropertiesDelegateImpl implements AppMenuPropertiesDelegate 
                 newlyAdded.setIcon(new BitmapDrawable(mContext.getResources(), decodedByte));
 
                 boolean isIncognitoEnabled = false;
-                if (extensionsInfo[4].equals("active"))
+                if (extensionsInfo.length > 4 && extensionsInfo[4].equals("active"))
                   isIncognitoEnabled = true;
                 if (!isIncognitoEnabled && isIncognito) {
                   SpannableString spanString = new SpannableString(newlyAdded.getTitle().toString());

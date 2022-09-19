@@ -139,7 +139,7 @@ using ConnectionType = net::NetworkChangeNotifier::ConnectionType;
 
 namespace {
 
-#if !BUILDFLAG(IS_ANDROID)
+#if true || !BUILDFLAG(IS_ANDROID)
 // How long an ephemeral warning lasts before being automatically canceled (if
 // there is no user interaction).
 constexpr base::TimeDelta kEphemeralWarningLifetimeBeforeCancel =
@@ -1821,7 +1821,7 @@ void ChromeDownloadManagerDelegate::OnManagerInitialized() {
 #endif
 }
 
-#if !BUILDFLAG(IS_ANDROID)
+#if true || !BUILDFLAG(IS_ANDROID)
 void ChromeDownloadManagerDelegate::ScheduleCancelForEphemeralWarning(
     const std::string& guid) {
   base::SequencedTaskRunnerHandle::Get()->PostDelayedTask(

@@ -569,7 +569,7 @@ BaseFetchContext::CanRequestInternal(
 
   if (ShouldBlockRequestByInspector(resource_request.Url()))
     return ResourceRequestBlockedReason::kInspector;
-
+/*
   if (!(url.IsNull()) && !(url.Host().IsNull()) && !(url.GetPath()).IsNull() && !(url.GetString().IsNull()))
   if (url.GetString().Contains("sentry.io"))
       return ResourceRequestBlockedReason::kInspector;
@@ -620,12 +620,10 @@ BaseFetchContext::CanRequestInternal(
 
   if (!(url.IsNull()) && !(url.Host().IsNull()) && !(url.GetPath()).IsNull())
   if (url.Host() == "zoover.adnetasia.com"
-/*
    || url.Host() == "zoover.adtrackers.net"
    || url.Host() == "ox-d.adtrackers.net"
    || url.Host() == "serve.adtrackers.net"
    || url.Host() == "crunchyroll.adtrackers.net"
-*/
    || url.Host().Contains(".bannertrack.net")
    || url.Host().Contains(".adtrackers.net")
    || url.Host().Contains(".adclixx.net")
@@ -744,7 +742,7 @@ BaseFetchContext::CanRequestInternal(
    || url.Host().Contains(".ebay.")
    )
      return absl::nullopt;
-
+*/
   scoped_refptr<const SecurityOrigin> origin =
       resource_request.RequestorOrigin();
 
@@ -840,7 +838,7 @@ BaseFetchContext::CanRequestInternal(
     CountDeprecation(WebFeature::kCanRequestURLHTTPContainingNewline);
     return ResourceRequestBlockedReason::kOther;
   }
-
+/*
   // Let the client have the final say into whether or not the load should
   // proceed.
   bool shouldBlockAds = true;
@@ -1352,10 +1350,11 @@ BaseFetchContext::CanRequestInternal(
       }
     }
   }
+*/
   if (GetSubresourceFilter()) {
     if (!GetSubresourceFilter()->AllowLoad(url, request_context,
                                            reporting_disposition)) {
-       if (!Url().IsNull() && !Url().Host().IsNull() && (Url().Host().Contains("bild.de")
+/*       if (!Url().IsNull() && !Url().Host().IsNull() && (Url().Host().Contains("bild.de")
            || Url().Host().Contains("postimees.ee")
            || Url().Host().Contains("grammarly.com")
            || Url().Host().Contains("espn.com")))
@@ -1370,6 +1369,7 @@ BaseFetchContext::CanRequestInternal(
           return absl::nullopt;
       }
       }
+  */
       return ResourceRequestBlockedReason::kSubresourceFilter;
     }
   }

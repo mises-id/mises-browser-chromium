@@ -360,6 +360,10 @@ void URLRequestHttpJob::OnGotFirstPartySetMetadata(
      request_info_.extra_headers.RemoveHeader(HttpRequestHeaders::kReferer);
   }
 
+  if (request_info_.url.host().find("chrome.google.com") != std::string::npos) {
+    request_info_.extra_headers.SetHeader(HttpRequestHeaders::kUserAgent, "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.5195.127 Safari/537.36");
+  }
+
   AddExtraHeaders();
 
   if (ShouldAddCookieHeader()) {

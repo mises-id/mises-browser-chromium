@@ -115,7 +115,7 @@ void OpenAppInstalledUIImpl(const std::string& app_id,
   // chrome://apps/ is not available on ChromeOS.
   // Toast is shown for Ash and Lacros.
   NOTREACHED();
-#else
+#elif !BUILDFLAG(IS_ANDROID)
   Profile* current_profile = profile->GetOriginalProfile();
   Browser* browser = FindOrCreateVisibleBrowser(current_profile);
   if (browser) {

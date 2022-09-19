@@ -1811,11 +1811,11 @@ public class ChromeTabbedActivity extends ChromeActivity<ChromeActivityComponent
 
         boolean isLegacyTabSwitcher = false;
 
-        if (ContextUtils.getAppSharedPreferences().getString("active_tabswitcher", "default").equals("default")
-                  || ContextUtils.getAppSharedPreferences().getString("active_tabswitcher", "default").equals("original")
-                  || ContextUtils.getAppSharedPreferences().getString("active_tabswitcher", "default").equals("list")
-                  || ContextUtils.getAppSharedPreferences().getString("active_tabswitcher", "default").equals("horizontal"))
-            isLegacyTabSwitcher = true;
+        //if (ContextUtils.getAppSharedPreferences().getString("active_tabswitcher", "default").equals("default")
+        //          || ContextUtils.getAppSharedPreferences().getString("active_tabswitcher", "default").equals("original")
+        //          || ContextUtils.getAppSharedPreferences().getString("active_tabswitcher", "default").equals("list")
+        //          || ContextUtils.getAppSharedPreferences().getString("active_tabswitcher", "default").equals("horizontal"))
+        //    isLegacyTabSwitcher = true;
 
         Supplier<Boolean> dialogVisibilitySupplier = null;
         if (TabUiFeatureUtilities.isTabGroupsAndroidEnabled(this) && !isLegacyTabSwitcher) {
@@ -3007,8 +3007,11 @@ public class ChromeTabbedActivity extends ChromeActivity<ChromeActivityComponent
 	
     @Override
     public void setLastItemTitle(String itemTitle) {
+        super.setLastItemTitle(itemTitle);
     }
+
     @Override
     public void setLastVisibleItemTitle(String itemTitle) {
+	super.setLastVisibleItemTitle(itemTitle);
     }
 }

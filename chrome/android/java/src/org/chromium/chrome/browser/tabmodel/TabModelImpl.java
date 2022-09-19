@@ -31,6 +31,7 @@ import org.chromium.ui.mojom.WindowOpenDisposition;
 import org.chromium.url.GURL;
 import org.chromium.url.Origin;
 
+import android.util.Log;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -752,7 +753,16 @@ public class TabModelImpl extends TabModelJniBridge {
 
     @Override
     public int getLastNonExtensionActiveIndex() {
-        return INVALID_TAB_INDEX;
+//        Log.i("EXTENSIONS", "TabModelImpl - (secondary) getLastNonExtensionActiveIndex");
+        int result = mIndex;
+//        Log.i("EXTENSIONS", "TabModelImpl - (secondary) getLastNonExtensionActiveIndex - " + mIndex);
+        Tab currentTab = getTabAt(mIndex);
+        // We get the adjacent tab in case we are currently on a chrome-extension page
+        if (currentTab != null && currentTab.getUrl() != null && (currentTab.getUrl().getSpec().contains("chrome-extension://")))
+          result = mIndex - 1;
+        if (result < 0)
+          return 0;
+        return result;    
     }
 
     @Override

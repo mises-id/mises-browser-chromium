@@ -8,6 +8,7 @@
 
 #include "base/memory/raw_ptr.h"
 #include "base/no_destructor.h"
+#include "base/logging.h"
 #include "components/media_router/browser/media_router_metrics.h"
 #include "components/media_router/browser/presentation/start_presentation_context.h"
 #include "components/media_router/common/media_route.h"
@@ -28,6 +29,7 @@ MediaRouterDialogController::GetOrCreate& GetGetOrCreate() {
 void MediaRouterDialogController::SetGetOrCreate(
     const MediaRouterDialogController::GetOrCreate& get_or_create) {
   DCHECK(!GetGetOrCreate());
+  LOG(ERROR) << "MediaRouterDialogController::SetGetOrCreate";
   GetGetOrCreate() = get_or_create;
 }
 

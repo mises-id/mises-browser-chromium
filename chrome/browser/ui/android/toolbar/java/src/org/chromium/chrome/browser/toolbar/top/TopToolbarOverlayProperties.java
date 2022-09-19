@@ -45,5 +45,5 @@ public class TopToolbarOverlayProperties {
 
     public static final PropertyKey[] ALL_KEYS =
             new PropertyKey[] {RESOURCE_ID, URL_BAR_RESOURCE_ID, TOOLBAR_BACKGROUND_COLOR,
-                    URL_BAR_COLOR, Y_OFFSET, SHOW_SHADOW, VISIBLE, PROGRESS_BAR_INFO};
+                    URL_BAR_COLOR, X_OFFSET, Y_OFFSET, SHOW_SHADOW, VISIBLE, PROGRESS_BAR_INFO};
 }

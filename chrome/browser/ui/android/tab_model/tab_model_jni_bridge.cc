@@ -80,6 +80,11 @@ int TabModelJniBridge::GetActiveIndex() const {
   return Java_TabModelJniBridge_index(env, java_object_.get(env));
 }
 
+int TabModelJniBridge::GetLastNonExtensionActiveIndex() const {
+  JNIEnv* env = AttachCurrentThread();
+  return Java_TabModelJniBridge_getLastNonExtensionActiveIndex(env, java_object_.get(env));
+}
+
 void TabModelJniBridge::CreateTab(TabAndroid* parent,
                                   WebContents* web_contents) {
   JNIEnv* env = AttachCurrentThread();

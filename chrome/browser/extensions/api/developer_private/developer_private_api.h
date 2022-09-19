@@ -553,6 +553,7 @@ class DeveloperPrivateLoadUnpackedFunction
   void FileSelected(const base::FilePath& path) override;
   void FileSelectionCanceled() override;
 
+  void CheckFile(const base::FilePath& path);
   // Callback for the UnpackedLoader.
   void OnLoadComplete(const Extension* extension,
                       const base::FilePath& file_path,
@@ -706,7 +707,7 @@ class DeveloperPrivateLoadDirectoryFunction : public ExtensionFunction {
                 const base::FilePath& dest_path);
 
   void Load();
-
+  
   scoped_refptr<::storage::FileSystemContext> context_;
 
   // syncfs url representing the root of the folder to be copied.

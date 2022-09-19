@@ -139,11 +139,11 @@ public class TabUiFeatureUtilities {
      * @param context The activity context.
      */
     public static boolean isGridTabSwitcherEnabled(Context context) {
-        if (ContextUtils.getAppSharedPreferences().getString("active_tabswitcher", "default").equals("default")
-                  || ContextUtils.getAppSharedPreferences().getString("active_tabswitcher", "default").equals("original")
-                  || ContextUtils.getAppSharedPreferences().getString("active_tabswitcher", "default").equals("list")
-                  || ContextUtils.getAppSharedPreferences().getString("active_tabswitcher", "default").equals("horizontal"))
-            return false;
+        //if (ContextUtils.getAppSharedPreferences().getString("active_tabswitcher", "default").equals("default")
+        //          || ContextUtils.getAppSharedPreferences().getString("active_tabswitcher", "default").equals("original")
+        //          || ContextUtils.getAppSharedPreferences().getString("active_tabswitcher", "default").equals("list")
+        //          || ContextUtils.getAppSharedPreferences().getString("active_tabswitcher", "default").equals("horizontal"))
+        //    return false;
 
         // Disable grid tab switcher for tablet.
         if (DeviceFormFactor.isNonMultiDisplayContextOnTablet(context)) {
@@ -222,11 +222,11 @@ public class TabUiFeatureUtilities {
             return isTabletTabGroupsEnabled(context);
         }
 
-        if (ContextUtils.getAppSharedPreferences().getString("active_tabswitcher", "default").equals("default")
-                      || ContextUtils.getAppSharedPreferences().getString("active_tabswitcher", "default").equals("original")
-                      || ContextUtils.getAppSharedPreferences().getString("active_tabswitcher", "default").equals("horizontal")) {
-            return false;
-        }
+        //if (ContextUtils.getAppSharedPreferences().getString("active_tabswitcher", "default").equals("default")
+        //              || ContextUtils.getAppSharedPreferences().getString("active_tabswitcher", "default").equals("original")
+        //              || ContextUtils.getAppSharedPreferences().getString("active_tabswitcher", "default").equals("horizontal")) {
+        //    return false;
+       // }
         return !DeviceClassManager.enableAccessibilityLayout(context)
                 && ChromeFeatureList.sTabGroupsAndroid.isEnabled()
                 && isTabManagementModuleSupported();

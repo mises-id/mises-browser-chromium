@@ -306,7 +306,7 @@ class ChromeDownloadManagerDelegate
   // multiple downloads are associated with the same file path.
   bool IsMostRecentDownloadItemAtFilePath(download::DownloadItem* download);
 
-#if !BUILDFLAG(IS_ANDROID)
+#if true || !BUILDFLAG(IS_ANDROID)
   // Cancels a download if it's still an ephemeral warning (and has not been
   // acted on by the user).
   void CancelForEphemeralWarning(const std::string& guid);

@@ -551,6 +551,7 @@ void ChromeBrowserMainExtraPartsMetrics::PostCreateMainMessageLoop() {
 }
 
 void ChromeBrowserMainExtraPartsMetrics::PreProfileInit() {
+LOG(ERROR) << "ChromeBrowserMainExtraPartsMetrics::PreProfileInit";
   RecordMicroArchitectureStats();
 }
 

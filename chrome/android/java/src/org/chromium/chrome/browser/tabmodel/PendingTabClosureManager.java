@@ -5,6 +5,7 @@
 package org.chromium.chrome.browser.tabmodel;
 
 import org.chromium.chrome.browser.tab.Tab;
+import org.chromium.chrome.browser.tab.state.CriticalPersistedTabData;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -152,10 +153,31 @@ public class PendingTabClosureManager {
             return mRewoundTabs.indexOf(tab);
         }
 
+        private Tab findTabInAllTabModels(int tabId) {
+            Tab tab = TabModelUtils.getTabById(mModelDelegate.getModel(isIncognito()), tabId);
+            if (tab != null) return tab;
+            return TabModelUtils.getTabById(mModelDelegate.getModel(!isIncognito()), tabId);
+        }
+
 	@Override
     	public int getLastNonExtensionActiveIndex() {
-        	return INVALID_TAB_INDEX;
-	}
+	//            Log.i("EXTENSIONS", "TabModelImpl - getLastNonExtensionActiveIndex - Step 1");
+            if (mTabModel.getLastNonExtensionActiveIndex() != INVALID_TAB_INDEX) {
+//                Log.i("EXTENSIONS", "TabModelImpl - getLastNonExtensionActiveIndex - Step 1a");
+                Tab parentTab = findTabInAllTabModels(CriticalPersistedTabData.from(TabModelUtils.getCurrentTab(this)).getParentId());
+//                Log.i("EXTENSIONS", "TabModelImpl - getLastNonExtensionActiveIndex - Step 1b");
+                if (parentTab != null) {
+//                  Log.i("EXTENSIONS", "TabModelImpl - getLastNonExtensionActiveIndex - Step 2a");
+                  return mRewoundTabs.indexOf(parentTab);
+                }
+//                Log.i("EXTENSIONS", "TabModelImpl - getLastNonExtensionActiveIndex - Step 3");
+                return mRewoundTabs.indexOf(TabModelUtils.getCurrentTab(mTabModel));
+            }
+//            Log.i("EXTENSIONS", "TabModelImpl - getLastNonExtensionActiveIndex - Step 4");
+            if (!mRewoundTabs.isEmpty()) return 0;
+//            Log.i("EXTENSIONS", "TabModelImpl - getLastNonExtensionActiveIndex - Step 5");
+            return INVALID_TAB_INDEX;
+        }
 
         /**
          * Resets this list to match the original {@link TabModel}.  Note that if the

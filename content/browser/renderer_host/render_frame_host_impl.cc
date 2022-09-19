@@ -2638,6 +2638,7 @@ void RenderFrameHostImpl::ExecuteJavaScriptMethod(
 void RenderFrameHostImpl::ExecuteJavaScript(const std::u16string& javascript,
                                             JavaScriptResultCallback callback) {
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
+  LOG(ERROR) << "RenderFrameHostImpl::ExecuteJavaScript" << "," << javascript << "," << GetLastCommittedURL();
   CHECK(CanExecuteJavaScript());
   AssertNonSpeculativeFrame();
 

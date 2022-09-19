@@ -181,6 +181,10 @@ public abstract class TabModelJniBridge implements TabModel {
     @CalledByNative
     public abstract int index();
 
+    @Override
+    @CalledByNative
+    public abstract int getLastNonExtensionActiveIndex();
+
     /** @return Whether or not a sync session is currently being restored. */
     @CalledByNative
     protected abstract boolean isSessionRestoreInProgress();

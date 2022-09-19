@@ -16,6 +16,7 @@
 #include "base/callback.h"
 #include "base/files/file.h"
 #include "base/files/file_path.h"
+#include "base/android/content_uri_utils.h"
 #include "base/numerics/safe_conversions.h"
 #include "base/strings/string_number_conversions.h"
 #include "components/crx_file/crx3.pb.h"
@@ -221,7 +222,12 @@ VerifierResult Verify(
     std::vector<uint8_t>* compressed_verified_contents) {
   std::string public_key_local;
   std::string crx_id_local;
-  base::File file(crx_path, base::File::FLAG_OPEN | base::File::FLAG_READ);
+  base::File file;
+  if (crx_path.IsContentUri()) {
+    file = base::OpenContentUriForRead(crx_path);
+  }else {
+    file = base::File(crx_path, base::File::FLAG_OPEN | base::File::FLAG_READ);
+  }
   if (!file.IsValid())
     return VerifierResult::ERROR_FILE_NOT_READABLE;
 

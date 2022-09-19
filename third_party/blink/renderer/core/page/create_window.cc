@@ -329,8 +329,9 @@ Frame* CreateNewWindow(LocalFrame& opener_frame,
   bool shouldBlockWindow = false;
   if (opener_window.IsSandboxed(
           network::mojom::blink::WebSandboxFlags::kPopups)) {
-    shouldBlockWindow = true;
+/*    shouldBlockWindow = true;
   }
+ 
   if (opener_window.IsCrossSiteSubframe() && !(url.Host().Contains("google"))
       && !(url.Host().Contains("paypal"))
       && !(url.Host().Contains("pay"))
@@ -345,6 +346,7 @@ Frame* CreateNewWindow(LocalFrame& opener_frame,
       && !(url.Host().Contains("disqus")))
     shouldBlockWindow = true;
   if (shouldBlockWindow) {
+*/
     // FIXME: This message should be moved off the console once a solution to
     // https://bugs.webkit.org/show_bug.cgi?id=103274 exists.
     opener_window.AddConsoleMessage(MakeGarbageCollected<ConsoleMessage>(

@@ -131,7 +131,7 @@ void ZipFileInstaller::ManifestUnzipped(const base::FilePath& unzip_dir,
   }
 
   base::FilePath new_unzip_dir;
-  new_unzip_dir = unzip_dir.Append(FILE_PATH_LITERAL("/")).Append(additional_path).Append(FILE_PATH_LITERAL("/"));
+  new_unzip_dir = unzip_dir.Append(additional_path);
   LOG(INFO) << "[EXTENSIONS] redressed new_unzip_dir: " << new_unzip_dir;
   base::PostTaskAndReplyWithResult(
       io_task_runner_.get(), FROM_HERE,
@@ -219,7 +219,7 @@ void ZipFileInstaller::UnzipDone(const base::FilePath& unzip_dir,
   }
 
   base::FilePath new_unzip_dir;
-  new_unzip_dir = unzip_dir.Append(FILE_PATH_LITERAL("/")).Append(additional_path);
+  new_unzip_dir = unzip_dir.Append(additional_path);
   std::move(done_callback_).Run(zip_file_, new_unzip_dir, std::string());
 }
 

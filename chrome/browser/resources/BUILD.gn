@@ -278,27 +278,25 @@ repack("dev_ui_paks") {
   output = "$root_gen_dir/chrome/dev_ui_resources.pak"
 
   sources = [
-    "$root_gen_dir/weblayer/weblayer_resources.pak"
-    #"$root_gen_dir/chrome/bluetooth_internals_resources.pak",
-    #"$root_gen_dir/chrome/browsing_topics_internals_resources.pak",
-    #"$root_gen_dir/chrome/dev_ui_browser_resources.pak",
-    #"$root_gen_dir/chrome/internals_resources.pak",
-    #"$root_gen_dir/chrome/invalidations_resources.pak",
-    #"$root_gen_dir/chrome/media_resources.pak",
-    #"$root_gen_dir/chrome/net_internals_resources.pak",
-    #"$root_gen_dir/chrome/omnibox_resources.pak",
-    #"$root_gen_dir/chrome/usb_internals_resources.pak",
-    #"$root_gen_dir/components/dev_ui_components_resources.pak",
-    #"$root_gen_dir/components/download_internals_resources.pak",
-    #"$root_gen_dir/components/history_clusters_internals_resources.pak",
-    #"$root_gen_dir/components/optimization_guide_internals_resources.pak",
-    #"$root_gen_dir/components/sync_driver_sync_internals_resources.pak",
-    #"$root_gen_dir/content/browser/resources/media/media_internals_resources.pak",
-    #"$root_gen_dir/content/browser/webrtc/resources/webrtc_internals_resources.pak",
-    #"$root_gen_dir/content/dev_ui_content_resources.pak",
+    "$root_gen_dir/chrome/bluetooth_internals_resources.pak",
+    "$root_gen_dir/chrome/browsing_topics_internals_resources.pak",
+    "$root_gen_dir/chrome/dev_ui_browser_resources.pak",
+    "$root_gen_dir/chrome/internals_resources.pak",
+    "$root_gen_dir/chrome/invalidations_resources.pak",
+    "$root_gen_dir/chrome/media_resources.pak",
+    "$root_gen_dir/chrome/net_internals_resources.pak",
+    "$root_gen_dir/chrome/omnibox_resources.pak",
+    "$root_gen_dir/chrome/usb_internals_resources.pak",
+    "$root_gen_dir/components/dev_ui_components_resources.pak",
+    "$root_gen_dir/components/download_internals_resources.pak",
+    "$root_gen_dir/components/history_clusters_internals_resources.pak",
+    "$root_gen_dir/components/optimization_guide_internals_resources.pak",
+    "$root_gen_dir/components/sync_driver_sync_internals_resources.pak",
+    "$root_gen_dir/content/browser/resources/media/media_internals_resources.pak",
+    "$root_gen_dir/content/browser/webrtc/resources/webrtc_internals_resources.pak",
+    "$root_gen_dir/content/dev_ui_content_resources.pak",
   ]
   deps = [
-    "//weblayer:resources",
     "//chrome/browser:dev_ui_browser_resources",
     "//chrome/browser/resources/bluetooth_internals:resources",
     "//chrome/browser/resources/browsing_topics:resources",
@@ -319,7 +317,7 @@ repack("dev_ui_paks") {
   ]
 
   if (is_android) {
-    #sources += [ "$root_gen_dir/chrome/webapks_resources.pak" ]
+    sources += [ "$root_gen_dir/chrome/webapks_resources.pak" ]
     deps += [ "//chrome/browser/resources/webapks:resources" ]
   }
 }

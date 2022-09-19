@@ -170,13 +170,22 @@ TracingController* TracingController::GetInstance() {
   return TracingControllerImpl::GetInstance();
 }
 
-TracingControllerImpl::TracingControllerImpl()
-    : delegate_(GetContentClient()->browser()->GetTracingDelegate()) {
+TracingControllerImpl::TracingControllerImpl() {
+   // : delegate_(GetContentClient()->browser()->GetTracingDelegate()) {
+   LOG(INFO) << "[kiwi]" << "TracingControllerImpl::TracingControllerImpl step-1";
   DCHECK(!g_tracing_controller);
+  LOG(INFO) << "[kiwi]" << "TracingControllerImpl::TracingControllerImpl step-2";
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
+  LOG(INFO) << "[kiwi]" << "TracingControllerImpl::TracingControllerImpl step-3";
   // Deliberately leaked, like this class.
+  if (GetContentClient() && GetContentClient()->browser()) {
+    delegate_.reset(GetContentClient()->browser()->GetTracingDelegate());
+  }
+  LOG(INFO) << "[kiwi]" << "TracingControllerImpl::TracingControllerImpl step-4";
   base::FileTracing::SetProvider(new FileTracingProviderImpl);
+  LOG(INFO) << "[kiwi]" << "TracingControllerImpl::TracingControllerImpl step-5";
   AddAgents();
+  LOG(INFO) << "[kiwi]" << "TracingControllerImpl::TracingControllerImpl step-6";
   g_tracing_controller = this;
 
 #if BUILDFLAG(IS_CHROMEOS_ASH)
