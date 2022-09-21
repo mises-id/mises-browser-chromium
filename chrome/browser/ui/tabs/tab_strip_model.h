@@ -249,7 +249,7 @@ class TabStripModel : public TabGroupController {
   // kNoTab if no tab is currently selected (this happens while the tab strip is
   // being initialized or is empty).
   int active_index() const {
-    return selection_model_.active().has_value()
+    return selection_model_.active() && selection_model_.active().has_value()
                ? static_cast<int>(selection_model_.active().value())
                : kNoTab;
   }

@@ -318,7 +318,7 @@ bool Widget::RequiresNonClientView(InitParams::Type type) {
 
 void Widget::Init(InitParams params) {
   TRACE_EVENT0("views", "Widget::Init");
-
+  LOG(INFO) << "Widget::Init" << "step - 1";
   if (params.name.empty() && params.delegate) {
     params.name = params.delegate->internal_name();
     // If an internal name was not provided the class name of the contents view
@@ -326,7 +326,7 @@ void Widget::Init(InitParams params) {
     if (params.name.empty() && params.delegate->GetContentsView())
       params.name = params.delegate->GetContentsView()->GetClassName();
   }
-
+  LOG(INFO) << "Widget::Init" << "step - 2";
   parent_ = params.parent ? GetWidgetForNativeView(params.parent) : nullptr;
 
   // Subscripbe to parent's paint-as-active change.
@@ -336,6 +336,7 @@ void Widget::Init(InitParams params) {
             base::BindRepeating(&Widget::OnParentShouldPaintAsActiveChanged,
                                 base::Unretained(this)));
   }
+  LOG(INFO) << "Widget::Init" << "step - 3";
 
   params.child |= (params.type == InitParams::TYPE_CONTROL);
   is_top_level_ = !params.child;
@@ -344,7 +345,7 @@ void Widget::Init(InitParams params) {
       params.type != views::Widget::InitParams::TYPE_WINDOW) {
     params.opacity = views::Widget::InitParams::WindowOpacity::kOpaque;
   }
-
+  LOG(INFO) << "Widget::Init" << "step - 3";
   {
     // ViewsDelegate::OnBeforeWidgetInit() may change `params.delegate` either
     // by setting it to null or assigning a different value to it, so handle
@@ -358,6 +359,7 @@ void Widget::Init(InitParams params) {
     widget_delegate_ =
         params.delegate ? params.delegate : default_widget_delegate.release();
   }
+  LOG(INFO) << "Widget::Init" << "step - 4";
   DCHECK(widget_delegate_);
 
   if (params.opacity == views::Widget::InitParams::WindowOpacity::kInferred)
@@ -374,7 +376,7 @@ void Widget::Init(InitParams params) {
 
   if (params.delegate)
     params.delegate->WidgetInitializing(this);
-
+  LOG(INFO) << "Widget::Init" << "step - 5";
   ownership_ = params.ownership;
 #if BUILDFLAG(IS_CHROMEOS_ASH)
   background_elevation_ = params.background_elevation;
@@ -389,9 +391,12 @@ void Widget::Init(InitParams params) {
   WidgetDelegate* delegate = params.delegate;
 
   native_widget_->InitNativeWidget(std::move(params));
+#if !BUILDFLAG(IS_ANDROID)
+  LOG(INFO) << "Widget::Init" << "step - 6";
   if (type == InitParams::TYPE_MENU)
     is_mouse_button_pressed_ = native_widget_->IsMouseButtonDown();
   if (RequiresNonClientView(type)) {
+    LOG(INFO) << "Widget::Init" << "step - 7";
     non_client_view_ =
         new NonClientView(widget_delegate_->CreateClientView(this));
     non_client_view_->SetFrameView(CreateNonClientFrameView());
@@ -421,20 +426,24 @@ void Widget::Init(InitParams params) {
       Minimize();
       saved_show_state_ = ui::SHOW_STATE_MINIMIZED;
     }
+    LOG(INFO) << "Widget::Init" << "step - 8";
   } else if (delegate) {
     SetContentsView(delegate->TransferOwnershipOfContentsView());
     SetInitialBoundsForFramelessWindow(bounds);
   }
 
   native_theme_observation_.Observe(GetNativeTheme());
+#endif
+  LOG(INFO) << "Widget::Init" << "step - 9";
   native_widget_initialized_ = true;
   native_widget_->OnWidgetInitDone();
-
+  LOG(INFO) << "Widget::Init" << "step - 10";
   if (delegate)
     delegate->WidgetInitialized();
-
+  LOG(INFO) << "Widget::Init" << "step - 11";
   internal::AnyWidgetObserverSingleton::GetInstance()->OnAnyWidgetInitialized(
       this);
+  LOG(INFO) << "Widget::Init" << "step - 12";
 }
 
 void Widget::ShowEmojiPanel() {
@@ -1813,12 +1822,14 @@ void Widget::OnDragWillStart() {}
 void Widget::OnDragComplete() {}
 
 const ui::NativeTheme* Widget::GetNativeTheme() const {
+#if !BUILDFLAG(IS_ANDROID)
   if (native_theme_)
     return native_theme_;
 
   if (parent_)
     return parent_->GetNativeTheme();
-
+#endif
+ 
 #if BUILDFLAG(IS_LINUX)
   if (const ui::LinuxUi* linux_ui = ui::LinuxUi::instance()) {
     if (auto* native_theme = linux_ui->GetNativeTheme(GetNativeWindow()))

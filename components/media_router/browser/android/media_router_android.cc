@@ -380,7 +380,7 @@ void MediaRouterAndroid::OnRouteRequestError(
 
 
 IssueManager* MediaRouterAndroid::GetIssueManager() {
-  return NULL;
+  return &issue_manange_;
 }
 
 void MediaRouterAndroid::GetMediaController(
@@ -396,7 +396,7 @@ base::Value MediaRouterAndroid::GetLogs() const {
   return base::Value(base::Value::Type::DICTIONARY);
 }
 LoggerImpl* MediaRouterAndroid::GetLogger(){
-  return NULL;
+  return &logger_;
 }
 void MediaRouterAndroid::GetProviderState(
     mojom::MediaRouteProviderId provider_id,

@@ -19,6 +19,9 @@
 #include "mojo/public/cpp/bindings/receiver.h"
 #include "mojo/public/cpp/bindings/remote.h"
 
+#include "components/media_router/browser/issue_manager.h"
+#include "components/media_router/browser/logger_impl.h"
+
 namespace media_router {
 
 // An implementation of MediaRouter interface on Android.
@@ -220,6 +223,8 @@ class MediaRouterAndroid : public MediaRouterBase {
   std::unordered_map<MediaRoute::Id,
                      std::vector<std::unique_ptr<PresentationConnectionProxy>>>
       presentation_connections_;
+  IssueManager issue_manange_;
+  LoggerImpl logger_;
 };
 
 }  // namespace media_router
