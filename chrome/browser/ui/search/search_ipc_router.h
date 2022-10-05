@@ -130,6 +130,8 @@ class SearchIPCRouter : public search::mojom::EmbeddedSearch {
   // Called when the tab corresponding to |this| instance is deactivated.
   void OnTabDeactivated();
 
+  void OnMisesInfoChanged();
+
   // search::mojom::EmbeddedSearch:
   void FocusOmnibox(int page_id, bool focus) override;
   void DeleteMostVisitedItem(int page_seq_no, const GURL& url) override;

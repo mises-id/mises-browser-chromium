@@ -317,9 +317,9 @@
   const url = 'https://api.alb.mises.site'
   const renderItems = (params,type) =>{
     if(!Array.isArray(params)) return [];
-    const boxStart = type === 'extension' ? '<div class="mises-web3-item extension-item" data-id="'+val.id+'">' : '<a class="mises-web3-item" href="'+ val.url+'">'
-    const boxEnd = type === 'extension' ? '</div>' : '</a>';
     const items = params.map(val=>{
+      const boxStart = type === 'extension' ? '<div class="mises-web3-item extension-item" data-id="'+val.id+'">' : '<a class="mises-web3-item" href="'+ val.url+'">'
+      const boxEnd = type === 'extension' ? '</div>' : '</a>';
       return boxStart+'<div class="mises-web3-img-box"><img src="'+val.logo+'" alt="'+val.title+'" onError="invalidate_image(this)"/></div><p class="mises-web3-title">'+val.title+'</p>'+boxEnd;
     })
     return items
@@ -339,20 +339,12 @@
         if(container) container.innerHTML = items.join('');
       }
     })
-    document.getElementById('extensions-add-button').addEventListener('click', function(){
-      window.open('https://web3.mises.site','_blank')
-    })
+    //document.getElementById('extensions-add-button').addEventListener('click', function(){
+    //  window.open('https://web3.mises.site','_blank')
+    //})
     // get install extensions
-    chrome.management.getAll().then(extensions=>{
-      const res = extensions.filter(val=>val.enabled).map(val=>{
-        return {
-          title: val.shortName,
-          id: val.id,
-          logo: val.icon[3]
-        }
-      })
-      getExtensions(res)
-    })
+    const extensions = chrome.embeddedSearch.newTabPage.mostVisitedExtensions;
+    setExtensions(extensions);
   }
   
   function getExtensions(extensions){
@@ -369,13 +361,11 @@
   function linkto(el){
     el.addEventListener('click', ()=>{
       const id = el.dataset.id;
-      chrome.management.launchApp(id,url=>{
-        window.open(url, '_blank');
-      })
+      chrome.embeddedSearch.newTabPage.openExtension(id);
     })
   }
 
-  chrome.embeddedSearch.mises.oninfo = res=>{
+  const oninfochange = res=>{
     if(res){
       const data = JSON.parse(res)
       const isAirdropMisesId = localStorage.getItem(res.misesId);
@@ -401,7 +391,9 @@
       showBox()
     }
   }
-  chrome.embeddedSearch.mises.info()
+  const info = chrome.embeddedSearch.mises.info;
+  chrome.embeddedSearch.mises.oninfo = oninfochange;
+  oninfochange(info);
 function getIsAirdrop(misesId){
     return new Promise((reslove,reject)=>{
       fetch(url+'/api/v1/mises_user/did:mises:'+misesId).then(res=>res.json()).then(reslove).catch(reject);

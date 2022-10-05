@@ -392,7 +392,7 @@ class MisesBindings : public gin::Wrappable<MisesBindings> {
       v8::Isolate* isolate) final;
 
   // Handlers for JS properties.
-  static void GetInfo();
+  static std::u16string GetInfo();
 
   MisesBindings(const MisesBindings&) = delete;
   MisesBindings& operator=(const MisesBindings&) = delete;
@@ -406,12 +406,13 @@ MisesBindings::~MisesBindings() = default;
 gin::ObjectTemplateBuilder MisesBindings::GetObjectTemplateBuilder(
     v8::Isolate* isolate) {
   return gin::Wrappable<MisesBindings>::GetObjectTemplateBuilder(isolate)
-      .SetMethod("info", &MisesBindings::GetInfo);
+      .SetProperty("info", &MisesBindings::GetInfo);
 }
 
-void MisesBindings::GetInfo() {
+std::u16string  MisesBindings::GetInfo() {
   SearchBox* search_box = GetSearchBoxForCurrentContext();
-  if (!search_box) return ;
+  if (!search_box) return std::u16string();
+  return search_box->mises_info();
 } 
 
 class SearchBoxBindings : public gin::Wrappable<SearchBoxBindings> {
@@ -511,6 +512,7 @@ class NewTabPageBindings : public gin::Wrappable<NewTabPageBindings> {
   // Handlers for JS properties.
   static bool IsInputInProgress();
   static v8::Local<v8::Value> GetMostVisited(v8::Isolate* isolate);
+  static v8::Local<v8::Value> GetMostVisitedExtensions(v8::Isolate* isolate);
   static bool GetMostVisitedAvailable(v8::Isolate* isolate);
   static bool IsIncognito(v8::Isolate* isolate);
   static v8::Local<v8::Value> GetNtpTheme(v8::Isolate* isolate);
@@ -526,6 +528,8 @@ class NewTabPageBindings : public gin::Wrappable<NewTabPageBindings> {
   // custom links iframe, and/or the local NTP.
   static v8::Local<v8::Value> GetMostVisitedItemData(v8::Isolate* isolate,
                                                      int rid);
+  static void OpenExtension(v8::Isolate* isolate,
+		             v8::Local<v8::Value> rid_value);
 };
 
 gin::WrapperInfo NewTabPageBindings::kWrapperInfo = {gin::kEmbedderNativeGin};
@@ -539,6 +543,7 @@ gin::ObjectTemplateBuilder NewTabPageBindings::GetObjectTemplateBuilder(
   return gin::Wrappable<NewTabPageBindings>::GetObjectTemplateBuilder(isolate)
       .SetProperty("isInputInProgress", &NewTabPageBindings::IsInputInProgress)
       .SetProperty("mostVisited", &NewTabPageBindings::GetMostVisited)
+      .SetProperty("mostVisitedExtensions", &NewTabPageBindings::GetMostVisitedExtensions)
       .SetProperty("mostVisitedAvailable",
                    &NewTabPageBindings::GetMostVisitedAvailable)
       .SetProperty("isIncognito",
@@ -554,7 +559,9 @@ gin::ObjectTemplateBuilder NewTabPageBindings::GetObjectTemplateBuilder(
       .SetMethod("undoMostVisitedDeletion",
                  &NewTabPageBindings::UndoMostVisitedDeletion)
       .SetMethod("getMostVisitedItemData",
-                 &NewTabPageBindings::GetMostVisitedItemData);
+                 &NewTabPageBindings::GetMostVisitedItemData)
+      .SetMethod("openExtension",
+		 &NewTabPageBindings::OpenExtension);
 }
 
 // static
@@ -575,6 +582,38 @@ bool NewTabPageBindings::IsInputInProgress() {
 }
 
 // static
+v8::Local<v8::Value> NewTabPageBindings::GetMostVisitedExtensions(v8::Isolate* isolate) {
+  const SearchBox* search_box = GetSearchBoxForCurrentContext();
+  if (!search_box)
+    return v8::Null(isolate);
+
+  content::RenderFrame* render_frame = GetMainRenderFrameForCurrentContext();
+
+  // This corresponds to "window.devicePixelRatio" in JavaScript.
+  float zoom_factor =
+      blink::PageZoomLevelToZoomFactor(render_frame->GetWebView()->ZoomLevel());
+  float device_pixel_ratio = render_frame->GetDeviceScaleFactor() * zoom_factor;
+
+  int render_frame_id = render_frame->GetRoutingID();
+
+  std::vector<InstantMostVisitedItemIDPair> instant_mv_items;
+  search_box->GetMostVisitedExtensions(&instant_mv_items);
+  v8::Local<v8::Context> context = isolate->GetCurrentContext();
+  v8::Local<v8::Object> v8_mv_items =
+      v8::Array::New(isolate, instant_mv_items.size());
+  for (size_t i = 0; i < instant_mv_items.size(); ++i) {
+    InstantRestrictedID rid = instant_mv_items[i].first;
+    v8_mv_items
+        ->CreateDataProperty(
+            context, i,
+            GenerateMostVisitedItemData(isolate, 
+                                    render_frame_id, rid, instant_mv_items[i].second))
+        .Check();
+  }
+  return v8_mv_items;
+}
+
+// static
 v8::Local<v8::Value> NewTabPageBindings::GetMostVisited(v8::Isolate* isolate) {
   const SearchBox* search_box = GetSearchBoxForCurrentContext();
   if (!search_box)
@@ -590,7 +629,7 @@ v8::Local<v8::Value> NewTabPageBindings::GetMostVisited(v8::Isolate* isolate) {
   int render_frame_id = render_frame->GetRoutingID();
 
   std::vector<InstantMostVisitedItemIDPair> instant_mv_items;
-  search_box->GetMostVisitedItems(&instant_mv_items);
+  search_box->GetMostVisitedSites(&instant_mv_items);
   v8::Local<v8::Context> context = isolate->GetCurrentContext();
   v8::Local<v8::Object> v8_mv_items =
       v8::Array::New(isolate, instant_mv_items.size());
@@ -633,6 +672,19 @@ v8::Local<v8::Value> NewTabPageBindings::GetNtpTheme(v8::Isolate* isolate) {
     return v8::Null(isolate);
   return GenerateNtpTheme(isolate, *theme);
 }
+
+// static
+void NewTabPageBindings::OpenExtension(v8::Isolate* isolate,
+                                               v8::Local<v8::Value> rid_value) {
+  // Manually convert to integer, so that the string "\"1\"" is also accepted.
+  absl::optional<int> rid = CoerceToInt(isolate, *rid_value);
+  if (!rid.has_value())
+    return;
+  SearchBox* search_box = GetSearchBoxForCurrentContext();
+  if (!search_box)
+    return;
+
+} 
 
 // static
 void NewTabPageBindings::DeleteMostVisitedItem(v8::Isolate* isolate,
@@ -732,13 +784,13 @@ void SearchBoxExtension::Install(blink::WebLocalFrame* frame) {
       ->Set(context, gin::StringToV8(isolate, "newTabPage"),
             newtabpage_controller.ToV8())
       .ToChecked();
-  chrome
-      ->Set(context, gin::StringToSymbol(isolate, "embeddedSearch"),
-            embedded_search)
-      .ToChecked();
   embedded_search
       ->Set(context, gin::StringToV8(isolate, "mises"),
             mises_controller.ToV8())
+      .ToChecked();
+  chrome
+      ->Set(context, gin::StringToSymbol(isolate, "embeddedSearch"),
+            embedded_search)
       .ToChecked();
 }
 

@@ -86,7 +86,7 @@
     "tabs",
     "misesPrivate"
   ],
-  "short_name": "__MSG_appName__",
+  "short_name": "MetaMask",
   "web_accessible_resources": [
     "inpage.js",
     "phishing.html"

@@ -154,9 +154,9 @@ void SearchIPCRouter::OmniboxFocusChanged(OmniboxFocusState state,
 
 void SearchIPCRouter::SendMostVisitedInfo(
     const InstantMostVisitedInfo& most_visited_info) {
+  OnMisesInfoChanged();
   if (!policy_->ShouldSendMostVisitedInfo() || !embedded_search_client())
     return;
-
   embedded_search_client()->MostVisitedInfoChanged(most_visited_info);
 }
 
@@ -193,6 +193,14 @@ void SearchIPCRouter::DeleteMostVisitedItem(int page_seq_no, const GURL& url) {
     return;
 
   delegate_->OnDeleteMostVisitedItem(url);
+}
+
+void SearchIPCRouter::OnMisesInfoChanged() {
+  if (!embedded_search_client())
+    return;
+  std::string info = android::MisesController::GetInstance()->getMisesUserInfo();
+  std::u16string result =  base::UTF8ToUTF16(info.c_str());
+  embedded_search_client()->MisesInfoChanged(result);
 }
 
 void SearchIPCRouter::UndoMostVisitedDeletion(int page_seq_no,

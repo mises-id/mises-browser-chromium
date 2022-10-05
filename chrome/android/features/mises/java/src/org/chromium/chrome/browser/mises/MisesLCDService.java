@@ -235,7 +235,7 @@ public class MisesLCDService extends Service {
     }
 
     private Notification getStickyNotification(String title, String message, boolean running) {
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(), 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, new Intent(), PendingIntent.FLAG_IMMUTABLE);
 
         // Create notification builder.
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
@@ -261,7 +261,7 @@ public class MisesLCDService extends Service {
             Intent openAppIntent = new Intent(getApplicationContext(), MisesLCDService.class);
             openAppIntent.setAction(ACTION_OPEN_APP);
             openAppIntent.putExtra(KEY_DATA, "" + System.currentTimeMillis());
-            PendingIntent pendingPlayIntent = PendingIntent.getService(getApplicationContext(), 0, openAppIntent, 0);
+            PendingIntent pendingPlayIntent = PendingIntent.getService(getApplicationContext(), 0, openAppIntent, PendingIntent.FLAG_IMMUTABLE);
             NotificationCompat.Action openAppAction = new NotificationCompat.Action(
                     android.R.drawable.ic_menu_view,
                     getString(R.string.lbl_btn_sticky_notification_open_app),
@@ -272,7 +272,7 @@ public class MisesLCDService extends Service {
             Intent restartIntent = new Intent(getApplicationContext(), MisesLCDService.class);
             restartIntent.setAction(ACTION_RESTART_FOREGROUND_SERVICE);
             restartIntent.putExtra(KEY_DATA, "" + System.currentTimeMillis());
-            PendingIntent pendingPlayIntent = PendingIntent.getService(getApplicationContext(), 0, restartIntent, 0);
+            PendingIntent pendingPlayIntent = PendingIntent.getService(getApplicationContext(), 0, restartIntent, PendingIntent.FLAG_IMMUTABLE);
             NotificationCompat.Action restartAction = new NotificationCompat.Action(
                     android.R.drawable.ic_menu_view,
                     getString(R.string.lbl_btn_sticky_notification_restart_lcd),

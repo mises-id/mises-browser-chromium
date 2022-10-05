@@ -73,6 +73,10 @@ class SearchBox : public content::RenderFrameObserver,
   // Returns the latest most visited items sent by the browser.
   void GetMostVisitedItems(
       std::vector<InstantMostVisitedItemIDPair>* items) const;
+  void GetMostVisitedSites(
+      std::vector<InstantMostVisitedItemIDPair>* items) const;
+  void GetMostVisitedExtensions(
+      std::vector<InstantMostVisitedItemIDPair>* items) const;
 
   bool AreMostVisitedItemsAvailable() const;
 
@@ -104,6 +108,7 @@ class SearchBox : public content::RenderFrameObserver,
   bool is_key_capture_enabled() const { return is_key_capture_enabled_; }
  
   void MisesInfoChanged(const std::u16string &info) override;
+  const std::u16string &mises_info(){ return mises_info_; };
 
  private:
   // Overridden from content::RenderFrameObserver:
@@ -144,6 +149,7 @@ class SearchBox : public content::RenderFrameObserver,
   bool can_run_js_in_renderframe_;
 
   // The Instant state.
+  std::u16string mises_info_;
   int page_seq_no_;
   bool is_focused_;
   bool is_input_in_progress_;

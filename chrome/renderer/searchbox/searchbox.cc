@@ -221,6 +221,28 @@ void SearchBox::GetMostVisitedItems(
   most_visited_items_cache_.GetCurrentItems(items);
 }
 
+bool ItemIsExtension (InstantMostVisitedItemIDPair pair) 
+{ 
+  return pair.second.url.SchemeIs("chrome-extenison");
+}
+
+bool ItemIsSite (InstantMostVisitedItemIDPair pair)
+{ 
+  return !pair.second.url.SchemeIs("chrome-extenison");
+} 
+
+void SearchBox::GetMostVisitedExtensions(
+    std::vector<InstantMostVisitedItemIDPair>* items) const {
+  most_visited_items_cache_.GetCurrentItems(items);
+  items->erase(std::remove_if(items->begin(),items->end(),ItemIsSite), items->end()); 
+}
+
+void SearchBox::GetMostVisitedSites(
+    std::vector<InstantMostVisitedItemIDPair>* items) const {
+  most_visited_items_cache_.GetCurrentItems(items);
+ items->erase(std::remove_if(items->begin(),items->end(),ItemIsExtension), items->end());
+}
+
 bool SearchBox::AreMostVisitedItemsAvailable() const {
   return has_received_most_visited_;
 }
@@ -350,6 +372,7 @@ void SearchBox::OnDestruct() {
 }
 
 void SearchBox::MisesInfoChanged(const std::u16string &info) {
+  mises_info_ = info;
   if (can_run_js_in_renderframe_) {
       SearchBoxExtension::DispatchMisesInfoChanged(
           render_frame()->GetWebFrame(), info);
