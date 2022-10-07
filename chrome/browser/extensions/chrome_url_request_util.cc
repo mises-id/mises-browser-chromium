@@ -255,21 +255,21 @@ base::FilePath GetBundleResourcePath(
     const network::ResourceRequest& request,
     const base::FilePath& extension_resources_path,
     int* resource_id) {
-  LOG(INFO) << "GetBundleResourcePath:" << extension_resources_path;
+  //LOG(INFO) << "GetBundleResourcePath:" << extension_resources_path;
   *resource_id = 0;
   // |chrome_resources_path| corresponds to src/chrome/browser/resources in
   // source tree.
   base::FilePath chrome_resources_path;
   if (!base::PathService::Get(chrome::DIR_RESOURCES, &chrome_resources_path))
     return base::FilePath();
-   LOG(INFO) << "GetBundleResourcePath: step - 1";
+   //LOG(INFO) << "GetBundleResourcePath: step - 1";
   // Since component extension resources are included in
   // component_extension_resources.pak file in |chrome_resources_path|,
   // calculate the extension |request_relative_path| against
   // |chrome_resources_path|.
   if (!chrome_resources_path.IsParent(extension_resources_path))
     return base::FilePath();
-   LOG(INFO) << "GetBundleResourcePath: step - 2";
+   //LOG(INFO) << "GetBundleResourcePath: step - 2";
   const base::FilePath request_relative_path =
       extensions::file_util::ExtensionURLToRelativeFilePath(request.url);
   if (!ExtensionsBrowserClient::Get()
@@ -279,7 +279,7 @@ base::FilePath GetBundleResourcePath(
     return base::FilePath();
   }
   DCHECK_NE(0, *resource_id);
-  LOG(INFO) << "GetBundleResourcePath: step - 3" << "|" << *resource_id << "|" << request_relative_path;
+  //LOG(INFO) << "GetBundleResourcePath: step - 3" << "|" << *resource_id << "|" << request_relative_path;
 
   return request_relative_path;
 }

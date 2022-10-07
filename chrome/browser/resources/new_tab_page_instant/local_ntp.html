@@ -315,15 +315,25 @@
 
 <script>
   const url = 'https://api.alb.mises.site'
-  const renderItems = (params,type) =>{
+  const renderSiteItems = (params) =>{
     if(!Array.isArray(params)) return [];
     const items = params.map(val=>{
-      const boxStart = type === 'extension' ? '<div class="mises-web3-item extension-item" data-id="'+val.id+'">' : '<a class="mises-web3-item" href="'+ val.url+'">'
-      const boxEnd = type === 'extension' ? '</div>' : '</a>';
+      const boxStart = '<a class="mises-web3-item" href="'+ val.url+'">'
+      const boxEnd =  '</a>';
       return boxStart+'<div class="mises-web3-img-box"><img src="'+val.logo+'" alt="'+val.title+'" onError="invalidate_image(this)"/></div><p class="mises-web3-title">'+val.title+'</p>'+boxEnd;
     })
     return items
   }
+  const renderExtensionItems = (params) =>{
+    if(!Array.isArray(params)) return [];
+    const items = params.map(val=>{
+      const boxStart = '<div class="mises-web3-item extension-item" data-id="'+val.rid+'">'
+      const boxEnd = '</div>'
+      return boxStart+'<div class="mises-web3-img-box"><img src="'+val.faviconUrl+'" alt="'+val.title+'" onError="invalidate_image(this)"/></div><p class="mises-web3-title">'+val.title+'</p>'+boxEnd;
+    })
+    return items
+  }
+
   window.onload = ()=>{
     const container = document.getElementById('mises-web3');
     const misesWeb3LayoutCache = localStorage.getItem('misesWeb3Layout');
@@ -333,7 +343,7 @@
     fetch('https://web3.mises.site/website/recommend.json').then(res=>{
       return res.json()
     }).then(res=>{
-      const items = renderItems(res)
+      const items = renderSiteItems(res)
       if(misesWeb3LayoutCache!==items.join('')){
         localStorage.setItem('misesWeb3Layout', items.join(''));
         if(container) container.innerHTML = items.join('');
@@ -347,12 +357,12 @@
     setExtensions(extensions);
   }
   
-  function getExtensions(extensions){
+  function setExtensions(extensions){
     const container = document.getElementById('mises-extensions');
-    const items = renderItems(extensions,'extension')
+    const itemDoms = renderExtensionItems(extensions)
     if(container) {
-      container.innerHTML = items.join('');
-      const items = bookmarksGrid.getElementsByClassName('extension-item')
+      container.innerHTML = itemDoms.join('');
+      const items = container.getElementsByClassName('extension-item')
       Array.prototype.forEach.call(items, function (el) { 
         linkto(el)
       });
@@ -360,8 +370,8 @@
   }
   function linkto(el){
     el.addEventListener('click', ()=>{
-      const id = el.dataset.id;
-      chrome.embeddedSearch.newTabPage.openExtension(id);
+      const rid = el.dataset.id;
+      chrome.embeddedSearch.newTabPage.openExtension(rid);
     })
   }
 

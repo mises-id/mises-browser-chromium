@@ -142,7 +142,7 @@ v8::Local<v8::Object> GenerateMostVisitedItemData(
   gin::DataObjectBuilder builder(isolate);
   builder.Set("title", title)
       .Set("direction", base::StringPiece(direction))
-      .Set("url", mv_item.url.spec());
+      .Set("url", mv_item.url.spec()).Set("rid", restricted_id);
 
   // If the suggestion already has a favicon, we populate the element with it.
   if (!mv_item.favicon.spec().empty())
@@ -683,7 +683,7 @@ void NewTabPageBindings::OpenExtension(v8::Isolate* isolate,
   SearchBox* search_box = GetSearchBoxForCurrentContext();
   if (!search_box)
     return;
-
+  search_box->OpenExtension(*rid);
 } 
 
 // static

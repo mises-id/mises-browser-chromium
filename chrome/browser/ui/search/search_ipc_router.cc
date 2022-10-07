@@ -96,9 +96,11 @@ void EmbeddedSearchClientFactoryImpl::Connect(
     mojo::PendingAssociatedRemote<search::mojom::EmbeddedSearchClient> client) {
   content::RenderFrameHost* frame = factory_receivers_.GetCurrentTargetFrame();
   const bool is_main_frame = frame->GetParent() == nullptr;
+  LOG(INFO) << "EmbeddedSearchClientFactoryImpl::Connect step - 1";
   if (!IsInInstantProcess(frame) || !is_main_frame) {
     return;
   }
+  LOG(INFO) << "EmbeddedSearchClientFactoryImpl::Connect step - 2";
   client_receiver_->reset();
   client_receiver_->Bind(std::move(receiver));
   embedded_search_client_.reset();
@@ -154,9 +156,12 @@ void SearchIPCRouter::OmniboxFocusChanged(OmniboxFocusState state,
 
 void SearchIPCRouter::SendMostVisitedInfo(
     const InstantMostVisitedInfo& most_visited_info) {
+  LOG(INFO) << "SearchIPCRouter::SendMostVisitedInfo step - 1";
   OnMisesInfoChanged();
-  if (!policy_->ShouldSendMostVisitedInfo() || !embedded_search_client())
+  //if (!policy_->ShouldSendMostVisitedInfo() || !embedded_search_client())
+  if (!embedded_search_client())
     return;
+  LOG(INFO) << "SearchIPCRouter::SendMostVisitedInfo step - 2";
   embedded_search_client()->MostVisitedInfoChanged(most_visited_info);
 }
 
@@ -232,5 +237,9 @@ void SearchIPCRouter::set_delegate_for_testing(Delegate* delegate) {
 void SearchIPCRouter::set_policy_for_testing(std::unique_ptr<Policy> policy) {
   DCHECK(policy);
   policy_ = std::move(policy);
+}
+
+void SearchIPCRouter::OpenExtension( const GURL& url) {
+  delegate_->OnOpenExtension(url);
 }
 

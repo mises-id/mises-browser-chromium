@@ -90,6 +90,7 @@ class SearchTabHelper : public content::WebContentsObserver,
   void OnDeleteMostVisitedItem(const GURL& url) override;
   void OnUndoMostVisitedDeletion(const GURL& url) override;
   void OnUndoAllMostVisitedDeletions() override;
+  void OnOpenExtension(const GURL& url) override;
 
   // Overridden from InstantServiceObserver:
   void NtpThemeChanged(NtpTheme theme) override;

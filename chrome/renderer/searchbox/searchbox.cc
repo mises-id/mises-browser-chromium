@@ -223,12 +223,12 @@ void SearchBox::GetMostVisitedItems(
 
 bool ItemIsExtension (InstantMostVisitedItemIDPair pair) 
 { 
-  return pair.second.url.SchemeIs("chrome-extenison");
+  return pair.second.url.SchemeIs("chrome-extension");
 }
 
 bool ItemIsSite (InstantMostVisitedItemIDPair pair)
 { 
-  return !pair.second.url.SchemeIs("chrome-extenison");
+  return !pair.second.url.SchemeIs("chrome-extension");
 } 
 
 void SearchBox::GetMostVisitedExtensions(
@@ -372,10 +372,19 @@ void SearchBox::OnDestruct() {
 }
 
 void SearchBox::MisesInfoChanged(const std::u16string &info) {
+  LOG(INFO) << "[Kiwi] SearchBox::MisesInfoChanged - Step 1";
   mises_info_ = info;
   if (can_run_js_in_renderframe_) {
       SearchBoxExtension::DispatchMisesInfoChanged(
           render_frame()->GetWebFrame(), info);
   }
+}
+
+void SearchBox::OpenExtension(
+    InstantRestrictedID most_visited_item_id) {
+  GURL url = GetURLForMostVisitedItem(most_visited_item_id);
+  if (!url.is_valid())
+    return;
+  embedded_search_service_->OpenExtension(url);
 }
 

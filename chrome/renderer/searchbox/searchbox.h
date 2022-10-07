@@ -109,6 +109,7 @@ class SearchBox : public content::RenderFrameObserver,
  
   void MisesInfoChanged(const std::u16string &info) override;
   const std::u16string &mises_info(){ return mises_info_; };
+  void OpenExtension(InstantRestrictedID most_visited_item_id);
 
  private:
   // Overridden from content::RenderFrameObserver:

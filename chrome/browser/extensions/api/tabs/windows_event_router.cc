@@ -366,6 +366,11 @@ void WindowsEventRouter::OnTabModelAdded() {
 
 }
 
+void WindowsEventRouter::DidAddTab(TabAndroid* tab,
+                                 TabModel::TabLaunchType type) {
+  LOG(INFO) << "WindowsEventRouter::DidAddTab";
+}
+
 void WindowsEventRouter::OnTabModelRemoved() {
    LOG(INFO) << "WindowsEventRouter::OnTabModelRemoved";
    if (!observed_tab_model_)

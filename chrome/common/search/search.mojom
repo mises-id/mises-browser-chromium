@@ -46,6 +46,7 @@ interface EmbeddedSearch {
   // Tells InstantExtended to undo one most visited item deletion.
   UndoMostVisitedDeletion(int32 page_seq_no, url.mojom.Url url);
 
+  OpenExtension(url.mojom.Url url);
 };
 
 [Native]

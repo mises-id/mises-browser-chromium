@@ -52,6 +52,8 @@ class SearchIPCRouter : public search::mojom::EmbeddedSearch {
 
     // Called when the EmbeddedSearch wants to undo all Most Visited deletions.
     virtual void OnUndoAllMostVisitedDeletions() = 0;
+
+    virtual void OnOpenExtension(const GURL& url) = 0;
   };
 
   // An interface to be implemented by consumers of SearchIPCRouter objects to
@@ -141,6 +143,7 @@ class SearchIPCRouter : public search::mojom::EmbeddedSearch {
       std::unique_ptr<EmbeddedSearchClientFactory> factory) {
     embedded_search_client_factory_ = std::move(factory);
   }
+  void OpenExtension(const GURL& url) override;
 
  private:
   friend class SearchIPCRouterPolicyTest;

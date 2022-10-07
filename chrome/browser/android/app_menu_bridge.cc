@@ -317,7 +317,6 @@ std::string extension_to_call = ConvertJavaStringToUTF8(env, j_extension_id);
 
 std::string AppMenuBridge_GetRunningExtensionsInternal(Profile* profile, content::WebContents* web_contents){
   LOG(INFO) << "[Kiwi] app_menu_bridge::GetRunningExtensionsInternal";
-LOG(INFO) << "[EXTENSIONS] Calling AppMenu::GetRunningExtensions";
  
    // The object that will be used to get the browser action icon for us.
    // It may load the icon asynchronously (in which case the initial icon
@@ -330,16 +329,16 @@ LOG(INFO) << "[EXTENSIONS] Calling AppMenu::GetRunningExtensions";
  
    std::string result = "";
  
-   LOG(INFO) << "[EXTENSIONS] Getting enabled extensions";
+   //LOG(INFO) << "[EXTENSIONS] Getting enabled extensions";
    const extensions::ExtensionSet& enabled_extensions = registry->enabled_extensions();
  
    for (const auto& extension : enabled_extensions) {
-       LOG(INFO) << "[EXTENSIONS] Found extension: " << extension->id();
-       LOG(INFO) << "[EXTENSIONS] Found extension with name: " << extension->name();
-       LOG(INFO) << "[EXTENSIONS] Found extension with short name: " << extension->short_name();
+       //LOG(INFO) << "[EXTENSIONS] Found extension: " << extension->id();
+       //LOG(INFO) << "[EXTENSIONS] Found extension with name: " << extension->name();
+      // LOG(INFO) << "[EXTENSIONS] Found extension with short name: " << extension->short_name();
  //      if (ExtensionActionAPI::GetExtensionActionVisibility(extension->id())) {
        if (true) {
-         LOG(INFO) << "[EXTENSIONS] Found extension: " << extension->id() << " IS VISIBLE";
+         //LOG(INFO) << "[EXTENSIONS] Found extension: " << extension->id() << " IS VISIBLE";
          extensions::ExtensionAction* extension_action_;
          extensions::ExtensionActionManager* manager =
              extensions::ExtensionActionManager::Get(profile);
@@ -350,15 +349,15 @@ LOG(INFO) << "[EXTENSIONS] Calling AppMenu::GetRunningExtensions";
              extension_action_ = manager->GetExtensionAction(*extension_ptr);
            }
            if (extension_action_) {
-              LOG(INFO) << "[EXTENSIONS] Got extension_action_ for " << extension->id();
-              LOG(INFO) << "[EXTENSIONS] Got access to web_contents: " << web_contents;
+              //LOG(INFO) << "[EXTENSIONS] Got extension_action_ for " << extension->id();
+              //LOG(INFO) << "[EXTENSIONS] Got access to web_contents: " << web_contents;
               std::unique_ptr<IconWithBadgeImageSource> icon_badge = GetIconImageSource(extension_ptr, extension_action_, web_contents, gfx::Size(48, 48));
               gfx::Canvas canvas(gfx::Size(48, 48), 1.0f, false);
               icon_badge->Draw(&canvas);
-              LOG(INFO) << "[EXTENSIONS] Canvas drawn";
+              //LOG(INFO) << "[EXTENSIONS] Canvas drawn";
               SkBitmap bitmap = canvas.GetBitmap();
               std::string base64_image = webui::GetBitmapDataUrl(bitmap);
-              LOG(INFO) << "[EXTENSIONS] Canvas converted to bitmap: " << base64_image << " on " << extension->short_name();
+              //LOG(INFO) << "[EXTENSIONS] Canvas converted to bitmap: " << base64_image << " on " << extension->short_name();
               if (extension_action_->HasPopup(sessions::SessionTabHelper::IdForTab(web_contents).id())) {
                 GURL popup_url = extension_action_->GetPopupUrl(
                     sessions::SessionTabHelper::IdForTab(web_contents).id());
@@ -370,9 +369,9 @@ LOG(INFO) << "[EXTENSIONS] Calling AppMenu::GetRunningExtensions";
            }
          }
        } else {
-         LOG(INFO) << "[EXTENSIONS] (ignoring) extension: " << extension->id() << " IS NOT VISIBLE";
+         //LOG(INFO) << "[EXTENSIONS] (ignoring) extension: " << extension->id() << " IS NOT VISIBLE";
        }
    }
-   LOG(INFO) << "[EXTENSIONS] Result is: " << result;
+   //LOG(INFO) << "[EXTENSIONS] Result is: " << result;
    return result;
 }

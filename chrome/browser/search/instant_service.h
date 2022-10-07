@@ -50,6 +50,7 @@ class Clock;
 namespace content {
 class BrowserContext;
 class RenderProcessHost;
+class WebContents;
 }  // namespace content
 
 // Tracks render process host IDs that are associated with Instant, i.e.
@@ -105,6 +106,8 @@ class InstantService : public KeyedService,
   void UndoMostVisitedDeletion(const GURL& url);
   // Invoked when the Instant page wants to undo all Most Visited deletions.
   void UndoAllMostVisitedDeletions();
+  
+  void OpenExtension(content::WebContents* web_contents, const GURL& url);
 
   // Invoked to update theme information for the NTP.
   virtual void UpdateNtpTheme();
