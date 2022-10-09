@@ -1673,13 +1673,13 @@ public class ChromeTabbedActivity extends ChromeActivity<ChromeActivityComponent
                     if (url == null || url.equals(UrlConstants.NTP_URL) || url.equals("chrome-search://local-ntp/local-ntp.html")) {
                         if (fromLauncherShortcut) {
                             getTabCreator(true).launchUrl(
-                                    "chrome-search://local-ntp/local-ntp.html", TabLaunchType.FROM_LAUNCHER_SHORTCUT);
+                                    "chrome-search://local-ntp/incognito-ntp.html", TabLaunchType.FROM_LAUNCHER_SHORTCUT);
                             recordLauncherShortcutAction(true);
                             reportNewTabShortcutUsed(true);
                         } else if (fromAppWidget) {
                             RecordUserAction.record("QuickActionSearchWidget.StartIncognito");
                             getTabCreator(true).launchUrl(
-                                    UrlConstants.NTP_URL, TabLaunchType.FROM_APP_WIDGET);
+                                    "chrome-search://local-ntp/incognito-ntp.html", TabLaunchType.FROM_APP_WIDGET);
                         } else if (IncognitoTabLauncher.didCreateIntent(intent)) {
                             Tab tab = getTabCreator(true).launchUrl("chrome-search://local-ntp/incognito-ntp.html",
                                     TabLaunchType.FROM_LAUNCH_NEW_INCOGNITO_TAB);
@@ -1697,7 +1697,7 @@ public class ChromeTabbedActivity extends ChromeActivity<ChromeActivityComponent
                         } else {
                             // Used by the Account management screen to open a new incognito tab.
                             // Account management screen collects its metrics separately.
-                            getTabCreator(true).launchUrl("chrome-search://local-ntp/local-ntp.html",
+                            getTabCreator(true).launchUrl("chrome-search://local-ntp/incognito-ntp.html",
                                     TabLaunchType.FROM_CHROME_UI, intent, mIntentHandlingTimeMs);
                         }
                     } else {

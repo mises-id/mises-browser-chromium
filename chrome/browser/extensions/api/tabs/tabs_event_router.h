@@ -25,6 +25,14 @@
 #include "content/public/browser/web_contents_observer.h"
 #include "extensions/browser/event_router.h"
 
+#if BUILDFLAG(IS_ANDROID)
+#include "chrome/browser/ui/android/tab_model/tab_model_list_observer.h"
+#include "chrome/browser/ui/android/tab_model/tab_model.h"
+#include "chrome/browser/ui/android/tab_model/tab_model_list.h"
+#include "chrome/browser/ui/android/tab_model/tab_model_observer.h"
+#include "chrome/browser/android/tab_android.h"
+#endif
+
 namespace content {
 class WebContents;
 }
@@ -36,6 +44,10 @@ namespace extensions {
 // TabsEventRouter will only route events from windows/tabs within a profile to
 // extension processes in the same profile.
 class TabsEventRouter : public TabStripModelObserver,
+#if BUILDFLAG(IS_ANDROID)
+                        public TabModelListObserver,
+                        public TabModelObserver,
+#endif
                         public BrowserTabStripTrackerDelegate,
                         public BrowserListObserver,
                         public favicon::FaviconDriverObserver,
@@ -88,6 +100,14 @@ class TabsEventRouter : public TabStripModelObserver,
                               bool is_discarded) override;
   void OnAutoDiscardableStateChange(content::WebContents* contents,
                                     bool is_auto_discardable) override;
+
+#if BUILDFLAG(IS_ANDROID)
+  // TabModelListObserver implementation.
+  void OnTabModelAdded() override;
+  void OnTabModelRemoved() override;
+  void DidSelectTab(TabAndroid* tab, TabModel::TabSelectionType type)  override;
+  raw_ptr<TabModel> observed_tab_model_ = nullptr;
+#endif
 
  private:
   // Methods called from OnTabStripModelChanged.

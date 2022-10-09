@@ -21,6 +21,7 @@ namespace {
 
 // Multi-iframe version, used by third party remote NTPs.
 const char kTitleHTMLPath[] = "/local-ntp.html";
+const char kIncognitoHTMLPath[] = "/incognito-ntp.html";
 const char kTitleCSSPath[] = "/local-ntp.css";
 const char kTitleJSPath[] = "/local-ntp.js";
 
@@ -43,6 +44,9 @@ void NewTabPageSource::StartDataRequest(
 
   if (path == kTitleHTMLPath) {
     SendResource(IDR_NEW_TAB_PAGE_INSTANT_LOCAL_NTP_HTML,
+                 std::move(callback));
+  } else  if (path == kIncognitoHTMLPath) {
+    SendResource(IDR_NEW_TAB_PAGE_INSTANT_INCOGNITO_NTP_HTML,
                  std::move(callback));
   } else if (path == kTitleCSSPath) {
     SendResource(IDR_NEW_TAB_PAGE_INSTANT_LOCAL_NTP_CSS,
@@ -72,6 +76,10 @@ void NewTabPageSource::StartDataRequest(
     if (base::EndsWith(path, "more@2x.png", base::CompareCase::INSENSITIVE_ASCII))
       SendResource(IDR_NEW_TAB_PAGE_INSTANT_IMAGES_MORE_AT_2X_PNG,
                  std::move(callback));
+  }else if (base::EndsWith(path, ".svg", base::CompareCase::INSENSITIVE_ASCII)) {
+    if (base::EndsWith(path, "Private.svg", base::CompareCase::INSENSITIVE_ASCII))
+	          SendResource(IDR_NEW_TAB_PAGE_INSTANT_IMAGES_PRIVATE_SVG,
+				                   std::move(callback));
   } else {
     std::move(callback).Run(nullptr);
   }
@@ -87,6 +95,8 @@ std::string NewTabPageSource::GetMimeType(const GURL& url) {
     return "text/html";
   if (base::EndsWith(path, ".png", base::CompareCase::INSENSITIVE_ASCII))
     return "image/png";
+  if (base::EndsWith(path, ".svg", base::CompareCase::INSENSITIVE_ASCII))
+    return "image/svg+xml";
   return std::string();
 }
 
@@ -114,10 +124,8 @@ bool NewTabPageSource::ShouldDenyXFrameOptions() {
 
 bool NewTabPageSource::ServesPath(const std::string& path) const {
   return path == kTitleHTMLPath || path == kTitleCSSPath ||
-         path == kTitleJSPath || path == "/images/Staking.png" || path == "/images/Discover.png" ||
-	 path == "/images/Airdrop.png" || path == "/images/Invite.png" ||
-	 path == "/images/add@2x.png" || path == "/images/more@2x.png" ||
-         path == "/new-ntp.html" || path == "/loadingImage.js";
+         path == kTitleJSPath || base::StartsWith(path, "/images/", base::CompareCase::INSENSITIVE_ASCII) ||
+         path == "/new-ntp.html" || path == kIncognitoHTMLPath || path == "/loadingImage.js";
 }
 
 void NewTabPageSource::SendResource(

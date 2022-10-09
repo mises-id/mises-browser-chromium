@@ -176,10 +176,17 @@ TabsEventRouter::TabsEventRouter(Profile* profile)
   browser_tab_strip_tracker_.Init();
 
   tab_manager_scoped_observation_.Observe(g_browser_process->GetTabManager());
+#if BUILDFLAG(IS_ANDROID)
+  TabModelList::AddObserver(this);
+  OnTabModelAdded();
+#endif
 }
 
 TabsEventRouter::~TabsEventRouter() {
   BrowserList::RemoveObserver(this);
+#if BUILDFLAG(IS_ANDROID)
+  TabModelList::RemoveObserver(this);
+#endif
 }
 
 bool TabsEventRouter::ShouldTrackBrowser(Browser* browser) {
@@ -623,5 +630,40 @@ TabsEventRouter::TabEntry* TabsEventRouter::GetTabEntry(WebContents* contents) {
 
   return it == tab_entries_.end() ? nullptr : it->second.get();
 }
+
+
+
+#if BUILDFLAG(IS_ANDROID)
+void TabsEventRouter::OnTabModelAdded() {
+  LOG(INFO) << "TabsEventRouter::OnTabModelAdded ";
+  if (!observed_tab_model_) {
+    for (TabModel* model : TabModelList::models()) {
+        observed_tab_model_ = model;
+        observed_tab_model_->AddObserver(this);
+        break;
+    }
+  }
+
+}
+
+void TabsEventRouter::DidSelectTab(TabAndroid* tab,
+                                 TabModel::TabSelectionType type) {
+  LOG(INFO) << "TabsEventRouter::DidSelectTab";
+  DispatchActiveTabChanged(nullptr, tab->web_contents());
+}
+
+void TabsEventRouter::OnTabModelRemoved() {
+   LOG(INFO) << "TabsEventRouter::OnTabModelRemoved";
+   if (!observed_tab_model_)
+      return;
+
+    for (const TabModel* remaining_model : TabModelList::models()) {
+      if (observed_tab_model_ == remaining_model)
+        return;
+    }
+    observed_tab_model_->RemoveObserver(this);
+    observed_tab_model_ = nullptr;
+}
+#endif
 
 }  // namespace extensions

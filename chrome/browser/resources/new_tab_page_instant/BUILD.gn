@@ -43,7 +43,7 @@ generate_grd("build_grd") {
     "new_ntp.html",
     "mises_logo.png",
     "loadingImage.js",
-    "Private.svg",
+    "images/Private.svg",
     "images/Airdrop.png",
     "images/Discover.png",
     "images/Invite.png",

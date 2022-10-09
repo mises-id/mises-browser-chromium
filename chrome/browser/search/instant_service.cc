@@ -55,8 +55,10 @@
 #include "extensions/browser/extension_registry.h"
 #include "extensions/browser/extension_action_manager.h"
 #include "extensions/common/extension.h"
+#include "extensions/common/manifest_handlers/icons_handler.h"
 #include "chrome/browser/extensions/tab_helper.h"
 #include "chrome/browser/extensions/api/extension_action/extension_action_api.h"
+#include "chrome/browser/ui/webui/extensions/extension_icon_source.h"
 #include "mojo/public/cpp/bindings/associated_remote.h"
 #include "ui/gfx/color_palette.h"
 #include "ui/gfx/color_utils.h"
@@ -265,6 +267,7 @@ void InstantService::OnURLsAvailable(
   	if (!icon.IsEmpty()) {
     	  std::vector<gfx::ImageSkiaRep> image_reps = icon.AsImageSkia().image_reps();
     	  for (const gfx::ImageSkiaRep& rep : image_reps) {
+            LOG(INFO) << "[Kiwi] InstantService::OnURLsAvailable - icon_size: " << rep.scale() << "x" << icon.AsImageSkia().width();
             std::string base64_image = webui::GetBitmapDataUrl(rep.GetBitmap());
             
             item.favicon = GURL(base64_image);
