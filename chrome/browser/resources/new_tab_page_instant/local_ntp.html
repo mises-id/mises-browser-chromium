@@ -284,7 +284,7 @@
 <!-- Remember to update the test HTML files in chrome/test/data/local_ntp/
    whenever making changes to this file.-->
 <body>
-  <div class="web3-site">
+  <div class="web3-site" id="mises-content">
     <div class="mises-site-container" id="mises-sites">
       <a class="mises-site-item" href="https://portal.mises.site/">
         <img src="./images/Staking.png" alt="Staking"/>
@@ -355,6 +355,10 @@
     // get install extensions
     const extensions = chrome.embeddedSearch.newTabPage.mostVisitedExtensions;
     setExtensions(extensions);
+    if (window.chrome.embeddedSearch.newTabPage.isIncognito){
+      document.getElementById('add-button').style.display='none';
+      document.getElementById('mises-content').style.display='none';
+    }
   }
   
   function setExtensions(extensions){
@@ -459,12 +463,6 @@ function goToPage2()
     </tr></tbody></table>
 </div>
 </div>
-<script>
-if (window.chrome.embeddedSearch.newTabPage.isIncognito)
-{
-  document.getElementById('add-button').style.display='none';
-}
-</script>
 
   <!-- Container for the OneGoogleBar HTML. -->
   <div id="one-google" class="hidden" style="display: none;"></div>
@@ -520,7 +518,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito)
 </span>
 <div id="incognito" style="display: none;width: 100%;height: 100%;background:black;">
 <div style="text-align: center;padding-top:50px;">
-  <img style="width: 64px;border-radius: 50%" src="./Private.svg">
+  <img style="width: 64px;border-radius: 50%" src="./images/Private.svg">
 <br />
   <span style="color: rgb(182, 182, 182);">
 <h2>Private mode</h2>
@@ -606,7 +604,7 @@ function process_cancel(e) {
 
 function process_body_click(e) {
   if (iseditable) {
-      toggle_edit_mode();
+      toggle_edit_mode(e.target.id==='closeImg');
       e.preventDefault();
   }
 }
@@ -686,6 +684,7 @@ function remove_favorite(e)
   window.setTimeout(function () { save_grid_snapshot(); }, 500);
   localStorage.useCustomTiles = "true";
   console.log("Item removed");
+  
   // globalGrid.disconnect(item);
 }
 var nItemsAdded = 0;
@@ -850,13 +849,15 @@ function fetch_tiles_from_most_visited(){
   }
 }
 
-function toggle_edit_mode()
+function toggle_edit_mode(isCloseImg = false)
 {
   if (globalGrid.isDragifierOn()) {
-    iseditable = false;
     globalGrid.dragifierOff();
     Array.prototype.forEach.call(document.getElementsByClassName("grid-item"), function (el) { if (!el.classList.contains('grid-idea')) { el.style.WebkitAnimation = 'none'; } });
-    Array.prototype.forEach.call(document.getElementsByClassName('closeImg'), function (el) { el.classList.add('closeImgInvisible'); });
+    if(!isCloseImg){
+      Array.prototype.forEach.call(document.getElementsByClassName('closeImg'), function (el) { el.classList.add('closeImgInvisible'); });
+      iseditable = false;
+    }
   } else {
     iseditable = true;
     globalGrid.dragifierOn();
