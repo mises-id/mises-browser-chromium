@@ -397,6 +397,7 @@ DeveloperPrivateAPI::DeveloperPrivateAPI(content::BrowserContext* context)
 
 DeveloperPrivateEventRouter::DeveloperPrivateEventRouter(Profile* profile)
     : profile_(profile), event_router_(EventRouter::Get(profile_)) {
+  LOG(INFO) << "DeveloperPrivateEventRouter::DeveloperPrivateEventRouter";
   extension_registry_observation_.Observe(ExtensionRegistry::Get(profile_));
   error_console_observation_.Observe(ErrorConsole::Get(profile));
   process_manager_observation_.Observe(ProcessManager::Get(profile));
@@ -697,6 +698,7 @@ base::FilePath DeveloperPrivateAPI::GetDraggedPath(
 }
 
 void DeveloperPrivateAPI::RegisterNotifications() {
+  LOG(INFO) << "DeveloperPrivateAPI::RegisterNotifications";
   EventRouter::Get(profile_)->RegisterObserver(
       this, developer::OnItemStateChanged::kEventName);
   EventRouter::Get(profile_)->RegisterObserver(
@@ -730,6 +732,7 @@ void DeveloperPrivateAPI::Shutdown() {}
 
 void DeveloperPrivateAPI::OnListenerAdded(
     const EventListenerInfo& details) {
+  LOG(INFO) << "DeveloperPrivateAPI::OnListenerAdded";
   if (!developer_private_event_router_) {
     developer_private_event_router_ =
         std::make_unique<DeveloperPrivateEventRouter>(profile_);

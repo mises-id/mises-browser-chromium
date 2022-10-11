@@ -106,6 +106,8 @@ class TabsEventRouter : public TabStripModelObserver,
   void OnTabModelAdded() override;
   void OnTabModelRemoved() override;
   void DidSelectTab(TabAndroid* tab, TabModel::TabSelectionType type)  override;
+  void WillCloseTab(TabAndroid* tab, bool animate) override;
+  void DidAddTab(TabAndroid* tab, TabModel::TabLaunchType type) override;
   raw_ptr<TabModel> observed_tab_model_ = nullptr;
 #endif
 

@@ -27,6 +27,7 @@
 #include "url/android/gurl_android.h"
 
 #include "chrome/browser/extensions/api/tabs/tabs_windows_api.h"
+#include "chrome/browser/extensions/api/developer_private/developer_private_api.h"
 
 using base::android::AttachCurrentThread;
 using base::android::ConvertUTF8ToJavaString;
@@ -41,7 +42,8 @@ TabModelJniBridge::TabModelJniBridge(JNIEnv* env,
                                      ActivityType activity_type)
     : TabModel(profile, activity_type),
       java_object_(env, env->NewWeakGlobalRef(jobj)) {
-  extensions::TabsWindowsAPI::Get(profile);  
+  extensions::TabsWindowsAPI::Get(profile);
+  extensions::DeveloperPrivateAPI::Get(profile); 
   TabModelList::AddTabModel(this);
 }
 

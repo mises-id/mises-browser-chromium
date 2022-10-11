@@ -382,8 +382,11 @@ void TabsEventRouter::DispatchTabClosingAt(TabStripModel* tab_strip_model,
   base::Value::Dict object_args;
   object_args.Set(tabs_constants::kWindowIdKey,
                   ExtensionTabUtil::GetWindowIdOfTab(contents));
+  bool closing_all = false;
+  if (tab_strip_model)
+    closing_all = tab_strip_model->closing_all();
   object_args.Set(tabs_constants::kWindowClosing,
-                  tab_strip_model->closing_all());
+                  closing_all);
   args.Append(std::move(object_args));
 
   Profile* profile = Profile::FromBrowserContext(contents->GetBrowserContext());
@@ -604,22 +607,24 @@ void TabsEventRouter::DispatchTabUpdatedEvent(
 }
 
 void TabsEventRouter::RegisterForTabNotifications(WebContents* contents) {
+#if !BUILDFLAG(IS_ANDROID)
   favicon_scoped_observations_.AddObservation(
       favicon::ContentFaviconDriver::FromWebContents(contents));
 
   ZoomController::FromWebContents(contents)->AddObserver(this);
-
+#endif
   int tab_id = ExtensionTabUtil::GetTabId(contents);
   DCHECK(tab_entries_.find(tab_id) == tab_entries_.end());
   tab_entries_[tab_id] = std::make_unique<TabEntry>(this, contents);
 }
 
 void TabsEventRouter::UnregisterForTabNotifications(WebContents* contents) {
+#if !BUILDFLAG(IS_ANDROID)
   favicon_scoped_observations_.RemoveObservation(
       favicon::ContentFaviconDriver::FromWebContents(contents));
 
   ZoomController::FromWebContents(contents)->RemoveObserver(this);
-
+#endif
   int tab_id = ExtensionTabUtil::GetTabId(contents);
   int removed_count = tab_entries_.erase(tab_id);
   DCHECK_GT(removed_count, 0);
@@ -651,7 +656,14 @@ void TabsEventRouter::DidSelectTab(TabAndroid* tab,
   LOG(INFO) << "TabsEventRouter::DidSelectTab";
   DispatchActiveTabChanged(nullptr, tab->web_contents());
 }
-
+void TabsEventRouter::WillCloseTab(TabAndroid* tab, bool animate) {
+  LOG(INFO) << "TabsEventRouter::WillCloseTab";
+  DispatchTabClosingAt(nullptr, tab->web_contents(), tab->window_id().id());
+}
+void TabsEventRouter::DidAddTab(TabAndroid* tab, TabModel::TabLaunchType type) {
+  LOG(INFO) << "TabsEventRouter::DidAddTab";
+  DispatchTabInsertedAt(nullptr, tab->web_contents(), tab->window_id().id(), !tab->IsHidden());
+}
 void TabsEventRouter::OnTabModelRemoved() {
    LOG(INFO) << "TabsEventRouter::OnTabModelRemoved";
    if (!observed_tab_model_)
