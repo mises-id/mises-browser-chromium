@@ -4657,7 +4657,6 @@ static_library("browser") {
 
     if (is_android) {
       sources -= [
-        "sessions/session_restore_android.cc",
         "download/download_crx_util_android.cc",
         "resources_integrity.cc",
         "resources_integrity.h",
