@@ -222,14 +222,15 @@ void SearchBox::GetMostVisitedItems(
   most_visited_items_cache_.GetCurrentItems(items);
 }
 
-bool ItemIsExtension (InstantMostVisitedItemIDPair pair) 
+bool ItemIsExtension(InstantMostVisitedItemIDPair pair) 
 { 
-  return pair.second.url.SchemeIs(extensions::kExtensionScheme);
+  const GURL&url = pair.second.url;
+  return url.SchemeIs(extensions::kExtensionScheme) && url.GetWithEmptyPath() == url;
 }
 
-bool ItemIsSite (InstantMostVisitedItemIDPair pair)
+bool ItemIsSite(InstantMostVisitedItemIDPair pair)
 { 
-  return !pair.second.url.SchemeIs(extensions::kExtensionScheme);
+  return !ItemIsExtension(pair);
 } 
 
 void SearchBox::GetMostVisitedExtensions(

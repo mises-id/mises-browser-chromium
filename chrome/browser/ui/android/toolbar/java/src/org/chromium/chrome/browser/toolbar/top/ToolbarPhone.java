@@ -1424,6 +1424,7 @@ public class ToolbarPhone extends ToolbarLayout implements OnClickListener, TabC
             drawChild(canvas, mHomeButton, SystemClock.uptimeMillis());
             mHomeButton.setAlpha(previousAlpha);
         }
+        previousAlpha = drawMisesMainButton(canvas, previousAlpha, floatAlpha);
 
         // Draw the location/URL bar.
         previousAlpha = mLocationBar.getPhoneCoordinator().getAlpha();
@@ -1471,7 +1472,6 @@ public class ToolbarPhone extends ToolbarLayout implements OnClickListener, TabC
             canvas.restore();
         }
 
-        previousAlpha = drawMisesMainButton(canvas, previousAlpha, floatAlpha);
         previousAlpha = drawMisesShareButton(canvas, previousAlpha, rgbAlpha);
 
         // Draw the tab stack button and associated text if necessary.

@@ -67,6 +67,7 @@
 #include "ui/gfx/image/image_skia_rep.h"
 #include "chrome/browser/ui/android/tab_model/tab_model.h"
 #include "chrome/browser/ui/android/tab_model/tab_model_list.h"
+#include "chrome/browser/history/history_service_factory.h"
 
 InstantService::InstantService(Profile* profile)
     : profile_(profile),
@@ -226,13 +227,71 @@ void InstantService::OnNativeThemeUpdated(ui::NativeTheme* observed_theme) {
   UpdateNtpTheme();
 }
 
-static GURL GetExtensionURL(const std::string& extension_id) {
+GURL InstantService::GetExtensionURL(const std::string& extension_id) {
   std::string url = extensions::kExtensionScheme;
   url += "://";
   url += extension_id;
   return GURL(url.c_str());
 }
 
+void InstantService::SearchComplete(history::QueryResults results) {
+  std::vector<GURL> recent;
+  recent.push_back(GURL("chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn"));
+  if (!results.empty()) {
+    for (const auto& item : results){
+      if (item.url().SchemeIs(extensions::kExtensionScheme)) {
+        LOG(INFO) << "[Kiwi] InstantService::SearchComplete- recent extension: " << item.url().GetWithEmptyPath();
+	recent.push_back(item.url().GetWithEmptyPath());
+      }
+    }
+  }
+  std::vector<InstantMostVisitedItem> items;
+  extensions::ExtensionRegistry* registry = extensions::ExtensionRegistry::Get(profile_);
+  const extensions::ExtensionSet& enabled_extensions = registry->enabled_extensions();
+  for (const auto& extension : enabled_extensions) {
+    extensions::ExtensionAction* action = nullptr;
+    extensions::ExtensionActionManager* manager =
+             extensions::ExtensionActionManager::Get(profile_);
+    const extensions::Extension* extension_ptr = enabled_extensions.GetByID(extension->id());
+    if (extension_ptr) {
+     action = manager->GetExtensionAction(*extension_ptr);
+    }
+    if (action) {
+       InstantMostVisitedItem item;
+       const int kDefaultTabId = extensions::ExtensionAction::kDefaultTabId;
+       item.url = GetExtensionURL(extension->id());
+       item.title = base::UTF8ToUTF16(action->GetTitle(kDefaultTabId));
+        gfx::Image icon =
+                action->GetExplicitlySetIcon(kDefaultTabId);
+        if (icon.IsEmpty())
+          icon = action->GetDeclarativeIcon(kDefaultTabId);
+        if (icon.IsEmpty())
+          icon = action->GetDefaultIconImage();
+        if (!icon.IsEmpty()) {
+          std::vector<gfx::ImageSkiaRep> image_reps = icon.AsImageSkia().image_reps();
+          for (const gfx::ImageSkiaRep& rep : image_reps) {
+            std::string base64_image = webui::GetBitmapDataUrl(rep.GetBitmap());
+
+            item.favicon = GURL(base64_image);
+          }
+        }
+       LOG(INFO) << "[Kiwi] InstantService::SearchComplete - found extension: " << item.url;
+       items.push_back(item);
+    }
+  }
+  std::sort(
+      items.begin(), items.end(),
+      [&recent](const InstantMostVisitedItem& l, const InstantMostVisitedItem& r) {
+        std::vector<GURL>::iterator itrl = std::find(recent.begin(), recent.end(), l.url);
+        std::vector<GURL>::iterator itrr = std::find(recent.begin(), recent.end(), r.url);
+        return itrl <  itrr;
+  });
+  for (const auto& item : items) {
+   LOG(INFO) << "[Kiwi] InstantService::SearchComplete - sort extension: " << item.url;
+    most_visited_info_->items.push_back(item);
+  }
+  NotifyAboutMostVisitedInfo();
+}
 void InstantService::OnURLsAvailable(
     const std::map<ntp_tiles::SectionType, ntp_tiles::NTPTilesVector>&
         sections) {
@@ -241,7 +300,6 @@ void InstantService::OnURLsAvailable(
   // Use only personalized tiles for instant service.
   const ntp_tiles::NTPTilesVector& tiles =
       sections.at(ntp_tiles::SectionType::PERSONALIZED);
-  LOG(INFO) << "[Kiwi] InstantService::OnURLsAvailable - tiles: " << tiles.size();
   for (const ntp_tiles::NTPTile& tile : tiles) {
     InstantMostVisitedItem item;
     item.url = tile.url;
@@ -249,41 +307,17 @@ void InstantService::OnURLsAvailable(
     item.favicon = tile.favicon_url;
     most_visited_info_->items.push_back(item);
   }
-
-  extensions::ExtensionRegistry* registry = extensions::ExtensionRegistry::Get(profile_);
-  const extensions::ExtensionSet& enabled_extensions = registry->enabled_extensions();
-  for (const auto& extension : enabled_extensions) {
-    extensions::ExtensionAction* action = nullptr;
-    extensions::ExtensionActionManager* manager =
-             extensions::ExtensionActionManager::Get(profile_);
-    const extensions::Extension* extension_ptr = enabled_extensions.GetByID(extension->id());
-    if (extension_ptr) { 
-     action = manager->GetExtensionAction(*extension_ptr);
-    }
-    if (action) {
-       InstantMostVisitedItem item;
-       const int kDefaultTabId = extensions::ExtensionAction::kDefaultTabId;
-       item.url = GetExtensionURL(extension->id());
-       item.title = base::UTF8ToUTF16(action->GetTitle(kDefaultTabId));
-  	gfx::Image icon =
-      		action->GetExplicitlySetIcon(kDefaultTabId);
-	if (icon.IsEmpty())
-	  icon = action->GetDeclarativeIcon(kDefaultTabId);
-        if (icon.IsEmpty())
-	  icon = action->GetDefaultIconImage();
-  	if (!icon.IsEmpty()) {
-    	  std::vector<gfx::ImageSkiaRep> image_reps = icon.AsImageSkia().image_reps();
-    	  for (const gfx::ImageSkiaRep& rep : image_reps) {
-            std::string base64_image = webui::GetBitmapDataUrl(rep.GetBitmap());
-            
-            item.favicon = GURL(base64_image);
-          }
-        }
-      LOG(INFO) << "[Kiwi] InstantService::OnURLsAvailable - found extension: " << item.url;
-       most_visited_info_->items.push_back(item);
-    }
-  }
-  NotifyAboutMostVisitedInfo();
+  std::u16string search_text = base::UTF8ToUTF16(GetExtensionURL("").spec());
+  history::QueryOptions options;
+  options.max_count = 20;
+  options.matching_algorithm =
+	          query_parser::MatchingAlgorithm::ALWAYS_PREFIX_SEARCH;
+  history::HistoryService* hs = HistoryServiceFactory::GetForProfile(
+      profile_, ServiceAccessType::EXPLICIT_ACCESS);
+  hs->QueryHistory(search_text, options,
+                   base::BindOnce(&InstantService::SearchComplete,
+                                  base::Unretained(this)),
+                   &task_tracker_);
 }
 
 void InstantService::OnIconMadeAvailable(const GURL& site_url) {}

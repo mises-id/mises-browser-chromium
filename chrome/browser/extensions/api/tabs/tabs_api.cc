@@ -1458,7 +1458,7 @@ ExtensionFunction::ResponseAction TabsQueryFunction::Run() {
          LOG(INFO) << "[EXTENSIONS] TabsQueryFunction::Run - Step 5d-1a (oob-index): " << i << " vs " << index;
          continue;
        }
-
+/*
       int openingTab = (tab_strip->GetLastNonExtensionActiveIndex());
       if (openingTab == -1)
         openingTab = 0;
@@ -1468,7 +1468,7 @@ ExtensionFunction::ResponseAction TabsQueryFunction::Run() {
                        i == openingTab)) {
          continue;
        }
-
+*/
       if (!web_contents) {
         LOG(INFO) << "[EXTENSIONS] TabsQueryFunction::Run - Step 5d-1b (there is no webcontents)";
          continue;

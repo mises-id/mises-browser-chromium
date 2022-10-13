@@ -445,10 +445,8 @@ std::unique_ptr<api::tabs::Tab> ExtensionTabUtil::CreateTabObject(
     const Extension* extension,
     TabStripModel* tab_strip,
     int tab_index) {
-  LOG(INFO) << "[EXTENSIONS] ExtensionTabUtil::CreateTabObject - Step 1";
   if (!tab_strip)
     ExtensionTabUtil::GetTabStripModel(contents, &tab_strip, &tab_index);
-  LOG(INFO) << "[EXTENSIONS] ExtensionTabUtil::CreateTabObject - Step 2: " << tab_strip;
   auto tab_object = std::make_unique<api::tabs::Tab>();
   tab_object->id = std::make_unique<int>(GetTabIdForExtensions(contents));
   tab_object->index = tab_index;
@@ -468,7 +466,6 @@ std::unique_ptr<api::tabs::Tab> ExtensionTabUtil::CreateTabObject(
   }
 #if BUILDFLAG(IS_ANDROID)
   TabModel *tab_strip_android = nullptr;
-  LOG(INFO) << "[EXTENSIONS] ExtensionTabUtil::CreateTabObject - Step 3";
   if (!TabModelList::models().empty())
     tab_strip_android = *(TabModelList::models().begin());
   if (tab_strip_android) {
@@ -480,7 +477,6 @@ std::unique_ptr<api::tabs::Tab> ExtensionTabUtil::CreateTabObject(
     if (tab_index == openingTab) {
       tab_object->active = true;
     }
-    LOG(INFO) << "[EXTENSIONS] ExtensionTabUtil::CreateTabObject - Step 4";
     for (int i = 0; i < tab_strip_android->GetTabCount(); ++i) {
       int openingTab = (tab_strip_android->GetLastNonExtensionActiveIndex());
       if (openingTab == -1)

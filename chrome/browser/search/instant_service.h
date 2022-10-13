@@ -20,6 +20,7 @@
 #include "build/build_config.h"
 #include "chrome/browser/themes/theme_service_observer.h"
 #include "components/history/core/browser/history_types.h"
+#include "components/history/core/browser/history_service.h"
 #include "components/keyed_service/core/keyed_service.h"
 #include "components/ntp_tiles/most_visited_sites.h"
 #include "components/ntp_tiles/ntp_tile.h"
@@ -162,6 +163,12 @@ class InstantService : public KeyedService,
   // Sets NTP elements theme info that are overridden when custom
   // background is used.
   void SetNtpElementsNtpTheme();
+
+  GURL GetExtensionURL(const std::string& extension_id);
+  
+  void SearchComplete(history::QueryResults results);
+
+  base::CancelableTaskTracker task_tracker_;
 
   const raw_ptr<Profile> profile_;
 

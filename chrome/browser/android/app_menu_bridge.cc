@@ -97,6 +97,7 @@
 #include "content/public/browser/web_contents.h"
 #include "chrome/browser/profiles/profile.h"
 #include "chrome/browser/extensions/api/extension_action/extension_action_api.h"
+#include "chrome/browser/devtools/devtools_window.h"
 
 using base::android::ConvertUTF8ToJavaString;
 using base::android::ScopedJavaLocalRef;
@@ -205,8 +206,11 @@ static ScopedJavaLocalRef<jstring>;
 
 
 static void JNI_AppMenuBridge_OpenDevTools(
-		JNIEnv* env, const base::android::JavaParamRef<jobject>& w){
+		JNIEnv* env, const base::android::JavaParamRef<jobject>& jweb_contents){
   LOG(INFO) << "[Kiwi] app_menu_bridge::OpenDevTools";
+  content::WebContents* web_contents = content::WebContents::FromJavaWebContents(jweb_contents);
+  if (!DevToolsWindow::IsDevToolsWindow(web_contents))
+    DevToolsWindow::OpenDevToolsWindow(web_contents);
 };
 
 
@@ -220,9 +224,9 @@ static base::android::ScopedJavaLocalRef<jstring> JNI_AppMenuBridge_GetRunningEx
 		const base::android::JavaParamRef<jobject>& jweb_contents){
   std::string exts;
   LOG(INFO) << "[Kiwi] app_menu_bridge::GetRunningExtensions";
-   Profile* profile = ProfileAndroid::FromProfileAndroid(jprofile);
-   LOG(INFO) << "[EXTENSIONS] Captured profile: " << profile; 
-content::WebContents* web_contents = content::WebContents::FromJavaWebContents(jweb_contents);
+  Profile* profile = ProfileAndroid::FromProfileAndroid(jprofile);
+  LOG(INFO) << "[EXTENSIONS] Captured profile: " << profile; 
+  content::WebContents* web_contents = content::WebContents::FromJavaWebContents(jweb_contents);
   exts = AppMenuBridge_GetRunningExtensionsInternal(profile, web_contents); 
   return ConvertUTF8ToJavaString(env, exts);
 };
