@@ -433,6 +433,7 @@ public class ToolbarPhone extends ToolbarLayout implements OnClickListener, TabC
 
     @Override
     void destroy() {
+	MisesController.getInstance().RemoveObserver(this);
         cancelAnimations();
         super.destroy();
     }

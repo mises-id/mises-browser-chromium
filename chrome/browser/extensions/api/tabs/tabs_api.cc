@@ -932,9 +932,13 @@ ExtensionFunction::ResponseAction WindowsUpdateFunction::Run() {
   Browser* browser = nullptr;
   std::string error;
   if (!windows_util::GetBrowserFromWindowID(
-          this, params->window_id, WindowController::GetAllWindowFilter(),
+          this, params->window_id, WindowController::kNoWindowFilter,
           &browser, &error)) {
+#if !BUILDFLAG(IS_ANDROID)
     return RespondNow(Error(std::move(error)));
+#else
+    return RespondNow(NoArguments());
+#endif
   }
 #if !BUILDFLAG(IS_ANDROID)
   // Don't allow locked fullscreen operations on a window without the proper
@@ -1528,17 +1532,18 @@ ExtensionFunction::ResponseAction TabsCreateFunction::Run() {
   LOG(INFO) << "[EXTENSIONS] TabsCreateFunction::Run - Step 1";
   if (!ExtensionTabUtil::IsTabStripEditable())
     return RespondNow(Error(tabs_constants::kTabStripNotEditableError));
-  LOG(INFO) << "[EXTENSIONS] TabsCreateFunction::Run - Step 2";
   ExtensionTabUtil::OpenTabParams options;
   AssignOptionalValue(params->create_properties.window_id, &options.window_id);
   AssignOptionalValue(params->create_properties.opener_tab_id,
                       &options.opener_tab_id);
   AssignOptionalValue(params->create_properties.selected, &options.active);
-  // The 'active' property has replaced the 'selected' property.
+   // The 'active' property has replaced the 'selected' property.
   AssignOptionalValue(params->create_properties.active, &options.active);
   AssignOptionalValue(params->create_properties.pinned, &options.pinned);
   AssignOptionalValue(params->create_properties.index, &options.index);
   AssignOptionalValue(params->create_properties.url, &options.url);
+  if (options.window_id)
+    LOG(INFO) << "[EXTENSIONS] TabsCreateFunction::Run - Step 2 window " << *options.window_id;
 
   std::string error;
   std::unique_ptr<base::DictionaryValue> result(

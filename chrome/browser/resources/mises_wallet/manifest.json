@@ -55,7 +55,7 @@
     }
   ],
   "default_locale": "en",
-  "description": "__MSG_appDescription__",
+  "description": "An Ethereum Wallet in your Browser",
   "icons": {
     "16": "images/icon-16.png",
     "19": "images/icon-19.png",

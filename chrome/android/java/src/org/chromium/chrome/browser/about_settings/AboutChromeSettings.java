@@ -66,7 +66,7 @@ public class AboutChromeSettings
      * versions are more useful.
      */
     public static String getApplicationVersion(Context context, String version) {
-        if (VersionInfo.isOfficialBuild()) {
+        if (false && VersionInfo.isOfficialBuild()) {
             return version;
         }
 
@@ -79,7 +79,7 @@ public class AboutChromeSettings
         }
         CharSequence updateTimeString = DateUtils.getRelativeTimeSpanString(
                 info.lastUpdateTime, System.currentTimeMillis(), 0);
-        return context.getString(R.string.version_with_update_time, version, updateTimeString);
+        return context.getString(R.string.version_with_update_time, info.versionName, updateTimeString);
     }
 
     @Override

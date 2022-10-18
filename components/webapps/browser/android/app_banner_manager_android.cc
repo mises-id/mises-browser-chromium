@@ -586,10 +586,14 @@ void AppBannerManagerAndroid::ShowAmbientBadge() {
   if (base::FeatureList::IsEnabled(features::kInstallableAmbientBadgeMessage) &&
       base::FeatureList::IsEnabled(
           messages::kMessagesForAndroidInfrastructure)) {
+    auto overridden_state =
+	            base::FeatureList::GetStateIfOverridden(features::kInstallableAmbientBadgeMessage);
+    LOG(INFO) << "AppBannerManagerAndroid::ShowAmbientBadge enqueue" << features::kInstallableAmbientBadgeMessage.default_state <<overridden_state.has_value() <<overridden_state.value();
     message_controller_.EnqueueMessage(
         web_contents(), GetAppName(), primary_icon_, has_maskable_primary_icon_,
         manifest().start_url);
   } else {
+    LOG(INFO) << "AppBannerManagerAndroid::ShowAmbientBadge infobar";
     InstallableAmbientBadgeInfoBarDelegate::Create(
         web_contents(), weak_factory_.GetWeakPtr(), GetAppName(), primary_icon_,
         has_maskable_primary_icon_, manifest().start_url);

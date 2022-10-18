@@ -187,6 +187,10 @@ public class MainSettings extends PreferenceFragmentCompat
         if (safetyCheck != null)
             getPreferenceScreen().removePreference(safetyCheck);
 
+	if (true) {
+	    getPreferenceScreen().removePreference(findPreference("toolbar_options"));
+	    getPreferenceScreen().removePreference(findPreference("nightmode"));
+	}
         setManagedPreferenceDelegateForPreference(PREF_SEARCH_ENGINE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

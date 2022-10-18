@@ -209,6 +209,10 @@ def _FormatMessage(item, lang):
   # Replace < > & with &lt; &gt; &amp; to ensure we generate valid XML and
   # replace ' " with \' \" to conform to Android's string formatting rules.
   value = xml.sax.saxutils.escape(value, {"'": "\\'", '"': '\\"'})
+  
+  value = value.replace("Chrome", "Mises")
+  value = value.replace("Chromium", "Mises")
+  value = value.replace("Google LLC", "Mises ORG")
 
   plurals = _FormatPluralMessage(value)
   if plurals:

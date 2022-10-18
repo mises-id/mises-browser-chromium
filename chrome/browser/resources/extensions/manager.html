@@ -18,6 +18,17 @@
   extensions-item {
     display: inline-block;
   }
+  
+  #more-extensions {
+    text-align: center;
+    display: block;
+    justify-content: space-between;
+    color: var(--cr-link-color);
+    text-decoration: none;
+  }
+  .footer {
+    margin-bottom: 8px;
+  }
 </style>
 <extensions-drop-overlay drag-enabled="[[inDevMode]]">
 </extensions-drop-overlay>
@@ -122,3 +133,10 @@
   </extensions-install-warnings-dialog>
 </template>
 <cr-toast-manager></cr-toast-manager>
+
+<div class="footer">
+  <a id="more-extensions" target="_blank"
+      href="$i18n{getMoreExtensionsUrl}" on-click="onMoreExtensionsTap_">
+    <span>Open Chrome Web Store</span>
+  </a>
+</div>

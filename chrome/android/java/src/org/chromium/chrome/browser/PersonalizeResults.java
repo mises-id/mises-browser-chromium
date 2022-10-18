@@ -116,6 +116,14 @@ public class PersonalizeResults {
        if (tab != null && tab.getUrl().getSpec().startsWith("chrome-extension://fcfcfllfndlomdhbehjjcoimbgofdncg")) {
          tab.getWebContents().evaluateJavaScript(RenderStyleContent(COSMOS_EXTENSION_STYLES), null);
        }
+       // Pontem Aptos Wallet
+       if (tab != null && tab.getUrl().getSpec().startsWith("chrome-extension://phkbamefinggmakgklpkljjmgibohnba")) {
+         tab.getWebContents().evaluateJavaScript(RenderStyleContent(PONTEM_EXTENSION_STYLES), null);
+       }
+       // Martian Aptos Wallet
+       if (tab != null && tab.getUrl().getSpec().startsWith("chrome-extension://efbglgofoippbgcjepnhiblaibcnclgk")) {
+        tab.getWebContents().evaluateJavaScript("(function() {window.addEventListener('load', function() { var t=document.querySelector('meta[name=\"viewport\"]');t&&(t.content=\"initial-scale=0.1\",t.content=\"width=1200\") }); })();", null);
+       }
     }
 
     private static String RenderStyleContent(String STYLES) {
@@ -185,7 +193,13 @@ public class PersonalizeResults {
    private static final String CELOEXTENSION_EXTENSION_STYLES = "'.select-action__select-buttons {flex-direction:column;}.select-action__select-button {width:100vw;margin-left:0;}'";
 
    // cosmos wallet 
-   private static final String COSMOS_EXTENSION_STYLES = "'.flex.z-10.overflow-scroll.mt-24.items-start.justify-center .flex.flex-row{flex-direction: column;} .flex.z-10.overflow-scroll.mt-24.items-start.justify-center .flex.flex-col.justify-center{width:100%} .flex.flex-row.justify-center.items-center.h-12.rounded-3xl.border-none {width: 100%} .flex.z-10.overflow-scroll.mt-24.items-start.justify-center .shrink.flex-col.rounded-lg.border-gray-800 {margin-top:20px;width:100%} .rounded-2xl.dark:bg-gray-900.bg-white-100.text-xs.font-medium.box-border.font-Satoshi.p-6 {width:100%} .overflow-y-auto.bg-gray-50.dark:bg-black-100{width:100%}'";
+   private static final String COSMOS_EXTENSION_STYLES = "'.flex.z-10.overflow-scroll.mt-24.items-start.justify-center .flex.flex-row{flex-direction: column;} .flex.z-10.overflow-scroll.mt-24.items-start.justify-center .flex.flex-col.justify-center{width:100%} .flex.flex-row.justify-center.items-center.h-12.rounded-3xl.border-none {width: 100%} .flex.z-10.overflow-scroll.mt-24.items-start.justify-center .shrink.flex-col.rounded-lg.border-gray-800 {margin-top:20px;width:100%} .rounded-2xl.dark:bg-gray-900.bg-white-100.text-xs.font-medium.box-border.font-Satoshi.p-6 {width:100%} .overflow-y-auto.bg-gray-50.dark:bg-black-100{width:100%} .w-[408px]{width:100%}'";
+
+   // Pontem Aptos Wallet
+   private static final String PONTEM_EXTENSION_STYLES = "'.Welcome_component__yTuSP .Welcome_expandImage__CUQsJ {display: none !important} .Welcome_mobileImage__5pIgx{display: block !important}'";
+  
+   // Martian Aptos Wallet
+   private static final String MARTIAN_EXTENSION_STYLES = "(function(){window.addEventListener('load', function() { console.log('hack style'); setTimeout(()=>{document.querySelector('.main_main_cont').parentElement.style.width = '100vw';},1000); var styleTag = document.createElement('style'); styleTag.type='text/css'; styleTag.innerHTML = \".main_main_cont{width:95vw} .faohDz,.caWQbO {font-size: 34px;} .css-1o6ow4v,.css-krw8lj {width: 100%;height: auto;} .css-9hz2xg,.css-1vrddje{width:100%}\";document.body.appendChild(styleTag);})})()";
 
     private static final String MAKE_USER_AGENT_WRITABLE = ""
 +"(function() {"
