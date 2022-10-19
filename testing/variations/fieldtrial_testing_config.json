@@ -214,7 +214,6 @@
                 {
                     "name": "Enabled",
                     "enable_features": [
-                        "InstallableAmbientBadgeMessage"
                     ]
                 }
             ]

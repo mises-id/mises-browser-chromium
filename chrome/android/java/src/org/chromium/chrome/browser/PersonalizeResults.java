@@ -124,6 +124,10 @@ public class PersonalizeResults {
        if (tab != null && tab.getUrl().getSpec().startsWith("chrome-extension://efbglgofoippbgcjepnhiblaibcnclgk")) {
         tab.getWebContents().evaluateJavaScript("(function() {window.addEventListener('load', function() { var t=document.querySelector('meta[name=\"viewport\"]');t&&(t.content=\"initial-scale=0.1\",t.content=\"width=1200\") }); })();", null);
        }
+       // StarMask
+       if (tab != null && tab.getUrl().getSpec().startsWith("chrome-extension://mfhbebgoclkghebffdldpobeajmbecfk")) {
+         tab.getWebContents().evaluateJavaScript(RenderStyleContent(STERMASK_EXTENSION_STYLES), null);
+       }
     }
 
     private static String RenderStyleContent(String STYLES) {
@@ -200,6 +204,9 @@ public class PersonalizeResults {
   
    // Martian Aptos Wallet
    private static final String MARTIAN_EXTENSION_STYLES = "(function(){window.addEventListener('load', function() { console.log('hack style'); setTimeout(()=>{document.querySelector('.main_main_cont').parentElement.style.width = '100vw';},1000); var styleTag = document.createElement('style'); styleTag.type='text/css'; styleTag.innerHTML = \".main_main_cont{width:95vw} .faohDz,.caWQbO {font-size: 34px;} .css-1o6ow4v,.css-krw8lj {width: 100%;height: auto;} .css-9hz2xg,.css-1vrddje{width:100%}\";document.body.appendChild(styleTag);})})()";
+
+   // StarMask 
+   private static final String STERMASK_EXTENSION_STYLES = "'.select-action__select-buttons {flex-direction:column} .select-action__select-button {margin-left:0;margin-bottom:10px} .first-time-flow{padding:20px}'";
 
     private static final String MAKE_USER_AGENT_WRITABLE = ""
 +"(function() {"

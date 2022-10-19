@@ -262,7 +262,7 @@ void FeatureList::InitializeFromCommandLine(
 void FeatureList::InitializeFromSharedMemory(
     PersistentMemoryAllocator* allocator) {
   DCHECK(!initialized_);
-
+  LOG(INFO) << "FeatureList::InitializeFromSharedMemory";
   PersistentMemoryAllocator::Iterator iter(allocator);
   const FeatureEntry* entry;
   while ((entry = iter.GetNextOfObject<FeatureEntry>()) != nullptr) {
@@ -330,12 +330,13 @@ void FeatureList::RegisterFieldTrialOverride(const std::string& feature_name,
       << "Check the trial (study) in (1) the server config, "
       << "(2) fieldtrial_testing_config.json, (3) about_flags.cc, and "
       << "(4) client-side field trials.";
-
+  LOG(INFO) << "FeatureList::RegisterFieldTrialOverride";
   RegisterOverride(feature_name, override_state, field_trial);
 }
 
 void FeatureList::RegisterExtraFeatureOverrides(
     const std::vector<FeatureOverrideInfo>& extra_overrides) {
+  LOG(INFO) << "FeatureList::RegisterExtraFeatureOverrides";
   for (const FeatureOverrideInfo& override_info : extra_overrides) {
     RegisterOverride(override_info.first.get().name, override_info.second,
                      /* field_trial = */ nullptr);
@@ -638,6 +639,7 @@ std::unique_ptr<FeatureList::Accessor> FeatureList::ConstructAccessor() {
 void FeatureList::RegisterOverridesFromCommandLine(
     const std::string& feature_list,
     OverrideState overridden_state) {
+  LOG(INFO) << "FeatureList::RegisterOverridesFromCommandLine";
   for (const auto& value : SplitFeatureListString(feature_list)) {
     StringPiece feature_name = value;
     FieldTrial* trial = nullptr;
@@ -663,6 +665,7 @@ void FeatureList::RegisterOverride(StringPiece feature_name,
                                    OverrideState overridden_state,
                                    FieldTrial* field_trial) {
   DCHECK(!initialized_);
+   LOG(INFO) << "FeatureList::RegisterOverride - " << feature_name;
   DCheckOverridesAllowed();
   if (field_trial) {
     DCHECK(IsValidFeatureOrFieldTrialName(field_trial->trial_name()))

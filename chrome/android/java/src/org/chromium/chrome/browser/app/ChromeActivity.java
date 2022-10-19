@@ -2785,23 +2785,28 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
             if (!adBlockIsActive) {
               WebsitePreferenceBridgeJni.get().setContentSettingEnabled(Profile.getLastUsedRegularProfile(), ContentSettingsType.ADS, false); // BLOCK
             } else {
-              int adblockSettingForThisSite = WebsitePreferenceBridgeJni.get().getPermissionSettingForOrigin(Profile.getLastUsedRegularProfile(), ContentSettingsType.ADS, currentTab.getUrl().getSpec(), currentTab.getUrl().getSpec());
-              if (adblockSettingForThisSite == ContentSettingValues.DEFAULT || adblockSettingForThisSite == ContentSettingValues.BLOCK)
-                WebsitePreferenceBridgeJni.get().setPermissionSettingForOrigin(Profile.getLastUsedRegularProfile(), ContentSettingsType.ADS, currentTab.getUrl().getSpec(), currentTab.getUrl().getSpec(), ContentSettingValues.ALLOW);
+	      final String origin = currentTab.getUrl().getOrigin().getSpec();
+              int adblockSettingForThisSite = WebsitePreferenceBridgeJni.get().getPermissionSettingForOrigin(Profile.getLastUsedRegularProfile(), ContentSettingsType.ADS, origin, origin);
+              Log.i("Kiwi", "Adblock switch for " + origin + " " + String.valueOf(adblockSettingForThisSite));
+	      if (adblockSettingForThisSite == ContentSettingValues.DEFAULT || adblockSettingForThisSite == ContentSettingValues.BLOCK)
+                WebsitePreferenceBridgeJni.get().setPermissionSettingForOrigin(Profile.getLastUsedRegularProfile(), ContentSettingsType.ADS, origin, origin, ContentSettingValues.ALLOW);
               else
-                WebsitePreferenceBridgeJni.get().setPermissionSettingForOrigin(Profile.getLastUsedRegularProfile(), ContentSettingsType.ADS, currentTab.getUrl().getSpec(), currentTab.getUrl().getSpec(), ContentSettingValues.DEFAULT);
+                WebsitePreferenceBridgeJni.get().setPermissionSettingForOrigin(Profile.getLastUsedRegularProfile(), ContentSettingsType.ADS, origin, origin, ContentSettingValues.DEFAULT);
             }
             currentTab.stopLoading();
             currentTab.reload();
             RecordUserAction.record("MobileMenuSwitchAdblock");
+	    return true;
         }
 
         if (id == R.id.developer_tools_id) {
             AppMenuBridge.openDevTools(currentTab.getWebContents());
+	    return true;
         }
 
         if (id == R.id.disable_proxy_id) {
             AppMenuBridge.disableProxy(Profile.fromWebContents(currentTab.getWebContents()).getOriginalProfile());
+	    return true;
         }
 
         if (id == R.id.auto_dark_web_contents_id || id == R.id.auto_dark_web_contents_check_id) {
@@ -2819,7 +2824,6 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
 
             // Show dialog informing user how to disable the feature globally and give feedback if
             // disabling through the app menu for the nth time (determined by feature engagement).
-            if (false)
             if (isEnabled) {
                 WebContentsDarkModeMessageController.attemptToShowDialog(this, profile,
                         url.getSpec(), getModalDialogManager(), new SettingsLauncherImpl(),

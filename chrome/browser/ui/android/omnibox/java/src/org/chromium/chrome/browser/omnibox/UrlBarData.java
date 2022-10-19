@@ -63,13 +63,6 @@ public class UrlBarData {
     }
 
     public static UrlBarData forUrlAndText(String url, String displayText) {
-        String originalScheme = Uri.parse(displayText).getScheme();
-        if (!TextUtils.isEmpty(originalScheme) && (originalScheme.equals("chrome") || originalScheme.equals("chrome-extension"))) {
-          displayText = displayText.replace("chrome://", "mises://");
-          url = url.replace("chrome://", "mises://");
-          displayText = displayText.replace("chrome-extension://", "mises-extension://");
-          url = url.replace("chrome-extension://", "mises-extension://");
-        }
 	return forUrlAndText(url, displayText, null);
     }
 
@@ -82,6 +75,16 @@ public class UrlBarData {
             String url, CharSequence displayText, @Nullable String editingText) {
         int pathSearchOffset = 0;
         String displayTextStr = displayText.toString();
+
+        String originalScheme = Uri.parse(displayTextStr).getScheme();
+	if (!TextUtils.isEmpty(originalScheme) && (originalScheme.equals("chrome") || originalScheme.equals("chrome-extension"))){
+            displayTextStr = displayTextStr.replace("chrome://", "mises://");
+            url = url.replace("chrome://", "mises://");
+            displayTextStr = displayTextStr.replace("chrome-extension://", "mises-extension://");                                                                 
+            url = url.replace("chrome-extension://", "mises-extension://");    
+            displayText = displayTextStr;
+        }
+
         String scheme = Uri.parse(displayTextStr).getScheme();
 
         if (!TextUtils.isEmpty(scheme)) {

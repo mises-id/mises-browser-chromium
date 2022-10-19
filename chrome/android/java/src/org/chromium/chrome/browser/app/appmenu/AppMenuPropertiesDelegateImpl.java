@@ -865,7 +865,8 @@ public class AppMenuPropertiesDelegateImpl implements AppMenuPropertiesDelegate 
             adblockMenuCheck.setChecked(false);
             adblockMenuLabel.setIcon(R.drawable.ic_adblock_off);
         } else {
-            int adblockSettingForThisSite = WebsitePreferenceBridgeJni.get().getPermissionSettingForOrigin(Profile.getLastUsedRegularProfile(), ContentSettingsType.ADS, currentTab.getUrl().getSpec(), currentTab.getUrl().getSpec());
+	    final String origin = currentTab.getUrl().getOrigin().getSpec();
+            int adblockSettingForThisSite = WebsitePreferenceBridgeJni.get().getPermissionSettingForOrigin(Profile.getLastUsedRegularProfile(), ContentSettingsType.ADS, origin, origin);
             if (adblockSettingForThisSite == ContentSettingValues.DEFAULT || adblockSettingForThisSite == ContentSettingValues.BLOCK){
                 adblockMenuCheck.setChecked(true);
                 adblockMenuLabel.setIcon(R.drawable.ic_adblock_on);
@@ -874,6 +875,7 @@ public class AppMenuPropertiesDelegateImpl implements AppMenuPropertiesDelegate 
                 adblockMenuCheck.setChecked(false);
                 adblockMenuLabel.setIcon(R.drawable.ic_adblock_off);
             }
+	    Log.i("Kiwi", "Adblock updateAdblockMenuItem " + String.valueOf(adblockSettingForThisSite));
        }
     }
 
