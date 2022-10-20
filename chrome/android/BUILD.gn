@@ -683,6 +683,7 @@ android_library("chrome_java") {
     "//third_party/glide:com_github_bumptech_glide_glide_java",
     "//third_party/android_deps:com_android_support_support_annotations_java",
     "//third_party/android_deps:google_firebase_firebase_messaging_java",
+    "//third_party/android_deps:google_firebase_firebase_analytics_java",
   ]
 
   deps += feed_deps
@@ -2804,6 +2805,7 @@ android_library("base_module_java") {
     ":chrome_base_module_resources",
     "$google_play_services_package:google_firebase_firebase_iid_java",
     "$google_play_services_package:google_firebase_firebase_messaging_java",
+    "$google_play_services_package:google_firebase_firebase_analytics_java",
     "$google_play_services_package:google_play_services_gcm_java",
     "//base:base_java",
     "//base:jni_java",
