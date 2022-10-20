@@ -890,6 +890,10 @@ class BuildConfigGenerator extends DefaultTask {
                 sb.append('  # The library works without it as it\'s only used for logging.\n')
                 sb.append('  enable_bytecode_checks = false\n')
                 break
+            case 'com_google_firebase_firebase_analytics':
+                sb.append('\n')
+                sb.append('  enable_bytecode_checks = false\n')
+                break
             case 'com_android_tools_sdk_common':
             case 'com_android_tools_common':
             case 'com_android_tools_layoutlib_layoutlib_api':

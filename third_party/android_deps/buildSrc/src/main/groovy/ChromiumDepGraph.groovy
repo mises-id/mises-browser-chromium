@@ -93,6 +93,8 @@ class ChromiumDepGraph {
             description: 'Bridge interfaces for Firebase analytics into GmsCore.'),
         com_google_firebase_firebase_messaging: new PropertyOverride(
             description: 'Firebase Cloud Messaging SDK to send and receive push messages via FCM.'),
+        com_google_firebase_firebase_analytics: new PropertyOverride(
+            description: 'Firebase Analytics SDK.'),
         com_google_googlejavaformat_google_java_format: new PropertyOverride(
             url: 'https://github.com/google/google-java-format',
             licenseUrl: 'https://www.apache.org/licenses/LICENSE-2.0.txt',
