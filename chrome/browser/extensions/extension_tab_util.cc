@@ -566,6 +566,7 @@ std::unique_ptr<base::ListValue> ExtensionTabUtil::CreateTabList(
     const Extension* extension,
     Feature::Context context) {
   std::unique_ptr<base::ListValue> tab_list(new base::ListValue());
+#if !BUILDFLAG(IS_ANDROID)
   TabStripModel* tab_strip = browser->tab_strip_model();
   for (int i = 0; i < tab_strip->count(); ++i) {
     WebContents* web_contents = tab_strip->GetWebContentsAt(i);
@@ -576,6 +577,26 @@ std::unique_ptr<base::ListValue> ExtensionTabUtil::CreateTabList(
                         i)
             ->ToValue()));
   }
+#else
+  TabModel *tab_strip = nullptr;
+  if (!TabModelList::models().empty())
+    tab_strip = *(TabModelList::models().begin());
+  if (tab_strip) {
+    for (int i = 0; i < tab_strip->GetTabCount(); ++i) {
+      TabAndroid *tab_android = tab_strip->GetTabAt(i);
+      if (!tab_android) {
+        continue;
+      }
+      if (tab_android->ExtensionWindowID() == browser->session_id().id()) {
+            WebContents* web_contents = tab_strip->GetWebContentsAt(i);
+            ExtensionTabUtil::ScrubTabBehavior scrub_tab_behavior =
+              ExtensionTabUtil::GetScrubTabBehavior(extension, context, web_contents);
+                tab_list->Append(base::Value::FromUniquePtrValue(
+                  CreateTabObject(web_contents, scrub_tab_behavior, extension, nullptr, i)->ToValue()));
+      }
+    }
+  }
+#endif
 
   return tab_list;
 }

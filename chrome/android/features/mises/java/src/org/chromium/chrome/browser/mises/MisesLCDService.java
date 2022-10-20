@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import lcd.MLightNode;
+import lcd.MLightNodeDelegator;
 import lcd.Lcd;
 
 import org.chromium.base.Log;
@@ -34,7 +35,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MisesLCDService extends Service {
+public class MisesLCDService extends Service implements MLightNodeDelegator {
     private static final String CHANNEL_ID = "1001";
     private static final String CHANNEL_NAME = "Event Tracker";
     private static final int SERVICE_ID = 1;
@@ -43,30 +44,33 @@ public class MisesLCDService extends Service {
     private static final String ACTION_RESTART_FOREGROUND_SERVICE = "ACTION_RESTART_FOREGROUND_SERVICE";
     private static final String ACTION_OPEN_APP = "ACTION_OPEN_APP";
     public static final String KEY_DATA = "KEY_DATA";
-    private Handler retryHandler = new Handler();
+    private Handler uiThreadHandler = new Handler();
     private int retryCounter = 0;
+    private static MLightNode nodeLCD = null;
+    private Thread nodeThread = null;
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        Log.d(TAG, "onBind");
+        Log.i(TAG, "onBind");
         return null;
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG, "onCreate");
+        Log.i(TAG, "onCreate");
         startForegroundService();
 
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "ON START COMMAND");
+        Log.i(TAG, "onStartCommand");
         if (intent != null) {
             if (intent.getAction() != null) {
-                if (intent.getAction() .equals(ACTION_RESTART_FOREGROUND_SERVICE)) {
+		Log.i(TAG, "onStartCommand " + intent.getAction());
+                if (intent.getAction().equals(ACTION_RESTART_FOREGROUND_SERVICE)) {
 		    retryCounter = 0;
                     startLCDService();
                 } else if (intent.getAction().equals(ACTION_OPEN_APP)) {
@@ -95,7 +99,10 @@ public class MisesLCDService extends Service {
         createNotificationChannel();
 
         // Start foreground service.
-        startLCDService();
+        if (!IS_RUNNING) {
+
+	  startLCDService();
+	}
 
     }
 
@@ -114,25 +121,35 @@ public class MisesLCDService extends Service {
     }
 
     private void startLCDService() {
-
+        Log.i(TAG, "startLCDService");
         startForeground(SERVICE_ID, getStickyNotification(
                 getString(R.string.title_foreground_service_notification_running),
                 getString(R.string.msg_notification_service_desc), true
         ));
         IS_RUNNING = true;
 
-        retryHandler.removeCallbacksAndMessages(null);
-        new Thread(new Runnable() {
+        uiThreadHandler.removeCallbacksAndMessages(null);
+        
+        restartNode();
+
+        uiThreadHandler.postDelayed( () -> {
+            stopForeground(true);
+        }, 5000);
+    }
+    private void initNode(final String home_path) {
+        if (nodeThread != null) {
+	  return;
+	}
+        nodeThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                Log.d(TAG, "mises light node starting");
+                Log.i(TAG, "mises light node starting");
                 String block_height = "";
                 String block_hash = "";
                 String primary_node = "";
                 String witness_nodes = "";
                 String chain_id = "";
                 boolean first_run = false;
-                final String home_path = MisesLCDService.this.getApplicationContext().getFilesDir().getAbsolutePath() + File.separator;
                 File f = new File(home_path+ "//.misestm//light//light-client-db.db");
                 if (!f.exists()) {
                     first_run = true;
@@ -164,10 +181,11 @@ public class MisesLCDService extends Service {
                 }finally {
                     if (block_hash.isEmpty() || block_height.isEmpty()) {
                         if (first_run) {
-                            //if no old light data, force trust an hash
-                            block_hash = "98B49C7E46A2903BEB3816C501155325EA10FC1CCEC4F58AF62253E72061801B";
-                            block_height = "56100";
-                            Log.i(TAG, "trust the default block");
+                            //if no old light data, restart later
+                            Log.e(TAG, "no trust block");
+			    nodeThread = null;
+			    MisesLCDService.this.onError();
+			    return;
                         } else {
                             //leave block_hash and block_height empty so that trust the existing block
                             Log.i(TAG, "trust the existing block");
@@ -197,41 +215,67 @@ public class MisesLCDService extends Service {
 
                 }
                 try {
-
-
-                    Lcd.setHomePath(home_path);
-                    MLightNode node = Lcd.newMLightNode();
-                    node.setChainID(chain_id);
-                    node.setEndpoints(primary_node, witness_nodes);
-                    node.setTrust(block_height, block_hash);
+		    nodeLCD = Lcd.newMLightNode();
+                    nodeLCD.setChainID(chain_id);
+                    nodeLCD.setEndpoints(primary_node, witness_nodes);
+                    nodeLCD.setTrust(block_height, block_hash);
 		    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N_MR1) {
 			// these android version dont support isrg_root_x1 CA, so simply make Ssl skip checking CA
-		        node.setInsecureSsl(true);
+		        nodeLCD.setInsecureSsl(true);
 		    }
-                    node.serve("tcp://0.0.0.0:26657");
-                    Log.d(TAG, "mises light node finish");
+                    nodeLCD.serve("tcp://127.0.0.1:26657", MisesLCDService.this);
+                    Log.i(TAG, "mises light node started");
                 } catch (Exception e) {
                     Log.e(TAG, "mises light node start error");
+		    nodeLCD = null;
+                    MisesLCDService.this.onError();
                 }
+		nodeThread = null;
 
-                startForeground(SERVICE_ID, getStickyNotification(
-                        getString(R.string.title_foreground_service_notification_error),
-                        getString(R.string.msg_notification_service_desc), false
-                ));
-		int retryDelay = 30000;
-		if (retryCounter < 0) {
-		  retryDelay = 30000;
-		} else if (retryCounter < 6) {
-		  retryDelay = (int)Math.round(Math.pow(2, retryCounter) * 30000);
-		} else {
-	 	  retryDelay = 960000;
-		}
-		retryCounter += 1;
-                retryHandler.postDelayed( () -> {
-                    startLCDService();
-                }, retryDelay);
             }
-        }).start();
+        });
+        nodeThread.start();
+    }
+   
+    
+    private void onErrorUIThread() {
+        Log.e(TAG, "onError " + retryCounter);
+        startForeground(SERVICE_ID, getStickyNotification(
+            getString(R.string.title_foreground_service_notification_error),
+            getString(R.string.msg_notification_service_desc), false
+        ));
+        int retryDelay = 30000;
+        if (retryCounter < 0) {
+            retryDelay = 30000;
+        } else if (retryCounter < 6) {
+            retryDelay = (int)Math.round(Math.pow(2, retryCounter) * 30000);
+        } else {
+            retryDelay = 960000;
+        }
+        retryCounter += 1;
+	uiThreadHandler.removeCallbacksAndMessages(null);
+        uiThreadHandler.postDelayed( () -> {
+            startLCDService();
+        }, retryDelay); 
+    }
+    @Override
+    public void onError() {
+	uiThreadHandler.post( () -> {onErrorUIThread();});
+       
+    }
+    private void restartNode() {
+        try {
+            if (nodeLCD == null) {
+                final String home_path = this.getApplicationContext().getFilesDir().getAbsolutePath() + File.separator;
+                Lcd.setHomePath(home_path);
+                initNode(home_path);
+            } else {
+                nodeLCD.restart();
+            }
+        } catch (Exception e) {
+           Log.e(TAG, "mises light node restart error");
+           onError();
+        }
     }
 
     private Notification getStickyNotification(String title, String message, boolean running) {
@@ -287,6 +331,7 @@ public class MisesLCDService extends Service {
     }
 
     private void stopService() {
+        Log.i(TAG, "stopService");
         // Stop foreground service and remove the notification.
         stopForeground(true);
         // Stop the foreground service.
@@ -298,8 +343,10 @@ public class MisesLCDService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy");
-        IS_RUNNING = false;
+        Log.i(TAG, "onDestroy");
+	if (IS_RUNNING) {
+          stopService();
+	}
     }
 
 

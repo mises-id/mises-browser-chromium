@@ -1,15 +1,32 @@
 package org.chromium.chrome.browser;
 
 import org.chromium.base.Log;
+import org.chromium.url.GURL;
 import org.chromium.base.ContextUtils;
+import org.chromium.chrome.browser.profiles.Profile;
 import org.chromium.chrome.browser.tab.Tab;
+import org.chromium.chrome.browser.tab.RequestDesktopUtils;
 import org.chromium.chrome.browser.preferences.Pref;
 
 import java.net.URL;
 import java.net.MalformedURLException;
 
 public class PersonalizeResults {
-    public static void Execute(Tab tab) {
+    public static void SetupDefaultUserAgent(final Profile profile) {
+	  String [] urlUseDesktop = new String [] {
+	      "https://www.aptosnames.com",
+	      "https://app.arcade.xyz/loans",
+	      "https://gm.xyz",
+	      "https://link3.to",
+	      "https://chartex.pro",
+	      "https://app.slingshot.finance",
+	  };
+	  for (int i = 0; i < urlUseDesktop.length; i++) {
+	     final GURL url = new GURL(urlUseDesktop[i]);
+	     RequestDesktopUtils.setRequestDesktopSiteContentSettingsForUrl(profile, url, true);
+	  }
+    }
+    public static void Execute(final Tab tab) {
        final boolean shouldRewrapText = ContextUtils.getAppSharedPreferences().getBoolean("text_rewrap", false);
        final boolean shouldRemoveAmp = ContextUtils.getAppSharedPreferences().getBoolean("avoid_amp_websites", true);
        if (shouldRemoveAmp && tab != null && IsSearchUrl(tab.getUrl().getSpec())) {

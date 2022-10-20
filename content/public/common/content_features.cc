@@ -1201,7 +1201,7 @@ const base::Feature kRequestDesktopSiteAdditions{
 // Request Desktop Site per-site setting for Android.
 // Refer to the launch bug (https://crbug.com/1244979) for more information.
 const base::Feature kRequestDesktopSiteExceptions{
-    "RequestDesktopSiteExceptions", base::FEATURE_DISABLED_BY_DEFAULT};
+    "RequestDesktopSiteExceptions", base::FEATURE_ENABLED_BY_DEFAULT};
 
 // Screen Capture API support for Android
 const base::Feature kUserMediaScreenCapturing{
