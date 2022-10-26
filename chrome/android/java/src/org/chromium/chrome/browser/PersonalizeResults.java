@@ -250,7 +250,7 @@ public class PersonalizeResults {
 
 
    // dio wallet 
-   private static final String DIOWALLET_EXTENSION_STYLES = "'.app{max-width: 100vw;} .create-account{width: 100%}'";
+   private static final String DIOWALLET_EXTENSION_STYLES = "'.app{max-width: 100vw;} .create-account,.layout-with-header-content{width: 100%}'";
    // coin 98
    private static final String COIN98_EXTENSION_STYLES = "'.popup-chain-selection{height: 93vh}'";
 

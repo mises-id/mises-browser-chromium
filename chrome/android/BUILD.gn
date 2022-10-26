@@ -206,6 +206,7 @@ android_resources("chrome_base_module_resources") {
     "java/res_chromium_base/mipmap-xxxhdpi/layered_app_icon.png",
     "java/res_chromium_base/mipmap-xxxhdpi/layered_app_icon_background.png",
     "java/res_chromium_base/values/channel_constants.xml",
+    "java/res_chromium_base/values/google-services.xml",
   ]
 }
 
@@ -2103,6 +2104,7 @@ android_resources("chrome_public_apk_base_module_resources") {
     "java/res_chromium_base/mipmap-xxxhdpi/layered_app_icon.png",
     "java/res_chromium_base/mipmap-xxxhdpi/layered_app_icon_background.png",
     "java/res_chromium_base/values/channel_constants.xml",
+    "java/res_chromium_base/values/google-services.xml",
   ]
 
   # Dep needed to ensure override works properly.
