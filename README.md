@@ -56,9 +56,9 @@ Or Telegram
 <img src="https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white"></a>
 
 ## Related Porjects
-- Chromium <a href="https://github.com/chromium/chromium">, the root of most morden browser, made the standard of client software much more higher
-- Kiwi <a href="https://github.com/kiwibrowser/src.next">, we have adopted some ui code from kiwi, be since the lastest kiwibrowser is not fully opensource, so we have done most work ourself
-- Ungoogled Chromium <a href="https://github.com/ungoogled-software/ungoogled-chromium">
+- <a href="https://github.com/chromium/chromium"> Chromium </a>, the root of most morden browser, made the standard of client software much more higher
+- <a href="https://github.com/kiwibrowser/src.next"> Kiwi</a>, we have adopted some ui code from kiwi, but since the lastest kiwibrowser is not fully opensource, we have done most work ourself
+- <a href="https://github.com/ungoogled-software/ungoogled-chromium"> Ungoogled Chromium </a>, a famous project that move google service out of chromium
 
 
 ***
