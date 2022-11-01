@@ -40,7 +40,7 @@ import org.chromium.base.ContextUtils;
 import org.chromium.chrome.browser.preferences.SharedPreferencesManager;
 import org.chromium.chrome.browser.night_mode.ThemeType;
 import android.os.Build;
-import org.chromium.chrome.browser.mises.MisesLCDService;
+
 
 /**
  * Basic application functionality that should be shared among all browser applications that use
@@ -97,16 +97,6 @@ public class ChromeApplicationImpl extends SplitCompatApplication.Impl {
             PartitionResolverSupplier.setInstance(new ProfileResolver());
 
             AppHooks.get().getChimeDelegate().initialize();
-            if (!MisesLCDService.IS_RUNNING) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    Log.i(TAG, "start MisesLCDService1");
-                    getApplication().startForegroundService(new Intent(getApplication(), MisesLCDService.class));
-                } else {
-                    Log.i(TAG, "start MisesLCDService2");
-                    getApplication().startService(new Intent(getApplication(), MisesLCDService.class));
-                }
-            }
-
         }
     }
 

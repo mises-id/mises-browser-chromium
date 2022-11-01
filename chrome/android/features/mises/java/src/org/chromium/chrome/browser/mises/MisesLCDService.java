@@ -34,6 +34,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
+import java.lang.SecurityException;
 
 public class MisesLCDService extends Service implements MLightNodeDelegator {
     private static final String CHANNEL_ID = "1001";
@@ -48,6 +49,7 @@ public class MisesLCDService extends Service implements MLightNodeDelegator {
     private int retryCounter = 0;
     private static MLightNode nodeLCD = null;
     private Thread nodeThread = null;
+    private Thread nodeRestartThread = null;
 
     @Nullable
     @Override
@@ -83,8 +85,10 @@ public class MisesLCDService extends Service implements MLightNodeDelegator {
     }
 
     private void openAppHomePage(String keydata) {
-
-        sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
+        try {
+          sendBroadcast(new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS));
+	} catch (SecurityException e) {
+	}
         Intent newintent = new Intent();
         newintent.setClassName("site.mises.browser", "org.chromium.chrome.browser.ChromeTabbedActivity");
         newintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK );
@@ -135,6 +139,26 @@ public class MisesLCDService extends Service implements MLightNodeDelegator {
         uiThreadHandler.postDelayed( () -> {
             stopForeground(true);
         }, 5000);
+    }
+    private void resetNode() {
+        if (nodeRestartThread != null) {
+          return;
+        }
+        nodeRestartThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.i(TAG, "mises light node restarting");
+		try {
+		    nodeLCD.restart();
+		} catch (Exception e) {
+		
+		    Log.i(TAG, "mises light node restart fail");
+		}
+                nodeRestartThread = null;
+
+            }
+        });
+        nodeRestartThread.start();
     }
     private void initNode(final String home_path) {
         if (nodeThread != null) {
@@ -270,7 +294,7 @@ public class MisesLCDService extends Service implements MLightNodeDelegator {
                 Lcd.setHomePath(home_path);
                 initNode(home_path);
             } else {
-                nodeLCD.restart();
+                resetNode();
             }
         } catch (Exception e) {
            Log.e(TAG, "mises light node restart error");

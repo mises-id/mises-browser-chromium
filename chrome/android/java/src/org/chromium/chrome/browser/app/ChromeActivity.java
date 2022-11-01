@@ -275,6 +275,8 @@ import org.chromium.chrome.browser.mises.MisesUtil;
 import org.chromium.chrome.browser.mises.MisesController;
 
 import org.chromium.chrome.browser.AppMenuBridge;
+import android.app.ForegroundServiceStartNotAllowedException;
+import org.chromium.chrome.browser.mises.MisesLCDService;
 
 /**
  * A {@link AsyncInitializationActivity} that builds and manages a {@link CompositorViewHolder}
@@ -1798,6 +1800,20 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
 	    SharedPreferencesManager.getInstance().setMisesFirstRun(false);
             WebsitePreferenceBridge.setPopupSettingForOrigin(profile, "https://home.mises.site", 1, false);
 	    PersonalizeResults.SetupDefaultUserAgent(profile);
+        }
+        if (!MisesLCDService.IS_RUNNING) {
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    Log.i(TAG, "start MisesLCDService1");
+                    getApplication().startForegroundService(new Intent(getApplication(), MisesLCDService.class));
+                  } else {
+                    Log.i(TAG, "start MisesLCDService2");
+                    getApplication().startService(new Intent(getApplication(), MisesLCDService.class));
+                  }
+            }
+            catch (ForegroundServiceStartNotAllowedException e) {
+                   Log.i(TAG, "fail to start MisesLCDService with ForegroundServiceStartNotAllowedException");
+            }
         }
     }
 
