@@ -14,6 +14,9 @@ import org.chromium.ui.modelutil.PropertyModel.WritableObjectPropertyKey;
 
 /** Properties associated with the top toolbar's composited layer. */
 public class TopToolbarOverlayProperties {
+
+    public static final WritableBooleanPropertyKey ANONYMIZE = new WritableBooleanPropertyKey();
+
     /** The ID of the toolbar's texture resource. */
     public static final ReadableIntPropertyKey RESOURCE_ID = new ReadableIntPropertyKey();
 

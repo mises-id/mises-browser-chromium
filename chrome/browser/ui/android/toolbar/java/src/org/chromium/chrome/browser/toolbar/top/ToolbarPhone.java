@@ -1849,7 +1849,7 @@ public class ToolbarPhone extends ToolbarLayout implements OnClickListener, TabC
             }
         }
         if (mHandButton != null) {
-          if (!ContextUtils.getAppSharedPreferences().getBoolean("enable_bottom_toolbar", false) || !ContextUtils.getAppSharedPreferences().getBoolean("enable_overscroll_button", true))
+          if (true || !ContextUtils.getAppSharedPreferences().getBoolean("enable_overscroll_button", true))
             mHandButton.setVisibility(GONE);
         }
     }

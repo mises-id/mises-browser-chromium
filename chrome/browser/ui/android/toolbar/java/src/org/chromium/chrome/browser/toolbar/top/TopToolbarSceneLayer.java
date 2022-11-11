@@ -48,8 +48,9 @@ class TopToolbarSceneLayer extends SceneOverlayLayer {
 		model.get(TopToolbarOverlayProperties.X_OFFSET),
                 model.get(TopToolbarOverlayProperties.Y_OFFSET),
                 model.get(TopToolbarOverlayProperties.SHOW_SHADOW),
-                model.get(TopToolbarOverlayProperties.VISIBLE), 
-		ContextUtils.getAppSharedPreferences().getBoolean("enable_bottom_toolbar", false));
+                model.get(TopToolbarOverlayProperties.VISIBLE),
+		model.get(TopToolbarOverlayProperties.ANONYMIZE));
+		//ContextUtils.getAppSharedPreferences().getBoolean("enable_bottom_toolbar", false));
 
         if (ChromeFeatureList.isEnabled(ChromeFeatureList.DISABLE_COMPOSITED_PROGRESS_BAR)) {
             return;

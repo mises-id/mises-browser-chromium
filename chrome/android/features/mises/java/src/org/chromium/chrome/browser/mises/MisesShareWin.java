@@ -59,6 +59,7 @@ import java.io.ByteArrayOutputStream;
 
 import javax.annotation.Nullable;
 import org.chromium.chrome.browser.tabmodel.TabCreatorManager;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 public class MisesShareWin extends DialogFragment {
 
@@ -300,6 +301,10 @@ public class MisesShareWin extends DialogFragment {
             } else {
                 Toast.makeText(mContext, "Share failed", Toast.LENGTH_SHORT).show();
             }
+            Bundle params = new Bundle();
+            params.putString("step", "finish");
+            params.putString("resp", res.toString());
+            FirebaseAnalytics.getInstance(getContext()).logEvent("mises_share", params);
         }
     }
 
@@ -364,6 +369,9 @@ public class MisesShareWin extends DialogFragment {
             public void onClick(View v) {
                 // 销毁弹出框
                 dismiss();
+                Bundle params = new Bundle();
+                params.putString("step", "cancel");
+                FirebaseAnalytics.getInstance(getContext()).logEvent("mises_share", params);
             }
         });
         // 设置按钮监听
@@ -374,6 +382,9 @@ public class MisesShareWin extends DialogFragment {
                 mLoadingView.showLoadingUI();
                 MisesShareTask task = new MisesShareTask(MisesController.getInstance().getMisesToken(), comment.getText().toString().trim());
                 task.execute(mImageResult);
+                Bundle params = new Bundle();
+                params.putString("step", "share");
+                FirebaseAnalytics.getInstance(getContext()).logEvent("mises_share", params);
             }
         });
 
@@ -419,6 +430,10 @@ public class MisesShareWin extends DialogFragment {
         WindowManager.LayoutParams params = getDialog().getWindow().getAttributes();
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
         getDialog().getWindow().setAttributes((WindowManager.LayoutParams) params);
+	
+	Bundle bundleParams = new Bundle();
+	bundleParams.putString("step", "begin");
+	FirebaseAnalytics.getInstance(getContext()).logEvent("mises_share", bundleParams);
         super.onStart();
     }
 }

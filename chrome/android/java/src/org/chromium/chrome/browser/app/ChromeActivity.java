@@ -277,6 +277,9 @@ import org.chromium.chrome.browser.mises.MisesController;
 import org.chromium.chrome.browser.AppMenuBridge;
 import android.app.ForegroundServiceStartNotAllowedException;
 import org.chromium.chrome.browser.mises.MisesLCDService;
+import android.view.Gravity;
+import org.chromium.components.browser_ui.widget.CoordinatorLayoutForPointer;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 /**
  * A {@link AsyncInitializationActivity} that builds and manages a {@link CompositorViewHolder}
@@ -768,17 +771,23 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
             try (StrictModeContext ignored = StrictModeContext.allowDiskWrites()) {
                 SharedPreferencesManager.getInstance().writeBooleanUnchecked("is_tablet", DeviceFormFactor.isTablet());
                 TraceEvent.begin("setContentView(R.layout.main)");
-		//if (ContextUtils.getAppSharedPreferences().getBoolean("enable_bottom_toolbar", false)) {
-                    // setContentView(R.layout.main_bottombar); //mises
-                //} else {
+		if (ContextUtils.getAppSharedPreferences().getBoolean("enable_bottom_toolbar", false)) {
+                    ContextUtils.getAppSharedPreferences().edit().putBoolean("enable_bottom_toolbar", false).commit();//disable bottom_toolbar
+		}
                 setContentView(R.layout.main);
-                //}
+               
                 TraceEvent.end("setContentView(R.layout.main)");
                 if (getControlContainerLayoutId() != ActivityUtils.NO_RESOURCE_ID) {
                     ViewStub toolbarContainerStub =
                             ((ViewStub) findViewById(R.id.control_container_stub));
 
                     toolbarContainerStub.setLayoutResource(getControlContainerLayoutId());
+		    if (ContextUtils.getAppSharedPreferences().getBoolean("enable_bottom_toolbar", false)) {
+		      CoordinatorLayoutForPointer.LayoutParams params = new CoordinatorLayoutForPointer.LayoutParams(
+			CoordinatorLayoutForPointer.LayoutParams.MATCH_PARENT, CoordinatorLayoutForPointer.LayoutParams.WRAP_CONTENT);
+	              params.gravity = Gravity.START | Gravity.BOTTOM;
+                      toolbarContainerStub.setLayoutParams(params);	      
+		    }
                     TraceEvent.begin("toolbarContainerStub.inflate");
                     toolbarContainerStub.inflate();
                     TraceEvent.end("toolbarContainerStub.inflate");
@@ -2483,6 +2492,10 @@ public abstract class ChromeActivity<C extends ChromeActivityComponent>
             if (extensionInfo.length > 2)
                 extensionUrl = extensionInfo[2];
             Log.d("Kiwi", "Pressed extension menu: " + extensionId + " - url: " + extensionUrl);
+            Bundle bundleParams = new Bundle();
+            bundleParams.putString("id", extensionId);
+            bundleParams.putString("from", "menu");
+            FirebaseAnalytics.getInstance(this).logEvent("open_extension", bundleParams);
             Tab tab = getActivityTab();
             if (tab != null) {
                 WebContents webContents = tab.getWebContents();
