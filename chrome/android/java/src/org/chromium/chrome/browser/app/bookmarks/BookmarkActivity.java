@@ -19,6 +19,8 @@ import org.chromium.chrome.browser.bookmarks.BookmarkPage;
 import org.chromium.components.bookmarks.BookmarkId;
 import org.chromium.components.embedder_support.util.UrlConstants;
 
+import org.chromium.ui.base.IntentRequestTracker;
+
 /**
  * The activity that displays the bookmark UI on the phone. It keeps a {@link BookmarkManager}
  * inside of it and creates a snackbar manager. This activity should only be shown on phones; on
@@ -58,7 +60,9 @@ public class BookmarkActivity extends SnackbarActivity {
             BookmarkId bookmarkId = BookmarkId.getBookmarkIdFromString(
                     data.getStringExtra(INTENT_VISIT_BOOKMARK_ID));
             mBookmarkManager.openBookmark(bookmarkId);
-        }
+        } else {
+	  mBookmarkManager.intentTracker().onActivityResult(requestCode, resultCode, data);
+	}
     }
 
     /**

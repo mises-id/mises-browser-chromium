@@ -42,6 +42,11 @@ import org.chromium.url.GURL;
 
 import java.util.Stack;
 
+import android.app.Activity;
+import org.chromium.ui.base.WindowAndroid;
+import org.chromium.ui.base.ActivityWindowAndroid;
+import org.chromium.ui.base.IntentRequestTracker;
+
 /**
  * The new bookmark manager that is planned to replace the existing bookmark manager. It holds all
  * views and shared logics between tablet and phone. For tablet/phone specific logics, see
@@ -76,7 +81,9 @@ public class BookmarkManager
     private BookmarkItemsAdapter mAdapter;
     private BookmarkDragStateDelegate mDragStateDelegate;
     private AdapterDataObserver mAdapterDataObserver;
-
+    
+    private ActivityWindowAndroid mWindowAndroid;
+    private IntentRequestTracker mIntentTracker;
     private final BookmarkModelObserver mBookmarkModelObserver = new BookmarkModelObserver() {
         @Override
         public void bookmarkNodeChildrenReordered(BookmarkItem node) {
@@ -274,6 +281,11 @@ public class BookmarkManager
         if (!isDialogUi) {
             RecordUserAction.record("MobileBookmarkManagerPageOpen");
         }
+        mIntentTracker = IntentRequestTracker.createFromActivity((Activity)context);
+	mWindowAndroid = new ActivityWindowAndroid(context, true, mIntentTracker);
+    }
+    public IntentRequestTracker intentTracker() {
+        return mIntentTracker;
     }
 
     @Override
@@ -542,6 +554,16 @@ public class BookmarkManager
     @Override
     public void closeSearchUI() {
         mToolbar.hideSearchView();
+    }
+
+    @Override
+    public void importBookmarks() {
+        mBookmarkModel.startImportBookmarks(mWindowAndroid);
+    }
+
+    @Override
+    public void exportBookmarks() {
+        mBookmarkModel.startExportBookmarks();
     }
 
     @Override

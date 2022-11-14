@@ -71,6 +71,9 @@ public interface BookmarkDelegate {
      */
     void closeSearchUI();
 
+    void importBookmarks();
+    void exportBookmarks();
+
     /**
      * Add an observer to bookmark UI changes.
      */

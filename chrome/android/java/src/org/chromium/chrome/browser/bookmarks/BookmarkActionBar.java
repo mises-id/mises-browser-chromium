@@ -88,7 +88,13 @@ public class BookmarkActionBar extends SelectableListToolbar<BookmarkId>
         } else if (menuItem.getItemId() == R.id.search_menu_id) {
             mDelegate.openSearchUI();
             return true;
-        }
+        } else if (menuItem.getItemId() == R.id.import_bookmarks) {
+            mDelegate.importBookmarks();
+            return true;
+        } else if (menuItem.getItemId() == R.id.export_bookmarks) {
+            mDelegate.exportBookmarks();
+            return true;
+        } 
 
         SelectionDelegate<BookmarkId> selectionDelegate = mDelegate.getSelectionDelegate();
         if (menuItem.getItemId() == R.id.selection_mode_edit_menu_id) {
