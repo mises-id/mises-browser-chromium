@@ -176,7 +176,6 @@
       width: 200%;
       height: 200%;
       border-radius: 26px;
-      border: 1px solid #F1F2F3;
       transform-origin: 0 0;
       transform: scale(0.5);
     }
@@ -191,7 +190,6 @@
     .web3-site-title{
       font-size: 18px;
       font-weight: 600;
-      color: #111111;
     }
     .chrome-embedded-search .web3-site-title{
       color: white
@@ -206,9 +204,6 @@
     }
     .grid-image-box{
       background: #F1F2F3;
-    }
-    .mises-web3-img-box{
-      background: white;
     }
     .mises-web3-img-box,.grid-image-box{
       width: 59px;
@@ -277,7 +272,61 @@
         width: 28px;
         height: 28px;
       }
-      
+    }
+    .dark-element{
+      display: none;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --background: #16181A;
+        --border-color: #2B2B2B;
+        --theme-color: #dddddd;
+      }
+      #bookmarks-grid, #fake-bookmarks-grid, #ideas-grid {
+        background-color: var(--background);
+      }
+      body {
+        background: #000;
+      }
+      .mises-site-item p{
+        color: var(--theme-color);
+      }
+      .box{
+        background: var(--background);
+      }
+      .mises-web3-img-box{
+        background: var(--background);
+      }
+
+      .mises-web3-title{
+        color: #ccc;
+      }
+      .mises-web3-img-box::after{
+        border: 1px solid var(--border-color);
+      }
+      .border-bottom::after{
+        background-color: var(--border-color);
+      }
+      .web3-site-title{
+        color: var(--theme-color);
+      }
+      .dark-element{
+        display: initial;
+      }
+      .light-element{
+        display: none;
+      }
+
+      .mises-site-container{
+        background: none;
+      }
+      .grid-item {
+        background: var(--background);;
+      }
+
+      .grid-image-box{
+        background: #2b2b2b;
+      }
     }
   </style>
 </head>
@@ -287,13 +336,26 @@
   <div class="web3-site" id="mises-content">
     <div class="mises-site-container" id="mises-sites">
       <a class="mises-site-item" href="https://portal.mises.site/">
-        <img src="./images/Staking.png" alt="Staking"/>
+        <img src="./images/Staking.png" alt="Staking" class="light-element"/>
+        <img src="./images/Staking-dark.png" alt="Staking" class="dark-element"/>
         <p>Staking</p>
       </a>
-      <a class="mises-site-item" href="https://home.mises.site/"><img src="./images/Discover.png" alt="Discover"/><p>Discover</p></a>
+      <a class="mises-site-item" href="https://home.mises.site/">
+        <img src="./images/Discover.png" alt="Discover" class="light-element"/>
+        <img src="./images/Discover-dark.png" alt="Discover" class="dark-element"/>
+        <p>Discover</p>
+      </a>
       <div style="visibility:hidden" id="airdrop-box">
-        <a class="mises-site-item" id="airdrop" href="https://home.mises.site/airdrop"><img src="./images/Airdrop.png" alt="Airdrop"/><p>Airdrop</p></a>
-        <a class="mises-site-item" style="display:none" id="invite" href="https://home.mises.site/myInvitation"><img src="./images/Invite.png" alt="Invite"/><p>Invite</p></a>
+        <a class="mises-site-item" id="airdrop" href="https://home.mises.site/airdrop">
+          <img src="./images/Airdrop.png" alt="Airdrop" class="light-element"/>
+          <img src="./images/Airdrop-dark.png" alt="Airdrop" class="dark-element"/>
+          <p>Airdrop</p>
+        </a>
+        <a class="mises-site-item" style="display:none" id="invite" href="https://home.mises.site/myInvitation">
+          <img src="./images/Invite.png" alt="Invite" class="light-element"/>
+          <img src="./images/Invite-dark.png" alt="Invite" class="dark-element"/>
+          <p>Invite</p>
+        </a>
       </div>
     </div>
     <div class="box">

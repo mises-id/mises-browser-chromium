@@ -70,6 +70,18 @@ void NewTabPageSource::StartDataRequest(
     if (base::EndsWith(path, "Invite.png", base::CompareCase::INSENSITIVE_ASCII))
       SendResource(IDR_NEW_TAB_PAGE_INSTANT_IMAGES_INVITE_PNG,
                  std::move(callback));
+    if (base::EndsWith(path, "Staking-dark.png", base::CompareCase::INSENSITIVE_ASCII))
+      SendResource(IDR_NEW_TAB_PAGE_INSTANT_IMAGES_STAKING_DARK_PNG,
+                 std::move(callback));
+    if (base::EndsWith(path, "Airdrop-dark.png", base::CompareCase::INSENSITIVE_ASCII))
+      SendResource(IDR_NEW_TAB_PAGE_INSTANT_IMAGES_AIRDROP_DARK_PNG,
+                 std::move(callback));
+    if (base::EndsWith(path, "Discover-dark.png", base::CompareCase::INSENSITIVE_ASCII))
+      SendResource(IDR_NEW_TAB_PAGE_INSTANT_IMAGES_DISCOVER_DARK_PNG,
+                 std::move(callback));
+    if (base::EndsWith(path, "Invite-dark.png", base::CompareCase::INSENSITIVE_ASCII))
+      SendResource(IDR_NEW_TAB_PAGE_INSTANT_IMAGES_INVITE_DARK_PNG,
+                 std::move(callback));
     if (base::EndsWith(path, "add@2x.png", base::CompareCase::INSENSITIVE_ASCII))
       SendResource(IDR_NEW_TAB_PAGE_INSTANT_IMAGES_ADD_AT_2X_PNG,
                  std::move(callback));
