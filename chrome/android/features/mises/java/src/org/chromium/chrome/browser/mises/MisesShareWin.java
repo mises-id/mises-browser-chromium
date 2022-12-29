@@ -261,6 +261,8 @@ public class MisesShareWin extends DialogFragment {
             } finally {
                 if (urlConnection != null) urlConnection.disconnect();
             }
+
+            Log.i(TAG, "Share to mises success ");
             return resCode;
         }
 

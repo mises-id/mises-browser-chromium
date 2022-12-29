@@ -78,6 +78,8 @@ const char* AutocompleteProvider::TypeToString(Type type) {
       return "OpenTab";
     case TYPE_HISTORY_CLUSTER_PROVIDER:
       return "HistoryCluster";
+    case TYPE_MISES_PROVIDER:
+      return "Mises";
     default:
       NOTREACHED() << "Unhandled AutocompleteProvider::Type " << type;
       return "Unknown";

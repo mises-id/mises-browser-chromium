@@ -477,7 +477,7 @@ const gfx::VectorIcon& AutocompleteMatch::GetVectorIcon(
 
     case Type::HISTORY_CLUSTER:
       return omnibox::kJourneysIcon;
-
+    case Type::MISES:
     case Type::NUM_TYPES:
       // TODO(https://crbug.com/1024114): Replace with NOTREACHED() once fixed.
       CHECK(false);
@@ -1201,6 +1201,7 @@ AutocompleteMatch::AsOmniboxEventResultType() const {
     case AutocompleteMatchType::PHYSICAL_WEB_OVERFLOW_DEPRECATED:
     case AutocompleteMatchType::TAB_SEARCH_DEPRECATED:
     case AutocompleteMatchType::PEDAL_DEPRECATED:
+    case AutocompleteMatchType::MISES:
     case AutocompleteMatchType::NUM_TYPES:
       break;
   }

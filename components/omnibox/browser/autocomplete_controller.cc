@@ -53,6 +53,7 @@
 #include "components/omnibox/browser/voice_suggest_provider.h"
 #include "components/omnibox/browser/zero_suggest_provider.h"
 #include "components/omnibox/browser/zero_suggest_verbatim_match_provider.h"
+#include "components/omnibox/browser/mises_provider.h"
 #include "components/open_from_clipboard/clipboard_recent_content.h"
 #include "components/search_engines/omnibox_focus_type.h"
 #include "components/search_engines/template_url.h"
@@ -271,6 +272,10 @@ void AutocompleteController::GetMatchTypeAndExtendSubtypes(
       *type = 171;
       return;
     }
+    case AutocompleteMatchType::MISES: {
+      *type = 468;
+      return;
+    }
     default: {
       // This value indicates a native chrome suggestion with no named subtype
       // (yet).
@@ -290,13 +295,14 @@ AutocompleteController::AutocompleteController(
       search_provider_(nullptr),
       zero_suggest_provider_(nullptr),
       on_device_head_provider_(nullptr),
+      mises_provider_(nullptr),
       stop_timer_duration_(OmniboxFieldTrial::StopTimerFieldTrialDuration()),
       done_(true),
       in_start_(false),
       search_service_worker_signal_sent_(false),
       template_url_service_(provider_client_->GetTemplateURLService()) {
   provider_types &= ~OmniboxFieldTrial::GetDisabledProviderTypes();
-
+    LOG(INFO) << "Cg AutocompleteController::AutocompleteController provider_types=" << provider_types;
   if (OmniboxFieldTrial::kAutocompleteStabilityAsyncProvidersFirst.Get()) {
     // Providers run in the order they're added. Run these async providers 1st
     // so their async requests can be kicked off before waiting a few
@@ -351,6 +357,10 @@ AutocompleteController::AutocompleteController(
     keyword_provider_ = new KeywordProvider(provider_client_.get(), this);
     providers_.push_back(keyword_provider_.get());
   }
+  //mises provider
+  LOG(INFO) << "Cg MisesProvider&=" << (provider_types & AutocompleteProvider::TYPE_MISES_PROVIDER);
+  mises_provider_ = new MisesProvider(provider_client_.get());
+  providers_.push_back(mises_provider_.get());
   if (!OmniboxFieldTrial::kAutocompleteStabilityAsyncProvidersFirst.Get()) {
     if (provider_types & AutocompleteProvider::TYPE_SEARCH) {
       search_provider_ = new SearchProvider(provider_client_.get(), this);
@@ -489,7 +499,7 @@ void AutocompleteController::AddObserver(Observer* observer) {
 void AutocompleteController::Start(const AutocompleteInput& input) {
   TRACE_EVENT1("omnibox", "AutocompleteController::Start", "text",
                base::UTF16ToUTF8(input.text()));
-
+    LOG(INFO) << "Cg AutocompleteController::Start input text: " <<  base::UTF16ToUTF8(input.text());
   // Providers assume synchronous inputs (`omit_asynchronous_matches() ==
   // true`) have default focus type (`focus_type() == DEFAULT`). See
   // crbug.com/1339425.
@@ -551,6 +561,7 @@ void AutocompleteController::Start(const AutocompleteInput& input) {
   // arithmetic mean.
   base::TimeTicks start_time = base::TimeTicks::Now();
   for (const auto& provider : providers_) {
+      LOG(INFO) << "Cg AutocompleteController::Start provider name: " << provider->GetName();
     if (!ShouldRunProvider(provider.get()))
       continue;
 
@@ -871,6 +882,10 @@ void AutocompleteController::UpdateResult(
   for (const auto& provider : providers_) {
     if (!ShouldRunProvider(provider.get()))
       continue;
+    for (const auto& match : provider->matches()) {
+      LOG(INFO) << "Cg ProviderMatch provider=" << provider->GetName()
+      << ",match.content=" << match.contents << ", match.desc="<< match.description;
+    }
     result_.AppendMatches(provider->matches());
     result_.MergeSuggestionGroupsMap(provider->suggestion_groups_map());
   }

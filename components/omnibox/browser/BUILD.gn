@@ -239,6 +239,8 @@ static_library("browser") {
     "zero_suggest_provider.h",
     "zero_suggest_verbatim_match_provider.cc",
     "zero_suggest_verbatim_match_provider.h",
+    "mises_provider.cc",
+    "mises_provider.h",
   ]
 
   public_deps = [

@@ -39,6 +39,7 @@ class TemplateURLService;
 class VoiceSuggestProvider;
 class ZeroSuggestProvider;
 class OnDeviceHeadProvider;
+class MisesProvider;
 
 // The AutocompleteController is the center of the autocomplete system.  A
 // class creates an instance of the controller, which in turn creates a set of
@@ -198,6 +199,7 @@ class AutocompleteController : public AutocompleteProviderListener,
     return voice_suggest_provider_;
   }
   OpenTabProvider* open_tab_provider() const { return open_tab_provider_; }
+  MisesProvider* mises_provider() const { return mises_provider_; }
 
   const AutocompleteInput& input() const { return input_; }
   const AutocompleteResult& result() const { return result_; }
@@ -357,6 +359,7 @@ class AutocompleteController : public AutocompleteProviderListener,
 
   raw_ptr<OpenTabProvider> open_tab_provider_;
 
+  raw_ptr<MisesProvider> mises_provider_;
   // Input passed to Start.
   AutocompleteInput input_;
 

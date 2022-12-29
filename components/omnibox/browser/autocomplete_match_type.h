@@ -77,6 +77,7 @@ struct AutocompleteMatchType {
     OPEN_TAB                    = 30,  // A URL match amongst the currently open
                                        // tabs.
     HISTORY_CLUSTER             = 31,  // A history cluster suggestion.
+    MISES                       = 32,  // A history cluster suggestion.
     NUM_TYPES,
   };
   // clang-format on
