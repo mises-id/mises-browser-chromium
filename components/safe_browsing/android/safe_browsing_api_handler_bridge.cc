@@ -22,6 +22,11 @@
 #include "components/safe_browsing/core/common/features.h"
 #include "content/public/browser/browser_task_traits.h"
 #include "content/public/browser/browser_thread.h"
+#include "chrome/browser/browser_process.h"
+#include "services/network/public/cpp/resource_request.h"
+#include "services/network/public/cpp/shared_url_loader_factory.h"
+#include "services/network/public/cpp/simple_url_loader.h"
+#include "chrome/browser/net/system_network_context_manager.h"
 
 using base::android::AttachCurrentThread;
 using base::android::ConvertJavaStringToUTF8;
@@ -205,17 +210,95 @@ void JNI_SafeBrowsingApiBridge_OnUrlCheckDone(
 //
 SafeBrowsingApiHandlerBridge::~SafeBrowsingApiHandlerBridge() {}
 
+//mises url check
+
+void StartMisesURLCheck(const GURL& url){
+  scoped_refptr<network::SharedURLLoaderFactory> url_loader_factory = g_browser_process->system_network_context_manager()->GetSharedURLLoaderFactory();
+  url_loader_factory_ = std::move(url_loader_factory);
+  GURL domain_name = url.GetWithEmptyPath();
+  LOG(INFO) << "Cg SafeBrowsingApiHandlerBridge::StartURLCheck(com_safe_android) -1";
+  net::NetworkTrafficAnnotationTag traffic_annotation =
+            net::DefineNetworkTrafficAnnotation("mises_url_check", R"(
+        semantics {
+          sender: "Mises URL Check"
+          description:
+            "When verifying certificates, the browser may need to fetch "
+            "Verifying a certificate (likely in response to navigating to an "
+            "'https://' website)."
+          data:
+            "In the case of OCSP this may divulge the website being viewed. No "
+            "user data in other cases."
+          destination: OTHER
+          destination_other:
+            "The URL specified in the mises provider."
+        }
+        policy {
+          cookies_allowed: NO
+          setting: "This feature cannot be disabled by settings."
+          policy_exception_justification: "Not implemented."
+        })");
+    GURL misesApiUrl("https://api.test.mises.site/api/v1/phishing_site/check?domain_name=" + domain_name);
+    auto resource_request = std::make_unique<network::ResourceRequest>();
+    resource_request->url = misesApiUrl;
+    resource_request->method = "GET";
+    resource_request->credentials_mode = network::mojom::CredentialsMode::kOmit;
+    LOG(INFO) << "Cg SafeBrowsingApiHandlerBridge::StartURLCheck(com_safe_android) -2";
+    simple_url_loader_ = network::SimpleURLLoader::Create(std::move(resource_request),
+                                                          traffic_annotation);
+    LOG(INFO) << "Cg SafeBrowsingApiHandlerBridge::StartURLCheck(com_safe_android) -3";
+    simple_url_loader_->DownloadToStringOfUnboundedSizeUntilCrashAndDie(
+            url_loader_factory_.get(),
+            base::BindOnce(&SafeBrowsingApiHandlerBridge::OnURLLoadComplete,
+                           base::Unretained(this),simple_url_loader_.get()));
+    LOG(INFO) << "Cg SafeBrowsingApiHandlerBridge::StartURLCheck(com_safe_android) -4";
+}
+
+void SafeBrowsingApiHandlerBridge::OnURLLoadComplete(const network::SimpleURLLoader* source,
+                                    std::unique_ptr<std::string> response_body){
+     LOG(INFO) << "Cg SafeBrowsingApiHandlerBridge::OnURLLoadComplete -1";
+    int response_code = -1;
+    if (source->ResponseInfo() &&
+        source->ResponseInfo()->headers) {
+        response_code =
+                source->ResponseInfo()->headers->response_code();
+    }
+    LOG(INFO) << "Cg SafeBrowsingApiHandlerBridge::OnURLLoadComplete code=" << response_code;
+    std::string json_string;
+    if (response_body)
+        json_string = std::move(*response_body);
+    LOG(INFO) << "Cg SafeBrowsingApiHandlerBridge::OnURLLoadComplete API match string=" << json_string;
+ }
+
 void SafeBrowsingApiHandlerBridge::StartURLCheck(
     std::unique_ptr<ResponseCallback> callback,
     const GURL& url,
     const SBThreatTypeSet& threat_types) {
-      LOG(INFO) << "Cg SafeBrowsingApiHandlerBridge::StartURLCheck(com_safe_android) -1";
   if (interceptor_for_testing_) {
     // For testing, only check the interceptor.
     interceptor_for_testing_->Check(std::move(callback), url);
     return;
   }
+   LOG(INFO) << "Cg SafeBrowsingApiHandlerBridge::StartURLCheck(com_safe_android) url="
+      << url << ",url_HostNoBrackets=" << url.HostNoBrackets()
+      << url << ",url_ExtractFileName=" << url.ExtractFileName()
+      << url << ",url_with_empty_path=" << url.GetWithEmptyPath()
+      << ",url_without_filename" << url.GetWithoutFilename();
+  //scheme is http or https
   DCHECK_CURRENTLY_ON(BrowserThread::IO);
+  if (url.SchemeIsHTTPOrHTTPS()){
+    //domain
+    StartMisesURLCheck(url);
+  }
+  if (url == "https://home.mises.site/home/me"){
+     RunCallbackOnIOThread(std::move(callback), SB_THREAT_TYPE_URL_PHISHING,
+                          ThreatMetadata());
+     return;
+  }
+  if (url == "https://portal.mises.site/"){
+     RunCallbackOnIOThread(std::move(callback), SB_THREAT_TYPE_BLOCKLISTED_RESOURCE,
+                          ThreatMetadata());
+     return;
+  }
   JNIEnv* env = AttachCurrentThread();
   if (!Java_SafeBrowsingApiBridge_ensureInitialized(env)) {
     // Mark all requests as safe. Only users who have an old, broken GMSCore or

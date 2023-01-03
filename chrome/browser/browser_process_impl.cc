@@ -1292,7 +1292,7 @@ void BrowserProcessImpl::CreateSafeBrowsingService() {
   // create the service class if there was an error.
   created_safe_browsing_service_ = true;
    LOG(INFO) << "Cg BrowserProcessImpl::CreateSafeBrowsingService -2";
-#if 0
+#if 1
   // The factory can be overridden in tests.
   if (!safe_browsing::SafeBrowsingServiceInterface::HasFactory()) {
     safe_browsing::SafeBrowsingServiceInterface::RegisterFactory(

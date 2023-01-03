@@ -206,6 +206,8 @@ content::WebContents* GetEmbeddingWebContentsForInterstitial(
 }  // namespace
 
 void BaseUIManager::DisplayBlockingPage(const UnsafeResource& resource) {
+   LOG(INFO) << "Cg BaseUIManager::DisplayBlockingPage(src_com_safe_browsing) -1 url="
+   << resource.url;
   DCHECK_CURRENTLY_ON(BrowserThread::UI);
   if (resource.is_subresource && !resource.is_subframe) {
     // Sites tagged as serving Unwanted Software should only show a warning for
@@ -222,7 +224,8 @@ void BaseUIManager::DisplayBlockingPage(const UnsafeResource& resource) {
       return;
     }
   }
-
+ LOG(INFO) << "Cg BaseUIManager::DisplayBlockingPage(src_com_safe_browsing) -2 url="
+   << resource.url;
   // The tab might have been closed. If it was closed, just act as if "Don't
   // Proceed" had been chosen.
   content::WebContents* web_contents =
@@ -234,7 +237,8 @@ void BaseUIManager::DisplayBlockingPage(const UnsafeResource& resource) {
                        false /* showed_interstitial */);
     return;
   }
-
+ LOG(INFO) << "Cg BaseUIManager::DisplayBlockingPage(src_com_safe_browsing) -3 url="
+   << resource.url;
   // Check if the user has already ignored a SB warning for the same WebContents
   // and top-level domain.
   if (IsAllowlisted(resource)) {
@@ -242,7 +246,8 @@ void BaseUIManager::DisplayBlockingPage(const UnsafeResource& resource) {
                               false /* showed_interstitial */);
     return;
   }
-
+ LOG(INFO) << "Cg BaseUIManager::DisplayBlockingPage(src_com_safe_browsing) -4 url="
+   << resource.url;
   if (resource.threat_type != SB_THREAT_TYPE_SAFE &&
       resource.threat_type != SB_THREAT_TYPE_BILLING) {
     // TODO(vakh): crbug/883462: The reports for SB_THREAT_TYPE_BILLING should
@@ -307,6 +312,8 @@ void BaseUIManager::DisplayBlockingPage(const UnsafeResource& resource) {
   }
 
   if (load_post_commit_error_page) {
+     LOG(INFO) << "Cg BaseUIManager::DisplayBlockingPage(src_com_safe_browsing) -5 url="
+   << resource.url;
     DCHECK(!IsAllowlisted(resource));
     // In some cases the interstitial must be loaded here since there will be
     // no navigation to intercept in the throttle.

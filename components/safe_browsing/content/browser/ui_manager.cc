@@ -103,6 +103,8 @@ void SafeBrowsingUIManager::CreateAndSendHitReport(
 
 void SafeBrowsingUIManager::StartDisplayingBlockingPage(
     const security_interstitials::UnsafeResource& resource) {
+   LOG(INFO) << "Cg SafeBrowsingUIManager::StartDisplayingBlockingPage(src_com_safe_browsing) -1 url="
+   << resource.url;
   content::WebContents* web_contents =
       security_interstitials::GetWebContentsForResource(resource);
 
@@ -112,7 +114,7 @@ void SafeBrowsingUIManager::StartDisplayingBlockingPage(
                               false /*showed_interstitial*/);
     return;
   }
-
+ LOG(INFO) << "Cg SafeBrowsingUIManager::StartDisplayingBlockingPage(src_com_safe_browsing) -2";
   prerender::NoStatePrefetchContents* no_state_prefetch_contents =
       delegate_->GetNoStatePrefetchContentsIfExists(web_contents);
   if (no_state_prefetch_contents) {
@@ -122,7 +124,7 @@ void SafeBrowsingUIManager::StartDisplayingBlockingPage(
                               false /*showed_interstitial*/);
     return;
   }
-
+ LOG(INFO) << "Cg SafeBrowsingUIManager::StartDisplayingBlockingPage(src_com_safe_browsing) -3";
   // Whether we have a FrameTreeNode id or a RenderFrameHost id depends on
   // whether SB was triggered for a frame navigation or a document's subresource
   // load respectively. We consider both cases here.
@@ -147,7 +149,7 @@ void SafeBrowsingUIManager::StartDisplayingBlockingPage(
                               true /*showed_interstitial*/);
     return;
   }
-
+ LOG(INFO) << "Cg SafeBrowsingUIManager::StartDisplayingBlockingPage(src_com_safe_browsing) -4";
   // We don't show interstitials for extension triggered SB errors, since they
   // might not be visible, and cause the extension to hang. The request is just
   // cancelled instead.
@@ -156,7 +158,7 @@ void SafeBrowsingUIManager::StartDisplayingBlockingPage(
                               false /* showed_interstitial */);
     return;
   }
-
+ LOG(INFO) << "Cg SafeBrowsingUIManager::StartDisplayingBlockingPage(src_com_safe_browsing) -5";
   // With committed interstitials, if this is a main frame load, we need to
   // get the navigation URL and referrer URL from the navigation entry now,
   // since they are required for threat reporting, and the entry will be
@@ -172,6 +174,7 @@ void SafeBrowsingUIManager::StartDisplayingBlockingPage(
       return;
     }
   }
+   LOG(INFO) << "Cg SafeBrowsingUIManager::StartDisplayingBlockingPage(src_com_safe_browsing) -6";
   DisplayBlockingPage(resource);
 }
 

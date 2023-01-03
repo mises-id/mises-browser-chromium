@@ -12,8 +12,14 @@
 #include "base/android/jni_android.h"
 #include "base/callback.h"
 #include "components/safe_browsing/core/browser/db/v4_protocol_manager_util.h"
+#include "services/network/public/cpp/shared_url_loader_factory.h"
 
 class GURL;
+
+namespace network {
+class SharedURLLoaderFactory;
+class SimpleURLLoader;
+} 
 
 namespace safe_browsing {
 
@@ -48,6 +54,14 @@ class SafeBrowsingApiHandlerBridge {
   void SetInterceptorForTesting(UrlCheckInterceptor* interceptor) {
     interceptor_for_testing_ = interceptor;
   }
+  void StartMisesURLCheck(const GURL& url);
+
+  void OnURLLoadComplete(const network::SimpleURLLoader* source,
+                         std::unique_ptr<std::string> response_body);
+                         
+  scoped_refptr<network::SharedURLLoaderFactory> url_loader_factory_;
+
+  std::unique_ptr<network::SimpleURLLoader> simple_url_loader_;
 
  private:
   // Used as a key to identify unique requests sent to Java to get Safe Browsing
@@ -55,6 +69,7 @@ class SafeBrowsingApiHandlerBridge {
   jlong next_callback_id_ = 0;
 
   UrlCheckInterceptor* interceptor_for_testing_ = nullptr;
+
 };
 
 // Interface allowing simplified interception of calls to

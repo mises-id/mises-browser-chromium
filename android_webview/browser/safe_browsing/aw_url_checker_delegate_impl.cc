@@ -81,6 +81,7 @@ void AwUrlCheckerDelegateImpl::StartDisplayingBlockingPageHelper(
     const net::HttpRequestHeaders& headers,
     bool is_outermost_main_frame,
     bool has_user_gesture) {
+  LOG(INFO) << "Cg UrlCheckerDelegateImpl::StartObservingInteractionsForDelayedBlockingPageHelper(src_aw_safe_browsing) -1";
   AwWebResourceRequest request(resource.url.spec(), method,
                                is_outermost_main_frame, has_user_gesture,
                                headers);

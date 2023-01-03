@@ -276,6 +276,7 @@ void SafeBrowsingUrlCheckerImpl::OnUrlResult(const GURL& url,
   if (!is_prefetch && threat_type == SB_THREAT_TYPE_URL_PHISHING &&
       base::FeatureList::IsEnabled(kDelayedWarnings)) {
     if (state_ != STATE_DELAYED_BLOCKING_PAGE) {
+       LOG(INFO) << "Cg SafeBrowsingUrlCheckerImpl::OnUrlResult(src_components_safe_browsing_core_browser) state_!=STATE_DELAYED_BLOCKING_PAGE" << state_;
       // Delayed warnings experiment delays the warning until a user interaction
       // happens. Create an interaction observer and continue like there wasn't
       // a warning. The observer will create the interstitial when necessary.
@@ -289,7 +290,7 @@ void SafeBrowsingUrlCheckerImpl::OnUrlResult(const GURL& url,
                   network::mojom::RequestDestination::kDocument);
       state_ = STATE_DELAYED_BLOCKING_PAGE;
     }
-    LOG(INFO) << "Cg SafeBrowsingUrlCheckerImpl::OnUrlResult(src_components_safe_browsing_core_browser) state_=" << STATE_DELAYED_BLOCKING_PAGE;
+    LOG(INFO) << "Cg SafeBrowsingUrlCheckerImpl::OnUrlResult(src_components_safe_browsing_core_browser) state_=" << state_;
     // Let the navigation continue in case of delayed warnings.
     // No need to call ProcessUrls here, it'll return early.
     RunNextCallback(true, false);
