@@ -25,22 +25,20 @@ class SimpleURLLoader;
 class SafeBrowsingMises  {
  public:
   explicit SafeBrowsingMises();
-
+  
+ void StartMisesURLCheck(const GURL& url);
+  
+  ~SafeBrowsingMises();
 
  private:
 
-  ~SafeBrowsingMises() override;
-
-  void StartMisesURLCheck(const GURL& url);
-
+  
   void OnURLLoadComplete(const network::SimpleURLLoader* source,
                          std::unique_ptr<std::string> response_body);
 
   scoped_refptr<network::SharedURLLoaderFactory> url_loader_factory_;
 
   std::unique_ptr<network::SimpleURLLoader> simple_url_loader_;
-
-  GURL check_url_;
 
 };
 

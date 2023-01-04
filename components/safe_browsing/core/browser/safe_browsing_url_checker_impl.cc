@@ -342,6 +342,7 @@ LOG(INFO) << "Cg SafeBrowsingUrlCheckerImpl::OnUrlResult(src_components_safe_bro
 }
 
 void SafeBrowsingUrlCheckerImpl::OnTimeout() {
+   LOG(INFO) << "Cg SafeBrowsingUrlCheckerImpl::OnTimeout(src_components_safe_browsing_core_browser) URL:" << urls_[next_index_].url;
   RecordCheckUrlTimeout(/*timed_out=*/true);
 
   if (can_check_db_) {

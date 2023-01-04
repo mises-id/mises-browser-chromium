@@ -26,16 +26,14 @@ namespace {
 
 SafeBrowsingMises::SafeBrowsingMises(){
   scoped_refptr<network::SharedURLLoaderFactory> url_loader_factory = g_browser_process->system_network_context_manager()->GetSharedURLLoaderFactory();
-  url_loader_factory_ = std::move(url_loader_factory);
+   url_loader_factory_ = std::move(url_loader_factory);
 }
 
 SafeBrowsingMises::~SafeBrowsingMises() = default;
 
-void StartMisesURLCheck(const GURL& url){
-    scoped_refptr<network::SharedURLLoaderFactory> url_loader_factory = g_browser_process->system_network_context_manager()->GetSharedURLLoaderFactory();
-    url_loader_factory_ = std::move(url_loader_factory);
-    const GURL& domain_name = url.GetWithEmptyPath();
-    LOG(INFO) << "Cg SafeBrowsingApiHandlerBridge::StartURLCheck(com_safe_android) -1";
+void SafeBrowsingMises::StartMisesURLCheck(const GURL& url){
+  std::string domain_name = url.HostNoBrackets();
+    LOG(INFO) << "Cg SafeBrowsingMises::StartMisesURLCheck(com_safe_android) -1 domain_name=" << domain_name;
     net::NetworkTrafficAnnotationTag traffic_annotation =
             net::DefineNetworkTrafficAnnotation("mises_url_check", R"(
         semantics {
@@ -56,34 +54,35 @@ void StartMisesURLCheck(const GURL& url){
           setting: "This feature cannot be disabled by settings."
           policy_exception_justification: "Not implemented."
         })");
-    GURL misesApiUrl("https://api.test.mises.site/api/v1/phishing_site/check?domain_name=" + *domain_name.spec());
+    GURL misesApiUrl("https://api.test.mises.site/api/v1/phishing_site/check?domain_name=" + domain_name);
     auto resource_request = std::make_unique<network::ResourceRequest>();
     resource_request->url = misesApiUrl;
     resource_request->method = "GET";
     resource_request->credentials_mode = network::mojom::CredentialsMode::kOmit;
-    LOG(INFO) << "Cg SafeBrowsingApiHandlerBridge::StartURLCheck(com_safe_android) -2";
+    LOG(INFO) << "Cg SafeBrowsingMises::StartMisesURLCheck(com_safe_android) -2";
     simple_url_loader_ = network::SimpleURLLoader::Create(std::move(resource_request),
                                                           traffic_annotation);
-    LOG(INFO) << "Cg SafeBrowsingApiHandlerBridge::StartURLCheck(com_safe_android) -3";
+    LOG(INFO) << "Cg SafeBrowsingMises::StartMisesURLCheck(com_safe_android) -3";
+   
     simple_url_loader_->DownloadToStringOfUnboundedSizeUntilCrashAndDie(
             url_loader_factory_.get(),
-            base::BindOnce(&SafeBrowsingApiHandlerBridge::OnURLLoadComplete,
+            base::BindOnce(&SafeBrowsingMises::OnURLLoadComplete,
                            base::Unretained(this),simple_url_loader_.get()));
-    LOG(INFO) << "Cg SafeBrowsingApiHandlerBridge::StartURLCheck(com_safe_android) -4";
+    LOG(INFO) << "Cg SafeBrowsingMises::StartMisesURLCheck(com_safe_android) -4";
 }
 
-void SafeBrowsingApiHandlerBridge::OnURLLoadComplete(const network::SimpleURLLoader* source,
+void SafeBrowsingMises::OnURLLoadComplete(const network::SimpleURLLoader* source,
                                                      std::unique_ptr<std::string> response_body){
-    LOG(INFO) << "Cg SafeBrowsingApiHandlerBridge::OnURLLoadComplete -1";
+    LOG(INFO) << "Cg SafeBrowsingMises::OnURLLoadComplete -1";
     int response_code = -1;
     if (source->ResponseInfo() &&
         source->ResponseInfo()->headers) {
         response_code =
                 source->ResponseInfo()->headers->response_code();
     }
-    LOG(INFO) << "Cg SafeBrowsingApiHandlerBridge::OnURLLoadComplete code=" << response_code;
+    LOG(INFO) << "Cg SafeBrowsingMises::OnURLLoadComplete code=" << response_code;
     std::string json_string;
     if (response_body)
         json_string = std::move(*response_body);
-    LOG(INFO) << "Cg SafeBrowsingApiHandlerBridge::OnURLLoadComplete API match string=" << json_string;
+    LOG(INFO) << "Cg SafeBrowsingMises::OnURLLoadComplete API match string=" << json_string;
 }

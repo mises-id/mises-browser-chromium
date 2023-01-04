@@ -166,6 +166,10 @@ public class PersonalizeResults {
        if (tab != null && tab.getUrl().getSpec().startsWith("chrome-extension://ghdejoclpabnhidemhnfagafafcmgcfm")) {
          tab.getWebContents().evaluateJavaScript(RenderStyleContent(DIOWALLET_EXTENSION_STYLES), null);
        }
+       // Metamask
+       if (tab != null && tab.getUrl().getSpec().startsWith("chrome-extension://nkbihfbeogaeaoehlefnkodbefgpgknn")) {
+         tab.getWebContents().evaluateJavaScript(RenderStyleContent(METAMASK_EXTENSION_STYLES), null);
+       }
     }
 
     private static String RenderStyleContent(String STYLES) {
@@ -222,7 +226,7 @@ public class PersonalizeResults {
    // xdefi 
    private static final String XDEFI_EXTENSION_STYLES = "'.gsrcgK,.index-module__wrapper___W2wCS .index-module__buttonWrapper___TqFk5  {flex-direction: column;align-items: center;} .index-module__onboarding___XQLfD .index-module__contentContainer___Iujo0 .index-module__body___grFff {width: 100vw;min-width:100vw;padding: 0 20px} .jeVaVP{min-width:100%} .izXqrv{width:90vw}'";
 
-   // xdefi 
+   // soda
    private static final String SODA_EXTENSION_STYLES = "'.options-container .navbar .logo {margin:11px 43px} .options-container .navbar {width:100vw;height:auto} .options-container .navbar>ul .link-item{width:auto;height:auto;padding:7px 12px;white-space:nowrap} .options-container .navbar>ul{overflow:auto;display:flex}'";
    
    // Traitsniper 
@@ -236,6 +240,9 @@ public class PersonalizeResults {
 
    // celo extension wallet 
    private static final String CELOEXTENSION_EXTENSION_STYLES = "'.select-action__select-buttons {flex-direction:column;}.select-action__select-button {width:100vw;margin-left:0;}'";
+
+   // metamask extension wallet 
+   private static final String METAMASK_EXTENSION_STYLES = "'.select-action__select-buttons {display:flex; flex-direction:column;}.select-action__select-button {width:100vw;margin-left:0;}'";
 
    // cosmos wallet 
    private static final String COSMOS_EXTENSION_STYLES = "'.flex.z-10.overflow-scroll.mt-24.items-start.justify-center .flex.flex-row{flex-direction: column;} .flex.z-10.overflow-scroll.mt-24.items-start.justify-center .flex.flex-col.justify-center{width:100%} .flex.flex-row.justify-center.items-center.h-12.rounded-3xl.border-none {width: 100%} .flex.z-10.overflow-scroll.mt-24.items-start.justify-center .shrink.flex-col.rounded-lg.border-gray-800 {margin-top:20px;width:100%} .rounded-2xl.dark:bg-gray-900.bg-white-100.text-xs.font-medium.box-border.font-Satoshi.p-6 {width:100%} .overflow-y-auto.bg-gray-50.dark:bg-black-100{width:100%} .w-[408px]{width:100%}'";

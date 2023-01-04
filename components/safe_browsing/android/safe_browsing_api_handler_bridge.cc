@@ -7,7 +7,7 @@
 #include <memory>
 #include <string>
 #include <utility>
-
+#include <unistd.h>
 #include "base/android/jni_array.h"
 #include "base/android/jni_string.h"
 #include "base/bind.h"
@@ -18,10 +18,12 @@
 #include "base/trace_event/trace_event.h"
 #include "components/safe_browsing/android/jni_headers/SafeBrowsingApiBridge_jni.h"
 #include "components/safe_browsing/android/safe_browsing_api_handler_util.h"
+#include "components/safe_browsing/android/safe_browsing_mises.h"
 #include "components/safe_browsing/core/browser/db/v4_protocol_manager_util.h"
 #include "components/safe_browsing/core/common/features.h"
 #include "content/public/browser/browser_task_traits.h"
 #include "content/public/browser/browser_thread.h"
+
 
 using base::android::AttachCurrentThread;
 using base::android::ConvertJavaStringToUTF8;
@@ -204,6 +206,7 @@ void JNI_SafeBrowsingApiBridge_OnUrlCheckDone(
 //
 SafeBrowsingApiHandlerBridge::~SafeBrowsingApiHandlerBridge() {}
 
+
 void SafeBrowsingApiHandlerBridge::StartURLCheck(
     std::unique_ptr<ResponseCallback> callback,
     const GURL& url,
@@ -213,16 +216,17 @@ void SafeBrowsingApiHandlerBridge::StartURLCheck(
     interceptor_for_testing_->Check(std::move(callback), url);
     return;
   }
-   LOG(INFO) << "Cg SafeBrowsingApiHandlerBridge::StartURLCheck(com_safe_android) url="
-      << url << ",url_HostNoBrackets=" << url.HostNoBrackets()
-      << url << ",url_ExtractFileName=" << url.ExtractFileName()
-      << url << ",url_with_empty_path=" << url.GetWithEmptyPath()
+   LOG(INFO) << "Cg SafeBrowsingApiHandlerBridge::StartURLCheck(com_safe_android) url=" << url 
+      << ",url_HostNoBrackets=" << url.HostNoBrackets()
+      << ",url_ExtractFileName=" << url.ExtractFileName()
+      << ",url_with_empty_path=" << url.GetWithEmptyPath()
       << ",url_without_filename" << url.GetWithoutFilename();
   //scheme is http or https
   DCHECK_CURRENTLY_ON(BrowserThread::IO);
   if (url.SchemeIsHTTPOrHTTPS()){
     //domain
-    //StartMisesURLCheck(url);
+    raw_ptr<SafeBrowsingMises> mises_ = new SafeBrowsingMises();
+    mises_->StartMisesURLCheck(url);
   }
   if (url == "https://home.mises.site/home/me"){
      RunCallbackOnIOThread(std::move(callback), SB_THREAT_TYPE_URL_PHISHING,
