@@ -26,9 +26,10 @@ namespace {
 
 }  // namespace
 
-MisesProvider::MisesProvider(AutocompleteProviderClient* client)
+MisesProvider::MisesProvider(AutocompleteProviderClient* client, AutocompleteProviderListener* listener)
         :BaseSearchProvider(AutocompleteProvider::TYPE_MISES_PROVIDER,client),
           client_(client) {
+             AddListener(listener);
             //scoped_refptr<network::SharedURLLoaderFactory> url_loader_factory = g_browser_process->system_network_context_manager()->GetSharedURLLoaderFactory();
             //url_loader_factory_ = std::move(url_loader_factory);
           }

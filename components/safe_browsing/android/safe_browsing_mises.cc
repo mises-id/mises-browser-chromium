@@ -31,7 +31,7 @@ SafeBrowsingMises::SafeBrowsingMises(){
 
 SafeBrowsingMises::~SafeBrowsingMises() = default;
 
-void SafeBrowsingMises::StartMisesURLCheck(const GURL& url){
+int SafeBrowsingMises::StartMisesURLCheck(const GURL& url){
   std::string domain_name = url.HostNoBrackets();
     LOG(INFO) << "Cg SafeBrowsingMises::StartMisesURLCheck(com_safe_android) -1 domain_name=" << domain_name;
     net::NetworkTrafficAnnotationTag traffic_annotation =
@@ -85,4 +85,32 @@ void SafeBrowsingMises::OnURLLoadComplete(const network::SimpleURLLoader* source
     if (response_body)
         json_string = std::move(*response_body);
     LOG(INFO) << "Cg SafeBrowsingMises::OnURLLoadComplete API match string=" << json_string;
+    /* JSONStringValueDeserializer deserializer(json_string);
+    std::string error_msg;
+    std::unique_ptr<base::Value> json_value =
+            deserializer.Deserialize(nullptr, &error_msg);
+
+    if (!response_body || (response_code != net::HTTP_OK)) {
+        const auto* error_value =
+                json_value && json_value->is_dict()
+                ? json_value->FindKeyOfType("message",
+                                            base::Value::Type::STRING)
+                : nullptr;
+
+        LOG(WARNING) << "Server returned wrong response code: " << response_code
+                     << ": " << (error_value ? error_value->GetString() : "Unknown")
+                     << ".";
+
+    }
+        if (!json_value) {
+            LOG(WARNING) << "Unable to deserialize auth code json data: " << error_msg
+                         << ".";
+            return;
+        }
+
+        if (!json_value->is_dict()) {
+            LOG(WARNING) << "Response is not a JSON dictionary.";
+            return;
+        }
+        base::Value* data = json_value->FindDictKey("data"); */
 }

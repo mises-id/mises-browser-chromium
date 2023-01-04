@@ -18,6 +18,8 @@
 #include "services/network/public/cpp/weak_wrapper_shared_url_loader_factory.h"
 #include "services/network/test/test_url_loader_factory.h"
 #include "chrome/browser/net/system_network_context_manager.h"
+
+class AutocompleteProviderListener;
 namespace network {
 class SharedURLLoaderFactory;
 class SimpleURLLoader;
@@ -25,7 +27,7 @@ class SimpleURLLoader;
 // Autocomplete provider serving Mises.
 class MisesProvider : public BaseSearchProvider {
  public:
-  explicit MisesProvider(AutocompleteProviderClient* client);
+  explicit MisesProvider(AutocompleteProviderClient* client, AutocompleteProviderListener* listener);
   void Start(const AutocompleteInput& input, bool minimal_changes) override;
   void Stop(bool clear_cached_results, bool due_to_user_inactivity) override;
 

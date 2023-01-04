@@ -306,7 +306,7 @@ AutocompleteController::AutocompleteController(
     //mises provider
   LOG(INFO) << "Cg MisesProvider&=" << (provider_types & AutocompleteProvider::TYPE_MISES_PROVIDER);
   LOG(INFO) << "Cg SearchProvider&=" << (provider_types & AutocompleteProvider::TYPE_SEARCH);
-  mises_provider_ = new MisesProvider(provider_client_.get());
+  mises_provider_ = new MisesProvider(provider_client_.get(),this);
   providers_.push_back(mises_provider_.get());
   if (OmniboxFieldTrial::kAutocompleteStabilityAsyncProvidersFirst.Get()) {
     // Providers run in the order they're added. Run these async providers 1st
