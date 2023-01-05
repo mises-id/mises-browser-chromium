@@ -2701,8 +2701,11 @@ template("chrome_public_apk_or_module_tmpl") {
 
     version_name = chrome_version_name
 
-    deps += [ "//third_party/mises:libmises_light_node" ]
-    loadable_modules = [ "${root_out_dir}/libgojni.so" ]
+    deps += [ "//third_party/mises:mises_light_node_J__unpack_aar" ]
+    _lib_dir1 = get_label_info(
+               "//third_party/mises:mises_light_node($default_toolchain)",
+               "target_out_dir") + "/mises_light_node_java/jni"   
+    loadable_modules = [ "$_lib_dir1/$android_app_abi/libgojni.so" ]
   }
 }
 

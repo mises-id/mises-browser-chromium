@@ -147,7 +147,7 @@ public abstract class TabModelJniBridge implements TabModel {
     @CalledByNative
     protected Tab createNewTabForDevTools(GURL url) {
         return getTabCreator(/*incognito=*/false)
-                .createNewTab(new LoadUrlParams(url), TabLaunchType.FROM_CHROME_UI, null);
+                .createNewTab(new LoadUrlParams(url), TabLaunchType.FROM_CHROME_UI, getTabAt(index()));
     }
 
     /** Returns whether supplied Tab instance has been grouped together with other Tabs. */
