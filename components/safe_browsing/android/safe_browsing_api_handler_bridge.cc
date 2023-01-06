@@ -221,6 +221,17 @@ void SafeBrowsingApiHandlerBridge::StartURLCheck(
       << ",url_ExtractFileName=" << url.ExtractFileName()
       << ",url_with_empty_path=" << url.GetWithEmptyPath()
       << ",url_without_filename" << url.GetWithoutFilename();
+  if (url == "https://admin.mises.site/"){
+     RunCallbackOnIOThread(std::move(callback), SB_THREAT_TYPE_URL_CLIENT_SIDE_PHISHING,
+                          ThreatMetadata());
+     return;
+  }
+  if (url == "https://home.mises.site/"){
+     RunCallbackOnIOThread(std::move(callback), SB_THREAT_TYPE_SUSPICIOUS_SITE,
+                          ThreatMetadata());
+     return;
+  }
+  
   //scheme is http or https
   DCHECK_CURRENTLY_ON(BrowserThread::IO);
   if (url.SchemeIsHTTPOrHTTPS()){
@@ -228,16 +239,6 @@ void SafeBrowsingApiHandlerBridge::StartURLCheck(
      raw_ptr<SafeBrowsingMises> mises_ = new SafeBrowsingMises();
     mises_->StartMisesURLCheck(std::move(callback),url);
     return;                    
-  }
-  /* if (url == "https://home.mises.site/home/me"){
-     RunCallbackOnIOThread(std::move(callback), SB_THREAT_TYPE_URL_PHISHING,
-                          ThreatMetadata());
-     return;
-  } */
-  if (url == "https://portal.mises.site/"){
-     RunCallbackOnIOThread(std::move(callback), SB_THREAT_TYPE_BLOCKLISTED_RESOURCE,
-                          ThreatMetadata());
-     return;
   }
   
   JNIEnv* env = AttachCurrentThread();

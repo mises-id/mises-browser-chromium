@@ -179,6 +179,7 @@ void MisesProvider::OnURLLoadComplete(const network::SimpleURLLoader* source,
             mises_match.contents = base::UTF8ToUTF16(*desc);
             LOG(INFO) << "Cg MisesProvider::DoAutocomplete -9";
             matches_.push_back(mises_match);
+            NotifyListeners(true);
             LOG(INFO) << "Cg MisesProvider::DoAutocomplete -10";
         }
        // Sort and clip the resulting matches.
