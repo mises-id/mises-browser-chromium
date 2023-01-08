@@ -168,6 +168,10 @@ bool UnpackOriginPermissions(const std::vector<std::string>& origins_input,
     if (pattern->scheme() != content::kChromeUIScheme)
       valid_schemes &= ~URLPattern::SCHEME_CHROMEUI;
 
+    if (pattern->scheme() != content::kChromeSearchScheme) {
+      valid_schemes &= ~URLPattern::SCHEME_CHROMESEARCH;
+    }
+
     // Similarly, <all_urls> should only match file:-scheme URLs if file access
     // is granted.
     if (!allow_file_access && pattern->scheme() != url::kFileScheme)
