@@ -274,9 +274,9 @@ ts_library("library") {
     ]
   }
 
-  if (!is_android) {
+  #if (!is_android) {
     definitions += [ "$root_dir/js/cr/ui/focus_without_ink.m.d.ts" ]
-  }
+ # }
 
   deps = [ "//third_party/polymer/v3_0:library" ]
   extra_deps = [
@@ -343,9 +343,9 @@ ts_definitions("generate_definitions") {
     ]
   }
 
-  if (!is_android) {
+  #if (!is_android) {
     js_files += [ "js/cr/ui/focus_without_ink.m.js" ]
-  }
+  #}
 
   extra_deps = [
     # Copy checked-in d.ts files first, so that |generate_definitions| leverages

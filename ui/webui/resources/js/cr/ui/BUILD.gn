@@ -87,7 +87,7 @@ preprocess_if_expr("preprocess_generated") {
     "list_selection_model.m.js",
   ]
 
-  if (!is_android) {
+  #if (!is_android) {
     in_files += [
       "command.m.js",
       "context_menu_handler.m.js",
@@ -98,7 +98,7 @@ preprocess_if_expr("preprocess_generated") {
       "menu.m.js",
       "position_util.m.js",
     ]
-  }
+  #}
   
   if (is_chromeos_ash) {
     in_files += [

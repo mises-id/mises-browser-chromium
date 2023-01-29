@@ -52,12 +52,14 @@
             selector:@selector(applicationDidBecomeActive:)
                 name:UIApplicationDidBecomeActiveNotification
             object:nil];
+        
+        [self delayedRun:0.5];
     }
     return self;
 }
 
 - (void)applicationDidBecomeActive:(NSNotification*)notification {
-  [self check];
+  [self delayedCheck];
 }
 
 
@@ -111,9 +113,19 @@
     _node = node;
 
 }
--(void) onError {
-    NSLog(@"LCD onError");
+-(void) deleteTrustStore {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    NSString *trustStoreDirectory = [documentsDirectory stringByAppendingString:@"/.misestm/light/light-client-db.db"];
+    NSFileManager* file_manager = [[NSFileManager alloc] init];
+    [file_manager removeItemAtPath:trustStoreDirectory error:nil];
+}
+-(void) onError :(NSString*) reason{
+    NSLog(@"[MISES_LCD_SERVICE] onError %@", reason);
     _retryCounter += 1;
+    if (reason != nil && [reason length] > 0) {
+        [self performSelector:@selector(deleteTrustStore) onThread:_lcdThread withObject:nil waitUntilDone:NO];
+    }
     [self retry];
 }
 -(BOOL) checkError:(NSError*) error {
@@ -133,7 +145,7 @@
     NSError* error = nil;
     NSData *responseData = [NSURLConnection sendSynchronousRequest:dataRqst returningResponse:&response error:&error];
     NSString *responseString = [[NSString alloc] initWithBytes:[responseData bytes] length:[responseData length] encoding:NSUTF8StringEncoding];
-    NSLog(@"%@",responseString);
+    NSLog(@"[MISES_LCD_SERVICE] fetchChainParams %@",responseString);
     NSData *stringData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
     id json = [NSJSONSerialization JSONObjectWithData:stringData options:0 error:nil];
 
@@ -217,14 +229,18 @@
     } else {
         retryDelay = 960000;
     }
-    NSLog(@"retryService after delay %d", retryDelay);
-    [self performSelector:@selector(runService) withObject:nil afterDelay:retryDelay/1000];
+    NSLog(@"[MISES_LCD_SERVICE] retryService after delay %d", retryDelay);
+    [self delayedRun:retryDelay/1000];
 }
 - (void) retry{
     [self performSelector:@selector(retryService) onThread:_lcdThread withObject:nil waitUntilDone:NO];
 }
-- (void) run{
+- (void) doRun{
     [self performSelector:@selector(runService) onThread:_lcdThread withObject:nil waitUntilDone:NO];
+}
+
+- (void) delayedRun :(float) delay{
+    [self performSelector:@selector(doRun) withObject:nil afterDelay:delay];
 }
 
 - (void) checkService{
@@ -238,18 +254,22 @@
     [NSURLConnection sendSynchronousRequest:dataRqst returningResponse:&response error:&error];
     
     if (error) {
-        NSLog(@"checkService fail %@",error);
+        NSLog(@"[MISES_LCD_SERVICE] checkService fail %@",error);
         if (_node != nil) {
             NSError *error = nil;
             [_node restart: &error];
         }
     } else {
-        NSLog(@"checkService ok");
+        NSLog(@"[MISES_LCD_SERVICE] checkService ok");
     }
 }
 
-- (void) check{
+- (void) doCheck{
     [self performSelector:@selector(checkService) onThread:_lcdThread withObject:nil waitUntilDone:NO];
+}
+- (void) delayedCheck{
+    [self performSelector:@selector(doCheck) withObject:nil afterDelay:5.0];
+    
 }
 @end
 

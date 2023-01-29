@@ -109,3 +109,11 @@ cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/FirebaseInstallatio
 cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/FirebaseInstallations.xcframework/ios-arm64/*.framework ios/third_party/mises/Distribution/Frameworks
 cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/FirebaseInstallations.xcframework/ios-arm64/*.framework ios/third_party/mises/Device/Frameworks
 
+cp -R /Users/baoge/Documents/work/firebase/FirebaseCrashlytics/FirebaseCrashlytics.xcframework/ios-arm64_x86_64-simulator/*.framework ios/third_party/mises/Sim/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseCrashlytics/FirebaseCrashlytics.xcframework/ios-arm64/*.framework ios/third_party/mises/Distribution/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseCrashlytics/FirebaseCrashlytics.xcframework/ios-arm64/*.framework ios/third_party/mises/Device/Frameworks
+
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/GoogleDataTransport.xcframework/ios-arm64_x86_64-simulator/*.framework ios/third_party/mises/Sim/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/GoogleDataTransport.xcframework/ios-arm64/*.framework ios/third_party/mises/Distribution/Frameworks
+cp -R /Users/baoge/Documents/work/firebase/FirebaseAnalytics/GoogleDataTransport.xcframework/ios-arm64/*.framework ios/third_party/mises/Device/Frameworks
+

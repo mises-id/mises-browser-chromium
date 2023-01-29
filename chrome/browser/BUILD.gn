@@ -4469,7 +4469,7 @@ static_library("browser") {
       "//chrome/browser/resource_coordinator:tab_metrics_event_proto",
       "//chrome/browser/resource_coordinator/tab_ranker",
       "//chrome/browser/resources:component_extension_resources",
-      "//chrome/browser/share/core:share_targets",
+      #"//chrome/browser/share/core:share_targets",
       "//chrome/browser/share/proto:proto",
       "//chrome/browser/ui/color:color_headers",
       #"//chrome/browser/ui/webui/access_code_cast:mojo_bindings",
@@ -7365,10 +7365,10 @@ grit("resources") {
       "//chrome/browser/resources/inline_login:web_components",
     ]
   }
-  if (!is_android) {
+  #if (!is_android) {
     deps +=
         [ "//chrome/browser/share/core/resources:make_share_targets_protobuf" ]
-  }
+  #}
   if (is_chromeos_ash) {
     deps += [
       "//chrome/browser/resources/chromeos/account_manager:web_components",

@@ -218,7 +218,7 @@ enum MetamaskUIPendingStatus {
     DLOG(WARNING) << "Init Metamask";
     dispatch_async(dispatch_get_main_queue(), ^{
       [ReactAppDelegate wrapper]; 
-      [[MisesLCDService wrapper] run];
+      [MisesLCDService wrapper];
       [MisesShareService wrapper];
       [MisesAccountService wrapper];
         
@@ -274,6 +274,12 @@ enum MetamaskUIPendingStatus {
         NSString *mixPanelTokenFromBundle = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"mixpanel_token"];
         [Mixpanel sharedInstanceWithToken:mixPanelTokenFromBundle];
     });
+    
+//    //force crash
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)),
+//    dispatch_get_main_queue(), ^{
+//        NSLog(@"%@", @[][1]);
+//    });
 }
 + (BOOL) handleUniversalLink:(NSURL*)webpageURL {
    BOOL handled = [[FIRDynamicLinks dynamicLinks] handleUniversalLink:webpageURL

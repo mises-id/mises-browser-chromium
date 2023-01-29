@@ -157,6 +157,8 @@ config("mises_config") {
     "FirebaseCoreInternal.framework",
     "FirebaseAnalytics.framework",
     "FirebaseInstallations.framework",
+    "FirebaseCrashlytics.framework",
+    "GoogleDataTransport.framework",
     "nanopb.framework",
     "Sdk.framework",
     "Mixpanel.framework",
