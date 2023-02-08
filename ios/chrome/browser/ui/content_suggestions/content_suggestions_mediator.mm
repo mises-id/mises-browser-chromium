@@ -57,7 +57,7 @@ namespace {
 using CSCollectionViewItem = CollectionViewItem<SuggestedContent>;
 
 // Maximum number of most visited tiles fetched.
-const NSInteger kMaxNumMostVisitedTiles = 4;
+const NSInteger kMaxNumMostVisitedTiles = 8;
 
 }  // namespace
 
@@ -352,9 +352,9 @@ const NSInteger kMaxNumMostVisitedTiles = 4;
     [convertedSuggestions addObject:self.returnToRecentTabItem];
   } else if (sectionInfo == self.mostVisitedSectionInfo) {
     [convertedSuggestions addObjectsFromArray:self.mostVisitedItems];
-    if (!ShouldHideShortcutsForStartSurface()) {
-      [convertedSuggestions addObjectsFromArray:self.actionButtonItems];
-    }
+    // if (!ShouldHideShortcutsForStartSurface()) {
+    //   [convertedSuggestions addObjectsFromArray:self.actionButtonItems];
+    // }
   }
 
   return convertedSuggestions;
